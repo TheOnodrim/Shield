@@ -8,7 +8,8 @@ Shield is a zero configuration,single file shell script made to be run to harden
 
 ## Usage:
 Download or clone the script and run it as root and select which sections to run when prompted.
-```1. git clone https://github.com/CrystalX127/Shield.git
+```
+   1. git clone https://github.com/CrystalX127/Shield.git
    2. chmod +x ./Shield.sh
    3. ./Shield.sh
 ```
