@@ -2,8 +2,8 @@
 
 Shield is a zero configuration, single file shell script made to be run to harden and secure a newly installed Debian or Debian based OS.
 
-- Zero Installation 
-- Zero Configuration
+- Zero installation 
+- Zero configuration
 - Single file shell script
 
 ## Usage:
