@@ -394,7 +394,7 @@ do
 echo "Please run this script as root"
 exit 
 done
-v="  ######   ##       ##  ################# #############  ##                  ##########               
+v="   ######   ##       ##  ################# #############  ##                  ##########               
       ##       ##       ##         ##         ##             ##                  ##       ###                  
       ##       ##       ##         ##         ##             ##                  ##         ##       
       ##       ###########         ##         #############  ##                  ##         ##         
@@ -412,7 +412,7 @@ echo "--info Display project information"
 while true
 do
 read -p "Please enter a command, according to the usage stated above:" a
-info="
+info="Shield is a bash scripts created to audit and harden Debian and Debian based OS's"
 if [ $a != "Shield --info" ]
 then 
 echo "Please enter a valid command"
@@ -427,7 +427,17 @@ echo $info
 fi
 if [ $a = "Shield --sysharden ]
 then
-#I will add what happens later
+initiate_function() 
+{
+  typeset -f "$1" | tail -n +2
+  echo "$2"
+  echo "Run the above commands? [Y/n]"
+  read -r answer
+  if [ "$answer" != "${answer#[Yy]}" ] 
+  then
+    $1
+  fi
+}
 fi
 done
 
