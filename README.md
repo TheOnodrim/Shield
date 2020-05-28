@@ -13,7 +13,7 @@ Clone the script and follow these instruction below, and then  run it as root an
    2. chmod +x ./Shield.sh
    3. ./Shield.sh
    4. alias Sh="./Shield.sh"
-   5. With the alias now just type Sh to run the script
+   With the alias, just type Sh in any terminal to run the script
 ```
 ## Warning:
 This shell script reverts the ssh port to `652`, and it restricts the ssh key to the created admin user, if an admin user is created.
