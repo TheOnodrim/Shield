@@ -7,11 +7,13 @@ Shield is a zero configuration, single file shell script made to be run to harde
 - Single file shell script
 
 ## Usage:
-Download or clone the script and run it as root and select which sections to run when prompted.
+Clone the script and follow these instruction below, and then  run it as root and select which sections to run when prompted.
 ```
    1. git clone https://github.com/CrystalX127/Shield.git
    2. chmod +x ./Shield.sh
    3. ./Shield.sh
+   4. alias Sh="./Shield.sh"
+   5. With the alias now just type Sh to run the script
 ```
 ## Warning:
 This shell script reverts the ssh port to `652`, and it restricts the ssh key to the created admin user, if an admin user is created.
