@@ -8,7 +8,7 @@
 
 <p align="center">
   <a href="https://github.com/Marten4n6/EvilOSX/blob/master/LICENSE.txt">
-      <img src="https://img.shields.io/static/v1?label=<Liscence>message=<MIT>color=<informational>"alt="License">
+      <img src="https://img.shields.io/badge/<Liscence>-<MIT>-informational">
   </a>
   <a href="https://github.com/Marten4n6/EvilOSX/blob/master/LICENSE.txt">
       <img src="https://img.shields.io/badge/python-2.7,%203.7-blue.svg?style=flat-square" alt="Python">
