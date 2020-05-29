@@ -157,28 +157,16 @@ enables_process_accounting()
   systemctl start acct.service
 }
 
-
-
-restricts_logins() 
+fail2ban_installation() 
 {
-  # Configures login.defs
-  sed -i s/UMASK.*/UMASK\ 027/ /etc/login.defs
-  sed -i s/PASS_MAX_DAYS.*/PASS_MAX_DAYS\ 90/ /etc/login.defs
-  sed -i s/PASS_MIN_DAYS.*/PASS_MIN_DAYS\ 7/ /etc/login.defs
-  echo "SHA_CRYPT_MIN_ROUNDS 1000000
-SHA_CRYPT_MAX_ROUNDS 100000000" >> /etc/login.defs
+  # Installs fail2ban
+  apt install fail2ban 
 }
-
-
-upgrade_update() 
+installs_lynis_recommended_packages() 
 {
-  # Updates system packages in a secure way
-  apt-get upgrade
-  # Updates system package information
-  apt-get update
-
+  # Installs lynis recommended packages
+  apt install apt-listbugs apt-listchanges needrestart debsecan debsums libpam-cracklib aide usbguard acct 
 }
-
 iptable_configuration() 
 {
   # Installs Iptables
@@ -244,9 +232,6 @@ iptable_configuration()
   iptables-save > /etc/iptables/rules.v4
   ip6tables-save > /etc/iptables/rules.v6
 }
-
-
-
 kernel_configuration() 
 {
   # Configures Kernel
@@ -283,10 +268,55 @@ net.ipv4.icmp_ignore_bogus_error_responses: 1
 kernel.yama.ptrace_scope: 1" > /etc/sysctl.d/80-lockdown.conf
   sysctl --system
 }
+moves_/tmp_to_/tmpfs() 
+{
+  # Moves /tmp to /tmpfs
+  echo "tmpfs /tmp tmpfs rw,nosuid,nodev" >> /etc/fstab
+}
+purges_old_removed_packages() 
+{
+  # Purges old and removed packages
+  apt autoremove 
+  apt purge "$(dpkg -l | grep '^rc' | awk '{print $2}')" 
+}
+remounts_directories_with_restrictions() 
+{
+  # Mounts /proc with hidepid=2
+  mount -o remount,rw,hidepid=2 /proc
+  
+  # Mounts /dev with noexec
+  mount -o remount,noexec /dev
+  
+  # Mounts /tmp with noexec
+  mount -o remount,noexec /tmp
 
+  # Mount /dev with noexec
+  mount -o remount,noexec /dev
 
+  # Mounts /run as nodev
+  mount -o remount,nodev /run
+}
+restricts_access_to_compilers() 
+{
+  # Restricts access to compilers
+  chmod o-rx /usr/bin/as
+}
+restricts_logins() 
+{
+  # Configures login.defs
+  sed -i s/UMASK.*/UMASK\ 027/ /etc/login.defs
+  sed -i s/PASS_MAX_DAYS.*/PASS_MAX_DAYS\ 90/ /etc/login.defs
+  sed -i s/PASS_MIN_DAYS.*/PASS_MIN_DAYS\ 7/ /etc/login.defs
+  echo "SHA_CRYPT_MIN_ROUNDS 1000000
+SHA_CRYPT_MAX_ROUNDS 100000000" >> /etc/login.defs
+}
+reverts_/root_permissions() 
+{
+ # Reverts /root permissions
+  chmod 750 /home/debian
+  chmod 700 /root
 
-
+}
 secures_ssh() 
 {
 
@@ -322,16 +352,6 @@ PermitRootLogin no
 " >> /etc/ssh/sshd_config
 fi
 }
-
-
-
-
-installs_lynis_recommended_packages() 
-{
-  # Installs lynis recommended packages
-  apt install apt-listbugs apt-listchanges needrestart debsecan debsums libpam-cracklib aide usbguard acct 
-}
-
 setsup_aide() 
 {
   # Setwup aide
@@ -339,53 +359,13 @@ setsup_aide()
   mv /var/lib/aide/aide.db.new /var/lib/aide/aide.db
 }
 
-
-
-
-
-reverts_/root_permissions() 
+upgrade_update() 
 {
- # Reverts /root permissions
-  chmod 750 /home/debian
-  chmod 700 /root
+  # Updates system packages in a secure way
+  apt-get upgrade
+  # Updates system package information
+  apt-get update
 
-}
-
-restricts_access_to_compilers() 
-{
-  # Restricts access to compilers
-  chmod o-rx /usr/bin/as
-}
-
-moves_/tmp_to_/tmpfs() 
-{
-  # Moves /tmp to /tmpfs
-  echo "tmpfs /tmp tmpfs rw,nosuid,nodev" >> /etc/fstab
-}
-
-remounts_directories_with_restrictions() 
-{
-  # Mounts /proc with hidepid=2
-  mount -o remount,rw,hidepid=2 /proc
-  
-  # Mounts /dev with noexec
-  mount -o remount,noexec /dev
-  
-  # Mounts /tmp with noexec
-  mount -o remount,noexec /tmp
-
-  # Mount /dev with noexec
-  mount -o remount,noexec /dev
-
-  # Mounts /run as nodev
-  mount -o remount,nodev /run
-}
-
-purges_old_removed_packages() 
-{
-  # Purges old and removed packages
-  apt autoremove 
-  apt purge "$(dpkg -l | grep '^rc' | awk '{print $2}')" 
 }
 while [[ $EUID -ne 0 ]]
 do
@@ -438,7 +418,8 @@ initiate_function()
   fi
 }
 fi
-
+initiate_function adds_legal_manner "Would you like to add a legal banner to /etc/issue and /etc/issue.net?" 
+initiate_function auditd_configuration "Would you like to install and configure auditd with reasonable rules?"
 done
 
 
