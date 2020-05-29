@@ -266,10 +266,14 @@ if [ groups $username != "$username : $username sudo" ]
 then
 echo "Please enter a valid admin username"
 fi
+done
+if [ groups $username == "$username : $username sudo" ]
+then
 echo "
 AllowUsers $username
 PermitRootLogin no
 " >> /etc/ssh/sshd_config
+fi
 }
 
 
