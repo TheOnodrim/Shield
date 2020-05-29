@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <a href="https://github.com/CrystalX127/Shield.git"><img src="https://image.freepik.com/free-vector/golden-shield-retro-design_12454-5380.jpg" alt="Logo" width="300"></a>
+  <a href="https://github.com/CrystalX127/Shield.git"><img src="https://image.freepik.com/free-vector/golden-shield-retro-design_12454-5380.jpg" alt="Logo" width="500</a>
 <br>
   Shield
 </br>
@@ -18,8 +18,6 @@ Clone the script and follow these instruction below, and then run it as root and
    1. git clone https://github.com/CrystalX127/Shield.git
    2. chmod +x ./Shield.sh
    3. ./Shield.sh
-   4. alias Sh="./Shield.sh"
-   With the alias, just type Sh in any terminal to run the script
 ```
 ## Warning:
 This shell script reverts the ssh port to `652`, and it restricts the ssh key to the admin user.
@@ -53,5 +51,5 @@ This shell script reverts the ssh port to `652`, and it restricts the ssh key to
 - Restricts ssh, and enables ssh only for the admin user
 - Updates system packages
 
-## Contributing 
+## Contributing: 
 Please open issues and pull requests on anything you come across.
