@@ -1,10 +1,10 @@
 <h1 align="center">
   <br>
-  <a href="https://github.com/CrystalX127/Shield.git"><https://image.freepik.com/free-vector/golden-shield-retro-design_12454-5380.jpg alt="Logo" width="280"></a>
+  <a href="https://github.com/CrystalX127/Shield.git"><img src="https://image.freepik.com/free-vector/golden-shield-retro-design_12454-5380.jpg" alt="Logo" width="280"></a>
   <br>
   Shield
   <br>
-</h1>
+</h1>>
 
 ## Shield:
 Shield is a zero configuration, single file shell script made to be run to harden and secure a newly installed Debian or Debian based OS.
