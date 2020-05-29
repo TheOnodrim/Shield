@@ -8,19 +8,19 @@
 
 <p align="center">
   <a href="https://github.com/CrystalX127/Shield.git">
-      <img src="https://img.shields.io/badge/Liscence-MIT-informational?style=for-the-badge&logo=appveyor">
+      <img src="https://img.shields.io/badge/Liscence-MIT-informational?style=flat-square&logo=appveyor">
   </a>
   <a href="https://github.com/CrystalX127/Shield.git">
-      <img src="https://img.shields.io/badge/Language-Bash-9cf?style=for-the-badge&logo=appveyor" >
+      <img src="https://img.shields.io/badge/Language-Bash-9cf?style=flat-square&logo=appveyor" >
   </a>
   <a href="https://github.com/CrystalX127/Shield.git">
-    <img src="https://img.shields.io/badge/Repository Status-Active-success?style=for-the-badge&logo=appveyorr">
+    <img src="https://img.shields.io/badge/Repository Status-Active-success?style=flat-square&logo=appveyor">
   </a>
   <a href="https://github.com/CrystalX127/Shield.git">
-      <img src="https://img.shields.io/badge/Contributions-Welcome-yellow?style=for-the-badge&logo=appveyorr">
+      <img src="https://img.shields.io/badge/Contributions-Welcome-yellow?style=flat-square&logo=appveyor">
   </a>
   <a href="https://github.com/CrystalX127/Shield.git">
-      <img src="https://img.shields.io/badge/Build-Passing-orange?style=for-the-badge&logo=appveyorr">
+      <img src="https://img.shields.io/badge/Build-Passing-orange?style=flat-square&logo=appveyor">
   </a>
 </p>
 
