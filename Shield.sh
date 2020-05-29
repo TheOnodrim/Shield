@@ -399,8 +399,6 @@ v="   ######   ##       ##  ################# #############  ##                 
       ##       ##       ##         ##         ##             ##                  ##       ###      
  #######       ##       ##  ################# #############  #################   ###########"
 echo $v
-echo "\t\t Created by Jan Heymann"
-echo "\t\t MIT Liscence"
 echo "Usage: Shield [command]"
 echo "Commands:"
 echo "========="
