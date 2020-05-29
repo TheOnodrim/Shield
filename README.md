@@ -51,5 +51,5 @@ This shell script reverts the ssh port to `652`, and it restricts the ssh key to
 - Restricts ssh, and enables ssh only for the admin user
 - Updates system packages
 
-## Contributing: 
+## Contributing:
 Please open issues and pull requests on anything you come across.
