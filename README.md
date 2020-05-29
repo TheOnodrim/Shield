@@ -1,5 +1,5 @@
 
-![alt text] (https://encrypted-tbn0.gstatic.com/images q=tbn%3AANd9GcTsHpjqjHPErYJbzOf5GtKSkF11wlBsYLgAA7FsTD0FlmjAKGNB&usqp=CAU)
+![alt text] (https://cdn.imgbin.com/20/7/3/imgbin-golden-ear-shield-ugvx3zgxNaiB8hyKYKwXqXQhJ.jpg)
 # Shield
 
 Shield is a zero configuration, single file shell script made to be run to harden and secure a newly installed Debian or Debian based OS.
