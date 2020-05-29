@@ -8,19 +8,19 @@
 
 <p align="center">
   <a href="https://github.com/CrystalX127/Shield.git">
-      <img src="https://img.shields.io/badge/Liscence-MIT-informational?style=social&logo=appveyor">
+      <img src="https://img.shields.io/badge/Liscence-MIT-informational?style=for-the-badge&logo=appveyor">
   </a>
   <a href="https://github.com/CrystalX127/Shield.git">
-      <img src="https://img.shields.io/badge/Language-Bash-9cf?style=social&logo=appveyor" >
+      <img src="https://img.shields.io/badge/Language-Bash-9cf?style=for-the-badge&logo=appveyor" >
   </a>
-  <a href="https://github.com/CrystalX127/Shield.gi">
-    <img src="https://img.shields.io/badge/Language-Bash-9cf?style=social&logo=appveyor">
+  <a href="https://github.com/CrystalX127/Shield.git">
+    <img src="https://img.shields.io/badge/Repository Status-Active-success?style=for-the-badge&logo=appveyorr">
   </a>
-  <a href="https://travis-ci.org/Marten4n6/EvilOSX">
-      <img src="https://img.shields.io/travis/Marten4n6/EvilOSX/master.svg?style=flat-square" alt="Build Status">
+  <a href="https://github.com/CrystalX127/Shield.git">
+      <img src="https://img.shields.io/badge/Contributions-Welcome-yellow?style=for-the-badge&logo=appveyorr">
   </a>
-  <a href="https://github.com/Marten4n6/EvilOSX/blob/master/CONTRIBUTING.md">
-      <img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat-square" alt="Contributing">
+  <a href="https://github.com/CrystalX127/Shield.git">
+      <img src="https://img.shields.io/badge/Build-Passing-orange?style=for-the-badge&logo=appveyorr">
   </a>
 </p>
 
