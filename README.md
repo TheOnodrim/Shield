@@ -1,3 +1,5 @@
+
+![alt text](https://i.pinimg.com/736x/cf/d5/b9/cfd5b922b320550b226dbcc0f0b93051.jpg)
 # Shield
 
 Shield is a zero configuration, single file shell script made to be run to harden and secure a newly installed Debian or Debian based OS.
