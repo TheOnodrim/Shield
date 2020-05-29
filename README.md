@@ -8,10 +8,10 @@
 
 <p align="center">
   <a href="https://github.com/Marten4n6/EvilOSX/blob/master/LICENSE.txt">
-      <img src="https://img.shields.io/badge/MIT-Liscence-informational">
+      <img src="https://img.shields.io/badge/MIT-Liscence-informational?style=flat-square&logo=appveyor">
   </a>
   <a href="https://github.com/Marten4n6/EvilOSX/blob/master/LICENSE.txt">
-      <img src="https://img.shields.io/badge/MIT-Liscence-informational" alt="Python">
+      <img src="" alt="Python">
   </a>
   <a href="https://github.com/Marten4n6/EvilOSX/issues">
     <img src="https://img.shields.io/github/issues/Marten4n6/EvilOSX.svg?style=flat-square" alt="Issues">
