@@ -1,13 +1,4 @@
-<p align="center">
-  <a href="https://github.com/CrystalX127/Shield.git/master/LICENSE.txt">
-      <img src="https://img.shields.io/badge/license-GPLv3-blue.svg?style=flat-square" alt="License">
-  </a>
-  <a href="https://github.com/CrystalX127/Shield.git/master/LICENSE.txt">
-      <img src="https://img.shields.io/badge/python-2.7,%203.7-blue.svg?style=flat-square" alt="Shell">
-  </a>
-  <a href="https://github.com/CrystalX127/Shield.git/Shield/issues">
-    <img src="https://img.shields.io/github/issues/Marten4n6/EvilOSX.svg?style=flat-square" alt="Issues">
-  </a>
+
 
 
 
