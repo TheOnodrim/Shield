@@ -7,7 +7,7 @@ Shield is a zero configuration, single file shell script made to be run to harde
 - Single file shell script
 
 ## Usage:
-Clone the script and follow these instruction below, and then  run it as root and select which sections to run when prompted.
+Clone the script and follow these instruction below, and then run it as root and select which sections to run when prompted.
 ```
    1. git clone https://github.com/CrystalX127/Shield.git
    2. chmod +x ./Shield.sh
@@ -16,8 +16,7 @@ Clone the script and follow these instruction below, and then  run it as root an
    With the alias, just type Sh in any terminal to run the script
 ```
 ## Warning:
-This shell script reverts the ssh port to `652`, and it restricts the ssh key to the created admin user, if an admin user is created.
-
+This shell script reverts the ssh port to `652`, and it restricts the ssh key to the admin user.
 ## Supported OS types:
 - Debian 10
 - Debian 8
@@ -29,7 +28,6 @@ This shell script reverts the ssh port to `652`, and it restricts the ssh key to
 - Adds daily cronjob to update system packages on the server
 - Configures the iptables
 - Configures the kernel
-- Creates a new admin user
 - Disables core dumps
 - Disables firewire and usb storage
 - Disables uncommon filesystems
@@ -46,7 +44,7 @@ This shell script reverts the ssh port to `652`, and it restricts the ssh key to
 - Restricts access to /root 
 - Restricts firewall to only allow ssh on port `652`
 - Restricts logins
-- Restricts ssh and enables ssh only for the created admin user
+- Restricts ssh, and enables ssh only for the admin user
 - Updates system packages
 
 ## Contributing 
