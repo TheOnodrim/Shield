@@ -1,5 +1,5 @@
 
-![alt text](https://cdn5.vectorstock.com/i/1000x1000/47/49/golden-shield-with-golden-laurel-wreath-07-vector-24844749.jpg)
+![alt text](https://image.freepik.com/free-vector/golden-shield-retro-design_12454-5380.jpg)
 # Shield
 
 Shield is a zero configuration, single file shell script made to be run to harden and secure a newly installed Debian or Debian based OS.
