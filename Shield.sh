@@ -1,129 +1,17 @@
 #!/bin/bash
-upgrade_update() 
+
+adds_legal_banner() 
 {
-  # Updates system packages in a secure way
-  apt-get upgrade
-  # Updates system package information
-  apt-get update
-
+  # Adds a legal banner
+  echo "
+Unauthorized access to this server is prohibited.
+Legal action will be taken. Disconnect now.
+" > /etc/issue.net
+  echo "
+Unauthorized access to this server is prohibited.
+Legal action will be taken. Disconnect now.
+" > /etc/issue
 }
-
-iptable_configuration() 
-{
-  # Installs Iptables
-  apt install iptables-persistent 
-
-  # Flushes existing iptable rules
-  iptables -F
-  
-  # Configures Iptable Defaults
-  iptables -P INPUT DROP
-  iptables -P OUTPUT ACCEPT
-  iptables -P FORWARD DROP
-
-  
-  # Accepts loopback input
-  iptables -A INPUT -i lo -p all -j ACCEPT
-  
-  # Allows a three-way Handshake
-  iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
-  
-  # Stops Masked Attacks
-  iptables -A INPUT -p icmp --icmp-type 13 -j DROP
-  iptables -A INPUT -p icmp --icmp-type 17 -j DROP
-  iptables -A INPUT -p icmp --icmp-type 14 -j DROP
-  iptables -A INPUT -p icmp -m limit --limit 1/second -j ACCEPT
-  
-  # Discards Invalid Packets
-  iptables -A INPUT -m state --state INVALID -j DROP
-  iptables -A FORWARD -m state --state INVALID -j DROP
-  iptables -A OUTPUT -m state --state INVALID -j DROP
-  
-  # Drops Spoofing attacks
-  iptables -A INPUT -s 10.0.0.0/8 -j DROP
-  iptables -A INPUT -s 169.254.0.0/16 -j DROP
-  iptables -A INPUT -s 172.16.0.0/12 -j DROP
-  iptables -A INPUT -s 127.0.0.0/8 -j DROP
-  iptables -A INPUT -s 192.168.0.0/24 -j DROP
-  iptables -A INPUT -s 224.0.0.0/4 -j DROP
-  iptables -A INPUT -d 224.0.0.0/4 -j DROP
-  iptables -A INPUT -s 240.0.0.0/5 -j DROP
-  iptables -A INPUT -d 240.0.0.0/5 -j DROP
-  iptables -A INPUT -s 0.0.0.0/8 -j DROP
-  iptables -A INPUT -d 0.0.0.0/8 -j DROP
-  iptables -A INPUT -d 239.255.255.0/24 -j DROP
-  iptables -A INPUT -d 255.255.255.255 -j DROP
-  
-  # Drops packets with excessive RST to avoid Masked attacks
-  iptables -A INPUT -p tcp -m tcp --tcp-flags RST RST -m limit --limit 2/second --limit-burst 2 -j ACCEPT
-  
-  # Blocks Ip adresses from doing portscans
-  iptables -A INPUT   -m recent --name portscan --rcheck  -j DROP
-  iptables -A FORWARD -m recent --name portscan --rcheck  -j DROP
-  
-  # Allows ssh
-  iptables -A INPUT -p tcp -m tcp --dport 652 -j ACCEPT
-  
-  # Allows Ping
-  iptables -A INPUT -p icmp --icmp-type 0 -j ACCEPT
-  
-  # Allow one ssh connection at a time
-  iptables -A INPUT -p tcp --syn --dport 652 -m connlimit --connlimit-above 2 -j REJECT
-  
-  iptables-save > /etc/iptables/rules.v4
-  ip6tables-save > /etc/iptables/rules.v6
-}
-
-fail2ban_installation() 
-{
-  # Installs fail2ban
-  apt install fail2ban 
-}
-
-kernel_configuration() 
-{
-  # Configures Kernel
-  echo "net.ipv4.tcp_syncookies: 1
-net.ipv4.conf.default.accept_source_route: 0
-kernel.core_uses_pid: 1
-net.ipv4.conf.default.rp_filter: 1
-net.ipv4.conf.all.log_martians: 1
-kernel.kptr_restrict: 2
-net.ipv4.conf.default.secure_redirects: 1
-net.ipv4.conf.default.accept_redirects: 0
-kernel.sysrq: 0
-net.ipv4.icmp_echo_ignore_all: 0
-net.ipv4.ip_forward: 0
-fs.protected_symlinks: 1
-net.ipv4.tcp_rfc1337: 1
-net.ipv4.icmp_echo_ignore_broadcasts: 1
-net.ipv4.conf.all.rp_filter: 1
-net.ipv4.conf.all.send_redirects: 0
-net.ipv6.conf.all.forwarding: 0
-net.ipv4.conf.all.accept_source_route: 0
-net.ipv6.conf.default.accept_source_route: 0
-net.ipv4.conf.default.log_martians: 1
-net.ipv6.conf.all.accept_source_route: 0
-net.ipv4.conf.all.secure_redirects: 1
-fs.protected_hardlinks: 1
-net.ipv4.conf.all.accept_redirects: 0
-kernel.perf_event_paranoid: 2
-net.ipv4.conf.default.send_redirects: 0
-kernel.randomize_va_space: 2
-net.ipv6.conf.all.accept_redirects: 0
-net.ipv6.conf.default.accept_redirects: 0
-net.ipv4.icmp_ignore_bogus_error_responses: 1
-kernel.yama.ptrace_scope: 1" > /etc/sysctl.d/80-lockdown.conf
-  sysctl --system
-}
-
-automatic_updates() 
-{
-  # Enables automatic updates
-  apt install unattended-upgrades 
-  dpkg-reconfigure -plow unattended-upgrades
-}
-
 auditd_configuration() 
 {
   # Installs auditd
@@ -220,7 +108,12 @@ auditd_configuration()
   systemctl enable auditd.service
   service auditd restart
 }
-
+automatic_updates() 
+{
+  # Enables automatic updates
+  apt install unattended-upgrades 
+  dpkg-reconfigure -plow unattended-upgrades
+}
 disables_core_dumps() 
 {
   # Disables core dumps
@@ -229,6 +122,42 @@ disables_core_dumps()
   Storage=none" >> /etc/systemd/coredump.conf
   echo "ulimit -c 0" >> /etc/profile
 }
+disables_firewire() 
+{
+  echo "install udf /bin/true
+blacklist firewire-core
+blacklist firewire-ohci
+blacklist firewire-sbp2" >> /etc/modprobe.d/blacklist.conf
+}
+disables_uncommon_filesystems() 
+{
+  # Disables uncommon filesystems
+  echo "install cramfs /bin/true
+install freevxfs /bin/true
+install hfs /bin/true
+install hfsplus /bin/true
+install jffs2 /bin/true
+install squashfs /bin/true" >> /etc/modprobe.d/filesystems.conf
+}
+disables_uncommon_network_protocols() 
+{
+  echo "install dccp /bin/true
+install sctp /bin/true
+install tipc /bin/true
+install rds /bin/true" >> /etc/modprobe.d/protocols.conf
+}
+disables_usb() 
+{
+  echo "blacklist usb-storage" >> /etc/modprobe.d/blacklist.conf
+}
+enables_process_accounting() 
+{
+  # Enables process accounting
+  systemctl enable acct.service
+  systemctl start acct.service
+}
+
+
 
 restricts_logins() 
 {
@@ -239,6 +168,124 @@ restricts_logins()
   echo "SHA_CRYPT_MIN_ROUNDS 1000000
 SHA_CRYPT_MAX_ROUNDS 100000000" >> /etc/login.defs
 }
+
+
+upgrade_update() 
+{
+  # Updates system packages in a secure way
+  apt-get upgrade
+  # Updates system package information
+  apt-get update
+
+}
+
+iptable_configuration() 
+{
+  # Installs Iptables
+  apt install iptables-persistent 
+
+  # Flushes existing iptable rules
+  iptables -F
+  
+  # Configures Iptable Defaults
+  iptables -P INPUT DROP
+  iptables -P OUTPUT ACCEPT
+  iptables -P FORWARD DROP
+
+  
+  # Accepts loopback input
+  iptables -A INPUT -i lo -p all -j ACCEPT
+  
+  # Allows a three-way Handshake
+  iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+  
+  # Stops Masked Attacks
+  iptables -A INPUT -p icmp --icmp-type 13 -j DROP
+  iptables -A INPUT -p icmp --icmp-type 17 -j DROP
+  iptables -A INPUT -p icmp --icmp-type 14 -j DROP
+  iptables -A INPUT -p icmp -m limit --limit 1/second -j ACCEPT
+  
+  # Discards Invalid Packets
+  iptables -A INPUT -m state --state INVALID -j DROP
+  iptables -A FORWARD -m state --state INVALID -j DROP
+  iptables -A OUTPUT -m state --state INVALID -j DROP
+  
+  # Drops Spoofing attacks
+  iptables -A INPUT -s 10.0.0.0/8 -j DROP
+  iptables -A INPUT -s 169.254.0.0/16 -j DROP
+  iptables -A INPUT -s 172.16.0.0/12 -j DROP
+  iptables -A INPUT -s 127.0.0.0/8 -j DROP
+  iptables -A INPUT -s 192.168.0.0/24 -j DROP
+  iptables -A INPUT -s 224.0.0.0/4 -j DROP
+  iptables -A INPUT -d 224.0.0.0/4 -j DROP
+  iptables -A INPUT -s 240.0.0.0/5 -j DROP
+  iptables -A INPUT -d 240.0.0.0/5 -j DROP
+  iptables -A INPUT -s 0.0.0.0/8 -j DROP
+  iptables -A INPUT -d 0.0.0.0/8 -j DROP
+  iptables -A INPUT -d 239.255.255.0/24 -j DROP
+  iptables -A INPUT -d 255.255.255.255 -j DROP
+  
+  # Drops packets with excessive RST to avoid Masked attacks
+  iptables -A INPUT -p tcp -m tcp --tcp-flags RST RST -m limit --limit 2/second --limit-burst 2 -j ACCEPT
+  
+  # Blocks Ip adresses from doing portscans
+  iptables -A INPUT   -m recent --name portscan --rcheck  -j DROP
+  iptables -A FORWARD -m recent --name portscan --rcheck  -j DROP
+  
+  # Allows ssh
+  iptables -A INPUT -p tcp -m tcp --dport 652 -j ACCEPT
+  
+  # Allows Ping
+  iptables -A INPUT -p icmp --icmp-type 0 -j ACCEPT
+  
+  # Allow one ssh connection at a time
+  iptables -A INPUT -p tcp --syn --dport 652 -m connlimit --connlimit-above 2 -j REJECT
+  
+  iptables-save > /etc/iptables/rules.v4
+  ip6tables-save > /etc/iptables/rules.v6
+}
+
+
+
+kernel_configuration() 
+{
+  # Configures Kernel
+  echo "net.ipv4.tcp_syncookies: 1
+net.ipv4.conf.default.accept_source_route: 0
+kernel.core_uses_pid: 1
+net.ipv4.conf.default.rp_filter: 1
+net.ipv4.conf.all.log_martians: 1
+kernel.kptr_restrict: 2
+net.ipv4.conf.default.secure_redirects: 1
+net.ipv4.conf.default.accept_redirects: 0
+kernel.sysrq: 0
+net.ipv4.icmp_echo_ignore_all: 0
+net.ipv4.ip_forward: 0
+fs.protected_symlinks: 1
+net.ipv4.tcp_rfc1337: 1
+net.ipv4.icmp_echo_ignore_broadcasts: 1
+net.ipv4.conf.all.rp_filter: 1
+net.ipv4.conf.all.send_redirects: 0
+net.ipv6.conf.all.forwarding: 0
+net.ipv4.conf.all.accept_source_route: 0
+net.ipv6.conf.default.accept_source_route: 0
+net.ipv4.conf.default.log_martians: 1
+net.ipv6.conf.all.accept_source_route: 0
+net.ipv4.conf.all.secure_redirects: 1
+fs.protected_hardlinks: 1
+net.ipv4.conf.all.accept_redirects: 0
+kernel.perf_event_paranoid: 2
+net.ipv4.conf.default.send_redirects: 0
+kernel.randomize_va_space: 2
+net.ipv6.conf.all.accept_redirects: 0
+net.ipv6.conf.default.accept_redirects: 0
+net.ipv4.icmp_ignore_bogus_error_responses: 1
+kernel.yama.ptrace_scope: 1" > /etc/sysctl.d/80-lockdown.conf
+  sysctl --system
+}
+
+
+
 
 secures_ssh() 
 {
@@ -277,18 +324,7 @@ fi
 }
 
 
-adds_legal_banner() 
-{
-  # Adds a legal banner
-  echo "
-Unauthorized access to this server is prohibited.
-Legal action will be taken. Disconnect now.
-" > /etc/issue.net
-  echo "
-Unauthorized access to this server is prohibited.
-Legal action will be taken. Disconnect now.
-" > /etc/issue
-}
+
 
 installs_lynis_recommended_packages() 
 {
@@ -303,44 +339,9 @@ setsup_aide()
   mv /var/lib/aide/aide.db.new /var/lib/aide/aide.db
 }
 
-enables_process_accounting() 
-{
-  # Enables process accounting
-  systemctl enable acct.service
-  systemctl start acct.service
-}
 
-disables_uncommon_filesystems() 
-{
-  # Disables uncommon filesystems
-  echo "install cramfs /bin/true
-install freevxfs /bin/true
-install hfs /bin/true
-install hfsplus /bin/true
-install jffs2 /bin/true
-install squashfs /bin/true" >> /etc/modprobe.d/filesystems.conf
-}
 
-disables_firewire() 
-{
-  echo "install udf /bin/true
-blacklist firewire-core
-blacklist firewire-ohci
-blacklist firewire-sbp2" >> /etc/modprobe.d/blacklist.conf
-}
 
-disables_usb() 
-{
-  echo "blacklist usb-storage" >> /etc/modprobe.d/blacklist.conf
-}
-
-disables_uncommon_network_protocols() ##
-{
-  echo "install dccp /bin/true
-install sctp /bin/true
-install tipc /bin/true
-install rds /bin/true" >> /etc/modprobe.d/protocols.conf
-}
 
 reverts_/root_permissions() 
 {
