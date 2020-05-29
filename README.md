@@ -48,7 +48,7 @@ This shell script reverts the ssh port to `652`, and it restricts the ssh key to
 ## What does this shell script do?
 - Adds a legal banner to /etc/issue and /etc/issue.net
 - Adds an automatic updater
-- Adds daily cronjob to update system packages on the server
+- Adds a daily cronjob to update system packages on the server
 - Configures the iptables
 - Configures the kernel
 - Disables core dumps
@@ -60,7 +60,7 @@ This shell script reverts the ssh port to `652`, and it restricts the ssh key to
 - Installs and sets up aide
 - Installs fail2ban
 - Installs packages recommended by lynis
-- Moves tmp to tmpfs
+- Moves /tmp to /tmpfs
 - Purges old and removed packages
 - Remounts /tmp, /proc, /dev, /run to be more restrictive
 - Restrict access to compilers
