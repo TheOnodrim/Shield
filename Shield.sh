@@ -1,47 +1,45 @@
 #!/bin/bash
-update_upgrade() 
+upgrade_update() 
 {
-  # Update package list
-  apt update
+  # Updates system packages in a secure way
+  apt-get upgrade
+  # Updates system package information
+  apt-get update
 
-  # Apt upgrade packages
-  apt upgrade -y
-
-  # Apt full upgrade 
-  apt full-upgrade -y
 }
 
 iptable_configuration() 
 {
-  # iptables
-  apt install iptables-persistent -y
+  # Installs Iptables
+  apt install iptables-persistent 
 
-  # Flush existing rules
+  # Flushes existing iptable rules
   iptables -F
   
-  # Defaults
+  # Configures Iptable Defaults
   iptables -P INPUT DROP
-  iptables -P FORWARD DROP
   iptables -P OUTPUT ACCEPT
+  iptables -P FORWARD DROP
+
   
-  # Accept loopback input
+  # Accepts loopback input
   iptables -A INPUT -i lo -p all -j ACCEPT
   
-  # Allow three-way Handshake
+  # Allows a three-way Handshake
   iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
   
-  # Stop Masked Attacks
+  # Stops Masked Attacks
   iptables -A INPUT -p icmp --icmp-type 13 -j DROP
   iptables -A INPUT -p icmp --icmp-type 17 -j DROP
   iptables -A INPUT -p icmp --icmp-type 14 -j DROP
   iptables -A INPUT -p icmp -m limit --limit 1/second -j ACCEPT
   
-  # Discard invalid Packets
+  # Discards Invalid Packets
   iptables -A INPUT -m state --state INVALID -j DROP
   iptables -A FORWARD -m state --state INVALID -j DROP
   iptables -A OUTPUT -m state --state INVALID -j DROP
   
-  # Drop Spoofing attacks
+  # Drops Spoofing attacks
   iptables -A INPUT -s 10.0.0.0/8 -j DROP
   iptables -A INPUT -s 169.254.0.0/16 -j DROP
   iptables -A INPUT -s 172.16.0.0/12 -j DROP
@@ -56,105 +54,97 @@ iptable_configuration()
   iptables -A INPUT -d 239.255.255.0/24 -j DROP
   iptables -A INPUT -d 255.255.255.255 -j DROP
   
-  # Drop packets with excessive RST to avoid Masked attacks
+  # Drops packets with excessive RST to avoid Masked attacks
   iptables -A INPUT -p tcp -m tcp --tcp-flags RST RST -m limit --limit 2/second --limit-burst 2 -j ACCEPT
   
-  # Block ips doing portscan for 24 hours
-  iptables -A INPUT   -m recent --name portscan --rcheck --seconds 86400 -j DROP
-  iptables -A FORWARD -m recent --name portscan --rcheck --seconds 86400 -j DROP
+  # Blocks Ip adresses from doing portscans
+  iptables -A INPUT   -m recent --name portscan --rcheck  -j DROP
+  iptables -A FORWARD -m recent --name portscan --rcheck  -j DROP
   
-  # After 24 hours remove IP from block list
-  iptables -A INPUT   -m recent --name portscan --remove
-  iptables -A FORWARD -m recent --name portscan --remove
+  # Allows ssh
+  iptables -A INPUT -p tcp -m tcp --dport 652 -j ACCEPT
   
-  # Allow ssh
-  iptables -A INPUT -p tcp -m tcp --dport 141 -j ACCEPT
-  
-  # Allow Ping
+  # Allows Ping
   iptables -A INPUT -p icmp --icmp-type 0 -j ACCEPT
   
   # Allow one ssh connection at a time
-  iptables -A INPUT -p tcp --syn --dport 141 -m connlimit --connlimit-above 2 -j REJECT
+  iptables -A INPUT -p tcp --syn --dport 652 -m connlimit --connlimit-above 2 -j REJECT
   
   iptables-save > /etc/iptables/rules.v4
   ip6tables-save > /etc/iptables/rules.v6
 }
 
-install_fail2ban() 
+fail2ban_installation() 
 {
-  # Install fail2ban
-  apt install fail2ban -y
+  # Installs fail2ban
+  apt install fail2ban 
 }
 
-configure_kernel() 
+kernel_configuration() 
 {
-  # Configure Kernel
+  # Configures Kernel
   echo "net.ipv4.tcp_syncookies: 1
-net.ipv4.conf.all.accept_source_route: 0
-net.ipv6.conf.all.accept_source_route: 0
 net.ipv4.conf.default.accept_source_route: 0
-net.ipv6.conf.default.accept_source_route: 0
-net.ipv4.conf.all.accept_redirects: 0
-net.ipv6.conf.all.accept_redirects: 0
-net.ipv4.conf.default.accept_redirects: 0
-net.ipv6.conf.default.accept_redirects: 0
-net.ipv4.conf.all.secure_redirects: 1
-net.ipv4.conf.default.secure_redirects: 1
-net.ipv4.ip_forward: 0
-net.ipv6.conf.all.forwarding: 0
-net.ipv4.conf.all.send_redirects: 0
-net.ipv4.conf.default.send_redirects: 0
-net.ipv4.conf.all.rp_filter: 1
-net.ipv4.conf.default.rp_filter: 1
-net.ipv4.icmp_echo_ignore_broadcasts: 1
-net.ipv4.icmp_ignore_bogus_error_responses: 1
-net.ipv4.icmp_echo_ignore_all: 0
-net.ipv4.conf.all.log_martians: 1
-net.ipv4.conf.default.log_martians: 1
-net.ipv4.tcp_rfc1337: 1
-kernel.randomize_va_space: 2
-fs.protected_hardlinks: 1
-fs.protected_symlinks: 1
-kernel.perf_event_paranoid: 2
 kernel.core_uses_pid: 1
+net.ipv4.conf.default.rp_filter: 1
+net.ipv4.conf.all.log_martians: 1
 kernel.kptr_restrict: 2
+net.ipv4.conf.default.secure_redirects: 1
+net.ipv4.conf.default.accept_redirects: 0
 kernel.sysrq: 0
+net.ipv4.icmp_echo_ignore_all: 0
+net.ipv4.ip_forward: 0
+fs.protected_symlinks: 1
+net.ipv4.tcp_rfc1337: 1
+net.ipv4.icmp_echo_ignore_broadcasts: 1
+net.ipv4.conf.all.rp_filter: 1
+net.ipv4.conf.all.send_redirects: 0
+net.ipv6.conf.all.forwarding: 0
+net.ipv4.conf.all.accept_source_route: 0
+net.ipv6.conf.default.accept_source_route: 0
+net.ipv4.conf.default.log_martians: 1
+net.ipv6.conf.all.accept_source_route: 0
+net.ipv4.conf.all.secure_redirects: 1
+fs.protected_hardlinks: 1
+net.ipv4.conf.all.accept_redirects: 0
+kernel.perf_event_paranoid: 2
+net.ipv4.conf.default.send_redirects: 0
+kernel.randomize_va_space: 2
+net.ipv6.conf.all.accept_redirects: 0
+net.ipv6.conf.default.accept_redirects: 0
+net.ipv4.icmp_ignore_bogus_error_responses: 1
 kernel.yama.ptrace_scope: 1" > /etc/sysctl.d/80-lockdown.conf
   sysctl --system
 }
 
 automatic_updates() 
 {
-  # Enable automatic updates
-  apt install unattended-upgrades -y
+  # Enables automatic updates
+  apt install unattended-upgrades 
   dpkg-reconfigure -plow unattended-upgrades
 }
 
-configure_auditd() 
+auditd_configuration() 
 {
-  # Install auditd
-  apt install auditd -y
+  # Installs auditd
+  apt install auditd 
 
-  # Add config
+  # Adds auditd configuration
   echo "
-# Remove any existing rules
+# Removes any existing auditd rules
 -D
 # Buffer Size
-# Might need to be increased, depending on the load of your system.
+# May need to be increased, depending on the load of your system.
 -b 8192
-# Failure Mode
-# 0=Silent
-# 1=printk, print failure message
-# 2=panic, halt system
+# Failure Mode 1, prints a failure message.
 -f 1
-# Audit the audit logs.
+# Audits the audit logs.
 -w /var/log/audit/ -k auditlog
-## Auditd configuration
-## Modifications to audit configuration that occur while the audit (check your paths)
+# Modifies the audit configuration,that occurs during the audit.
 -w /etc/audit/ -p wa -k auditconfig
 -w /etc/libaudit.conf -p wa -k auditconfig
 -w /etc/audisp/ -p wa -k audispconfig
-# Schedule jobs
+# Schedules cronjobs
 -w /etc/cron.allow -p wa -k cron
 -w /etc/cron.deny -p wa -k cron
 -w /etc/cron.d/ -p wa -k cron
@@ -164,15 +154,15 @@ configure_auditd()
 -w /etc/cron.weekly/ -p wa -k cron
 -w /etc/crontab -p wa -k cron
 -w /var/spool/cron/crontabs/ -k cron
-## user, group, password databases
+# Audits and logs User, Group, and Password databases
 -w /etc/group -p wa -k etcgroup
 -w /etc/passwd -p wa -k etcpasswd
 -w /etc/gshadow -k etcgroup
 -w /etc/shadow -k etcpasswd
 -w /etc/security/opasswd -k opasswd
-# Monitor usage of passwd command
+# Monitors usage of passwd command
 -w /usr/bin/passwd -p x -k passwd_modification
-# Monitor user/group tools
+# Monitor user and group tools
 -w /usr/sbin/groupadd -p x -k group_modification
 -w /usr/sbin/groupmod -p x -k group_modification
 -w /usr/sbin/addgroup -p x -k group_modification
@@ -188,7 +178,7 @@ configure_auditd()
 # Network configuration
 -w /etc/hosts -p wa -k hosts
 -w /etc/network/ -p wa -k network
-## system startup scripts
+# System startup scripts
 -w /etc/inittab -p wa -k init
 -w /etc/init.d/ -p wa -k init
 -w /etc/init/ -p wa -k init
@@ -202,10 +192,10 @@ configure_auditd()
 # Hostname
 -a exit,always -F arch=b32 -S sethostname -k hostname
 -a exit,always -F arch=b64 -S sethostname -k hostname
-# Log all commands executed by root
+# Logs all commands executed by root
 -a exit,always -F arch=b64 -F euid=0 -S execve -k rootcmd
 -a exit,always -F arch=b32 -F euid=0 -S execve -k rootcmd
-## Capture all failures to access on critical elements
+# Captures all failures to access on critical elements
 -a exit,always -F arch=b64 -S open -F dir=/etc -F success=0 -k unauthedfileacess
 -a exit,always -F arch=b64 -S open -F dir=/bin -F success=0 -k unauthedfileacess
 -a exit,always -F arch=b64 -S open -F dir=/home -F success=0 -k unauthedfileacess
@@ -215,34 +205,34 @@ configure_auditd()
 -a exit,always -F arch=b64 -S open -F dir=/usr/local/bin -F success=0 -k unauthedfileacess
 -a exit,always -F arch=b64 -S open -F dir=/usr/sbin -F success=0 -k unauthedfileacess
 -a exit,always -F arch=b64 -S open -F dir=/var -F success=0 -k unauthedfileacess
-## su/sudo
+## Su and Sudo
 -w /bin/su -p x -k priv_esc
 -w /usr/bin/sudo -p x -k priv_esc
 -w /etc/sudoers -p rw -k priv_esc
-# Poweroff/reboot tools
+# Poweroffs and reboots tools
 -w /sbin/halt -p x -k power
 -w /sbin/poweroff -p x -k power
 -w /sbin/reboot -p x -k power
 -w /sbin/shutdown -p x -k power
-# Make the configuration immutable
+# Makes the configuration immutable
 -e 2
 " > /etc/audit/rules.d/audit.rules
   systemctl enable auditd.service
   service auditd restart
 }
 
-disable_core_dumps() 
+disables_core_dumps() 
 {
-  # Disable core dumps
+  # Disables core dumps
   echo "* hard core 0" >> /etc/security/limits.conf
   echo "ProcessSizeMax=0
   Storage=none" >> /etc/systemd/coredump.conf
   echo "ulimit -c 0" >> /etc/profile
 }
 
-restrict_login() 
+restricts_logins() 
 {
-  # Set login.defs
+  # Configures login.defs
   sed -i s/UMASK.*/UMASK\ 027/ /etc/login.defs
   sed -i s/PASS_MAX_DAYS.*/PASS_MAX_DAYS\ 90/ /etc/login.defs
   sed -i s/PASS_MIN_DAYS.*/PASS_MIN_DAYS\ 7/ /etc/login.defs
@@ -250,9 +240,10 @@ restrict_login()
 SHA_CRYPT_MAX_ROUNDS 100000000" >> /etc/login.defs
 }
 
-secure_ssh() {
+secures_ssh() 
+{
 
-  # Secure ssh
+  # Secures ssh
   echo "
 ClientAliveCountMax 2
 Compression no
@@ -262,64 +253,56 @@ MaxSessions 2
 TCPKeepAlive no
 AllowAgentForwarding no
 AllowTcpForwarding no
-Port 141
+Port 652
 PasswordAuthentication no
 " >> /etc/ssh/sshd_config
   sed -i s/^X11Forwarding.*/X11Forwarding\ no/ /etc/ssh/sshd_config
   sed -i s/^UsePAM.*/UsePAM\ no/ /etc/ssh/sshd_config
-}
-
-create_admin_user() 
-{
-  # Create admin user
-  echo "Enter admin username"; read -r username
-  adduser "$username"
-  mkdir "/home/$username/.ssh"
-  cp /root/.ssh/authorized_keys "/home/$username/.ssh/authorized_keys"
-  chown -R "$username" "/home/$username/.ssh"
-  usermod -aG sudo "$username"
-
-  # Restrict ssh to admin user
-  echo "
+echo -n "Enter the adminstrators username:"
+read username
+echo "
 AllowUsers $username
 PermitRootLogin no
 " >> /etc/ssh/sshd_config
 }
 
-add_legal_banner() 
+
+adds_legal_banner() 
 {
-  # Add legal banner
-  echo "
-Unauthorized access to this server is prohibited.
-Legal action will be taken. Disconnect now.
-" > /etc/issue
+  # Adds a legal banner
   echo "
 Unauthorized access to this server is prohibited.
 Legal action will be taken. Disconnect now.
 " > /etc/issue.net
+  echo "
+Unauthorized access to this server is prohibited.
+Legal action will be taken. Disconnect now.
+" > /etc/issue
 }
 
-install_recommended_packages() 
+installs_lynis_recommended_packages() 
 {
-  # Install recommended packages
-  apt install apt-listbugs apt-listchanges needrestart debsecan debsums libpam-cracklib aide usbguard acct -y
+  # Installs lynis recommended packages
+  apt install apt-listbugs apt-listchanges needrestart debsecan debsums libpam-cracklib aide usbguard acct 
 }
 
-setup_aide() {
-  # Setup aide
+setsup_aide() 
+{
+  # Setwup aide
   aideinit
   mv /var/lib/aide/aide.db.new /var/lib/aide/aide.db
 }
 
-enable_process_accounting() {
-  # Enable process accounting
+enables_process_accounting() 
+{
+  # Enables process accounting
   systemctl enable acct.service
   systemctl start acct.service
 }
 
-disable_uncommon_filesystems() 
+disables_uncommon_filesystems() 
 {
-  # Disable uncommon filesystems
+  # Disables uncommon filesystems
   echo "install cramfs /bin/true
 install freevxfs /bin/true
 install hfs /bin/true
@@ -328,7 +311,7 @@ install jffs2 /bin/true
 install squashfs /bin/true" >> /etc/modprobe.d/filesystems.conf
 }
 
-disable_firewire() 
+disables_firewire() 
 {
   echo "install udf /bin/true
 blacklist firewire-core
@@ -336,27 +319,28 @@ blacklist firewire-ohci
 blacklist firewire-sbp2" >> /etc/modprobe.d/blacklist.conf
 }
 
-disable_usb() 
+disables_usb() 
 {
   echo "blacklist usb-storage" >> /etc/modprobe.d/blacklist.conf
 }
 
-disable_uncommon_protocols() 
+disables_uncommon_network_protocols() ##
 {
-  echo "install sctp /bin/true
-install dccp /bin/true
-install rds /bin/true
-install tipc /bin/true" >> /etc/modprobe.d/protocols.conf
+  echo "install dccp /bin/true
+install sctp /bin/true
+install tipc /bin/true
+install rds /bin/true" >> /etc/modprobe.d/protocols.conf
 }
 
-revert_/root_permissions() 
+reverts_/root_permissions() 
 {
- # Change /root permissions
-  chmod 700 /root
+ # Reverts /root permissions
   chmod 750 /home/debian
+  chmod 700 /root
+
 }
 
-restrict_access_to_compilers() 
+restricts_access_to_compilers() 
 {
   # Restricts access to compilers
   chmod o-rx /usr/bin/as
@@ -364,30 +348,33 @@ restrict_access_to_compilers()
 
 moves_/tmp_to_/tmpfs() 
 {
-  # Move tmp to tmpfs
+  # Moves /tmp to /tmpfs
   echo "tmpfs /tmp tmpfs rw,nosuid,nodev" >> /etc/fstab
 }
 
-remounts_directo_with_restrictions() 
+remounts_directories_with_restrictions() 
 {
-  # Mount tmp with noexec
-  mount -o remount,noexec /tmp
-
-  # Mount /proc with hidepid=2
+  # Mounts /proc with hidepid=2
   mount -o remount,rw,hidepid=2 /proc
+  
+  # Mounts /dev with noexec
+  mount -o remount,noexec /dev
+  
+  # Mounts /tmp with noexec
+  mount -o remount,noexec /tmp
 
   # Mount /dev with noexec
   mount -o remount,noexec /dev
 
-  # Mount /run as nodev
+  # Mounts /run as nodev
   mount -o remount,nodev /run
 }
 
-purge_old_packages() 
+purges_old_removed_packages() 
 {
-  # Purge old/removed packages
-  apt autoremove -y
-  apt purge "$(dpkg -l | grep '^rc' | awk '{print $2}')" -y
+  # Purges old and removed packages
+  apt autoremove 
+  apt purge "$(dpkg -l | grep '^rc' | awk '{print $2}')" 
 }
 while [[ $EUID -ne 0 ]]
 do
@@ -412,7 +399,10 @@ echo "--info Display project information"
 while true
 do
 read -p "Please enter a command, according to the usage stated above:" a
-info="Shield is a bash scripts created to audit and harden Debian and Debian based OS's"
+info="Shield is a bash scripts created to audit and harden Debian and Debian based OS's.
+\n It does a number of things to secure and harden your system, for example Shield rewrites your iptable configuration
+to make your Linux kernel firewall more secure.\n Shield also purges old and removed packages to remove the vulnerability they
+pose"
 if [ $a != "Shield --info" ]
 then 
 echo "Please enter a valid command"
