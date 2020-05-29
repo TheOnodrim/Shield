@@ -260,6 +260,12 @@ PasswordAuthentication no
   sed -i s/^UsePAM.*/UsePAM\ no/ /etc/ssh/sshd_config
 echo -n "Enter the adminstrators username:"
 read username
+while true
+do
+if [ groups $username != "$username : $username sudo" ] 
+then
+echo "Please enter a valid admin username"
+fi
 echo "
 AllowUsers $username
 PermitRootLogin no
