@@ -2,8 +2,6 @@
   <br>
   <a href="https://github.com/CrystalX127/Shield.git"><img src="https://image.freepik.com/free-vector/golden-shield-retro-design_12454-5380.jpg" alt="Logo" width="500"></a>
   <br>
-  Photo Source : https://image.freepik.com/free-vector/golden-shield-retro-design_12454-5380.jpg
-  <br>
   Shield:
   <br>
 </h1>
@@ -26,7 +24,7 @@
   </a>
 </p>
 
-
+# Photo Source: https://image.freepik.com/free-vector/golden-shield-retro-design_12454-5380.jpg
 Shield is a zero configuration, single file shell script made to be run to harden and secure a newly installed Debian or Debian based OS.
 
 - Zero installation 
