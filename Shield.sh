@@ -389,9 +389,8 @@ while true
 do
 read -p "Please enter a command, according to the usage stated above:" a
 info="Shield is a bash scripts created to audit and harden Debian and Debian based OS's.
-\n It does a number of things to secure and harden your system, for example Shield rewrites your iptable configuration
-to make your Linux kernel firewall more secure.\n Shield also purges old and removed packages to remove the vulnerability they
-pose"
+It does a number of things to secure and harden your system, for example Shield rewrites your iptable configurationto make your Linux kernel firewall more secure. 
+Shield also purges old and removed packages to remove the vulnerability they pose to your system."
 if [ $a != "Shield --info" ]
 then 
 echo "Please enter a valid command"
@@ -420,6 +419,10 @@ initiate_function()
 fi
 initiate_function adds_legal_manner "Would you like to add a legal banner to /etc/issue and /etc/issue.net?" 
 initiate_function auditd_configuration "Would you like to install and configure auditd with reasonable rules?"
+initiate_function automatic_updates "Would you like to enable automatic updates?"
+initiate_function disables_core_dumps "Would you like to disable core dumps?"
+initiate_function disables_firewire "Would you like to disable firewire?"
+initiate_function disables_uncommon_filesystems "Would you like to disable uncommon filesystems?"
 done
 
 
