@@ -1,6 +1,6 @@
 #!/bin/bash
 
-adds_legal_banner() 
+add_legal_banner() 
 {
   # Adds a legal banner
   echo "
@@ -114,7 +114,7 @@ automatic_updates()
   apt install unattended-upgrades 
   dpkg-reconfigure -plow unattended-upgrades
 }
-disables_core_dumps() 
+disable_core_dumps() 
 {
   # Disables core dumps
   echo "* hard core 0" >> /etc/security/limits.conf
@@ -122,14 +122,14 @@ disables_core_dumps()
   Storage=none" >> /etc/systemd/coredump.conf
   echo "ulimit -c 0" >> /etc/profile
 }
-disables_firewire() 
+disable_firewire() 
 {
   echo "install udf /bin/true
 blacklist firewire-core
 blacklist firewire-ohci
 blacklist firewire-sbp2" >> /etc/modprobe.d/blacklist.conf
 }
-disables_uncommon_filesystems() 
+disable_uncommon_filesystems() 
 {
   # Disables uncommon filesystems
   echo "install cramfs /bin/true
@@ -139,18 +139,18 @@ install hfsplus /bin/true
 install jffs2 /bin/true
 install squashfs /bin/true" >> /etc/modprobe.d/filesystems.conf
 }
-disables_uncommon_network_protocols() 
+disable_uncommon_network_protocols() 
 {
   echo "install dccp /bin/true
 install sctp /bin/true
 install tipc /bin/true
 install rds /bin/true" >> /etc/modprobe.d/protocols.conf
 }
-disables_usb() 
+disable_usb() 
 {
   echo "blacklist usb-storage" >> /etc/modprobe.d/blacklist.conf
 }
-enables_process_accounting() 
+enable_process_accounting() 
 {
   # Enables process accounting
   systemctl enable acct.service
@@ -162,7 +162,7 @@ fail2ban_installation()
   # Installs fail2ban
   apt install fail2ban 
 }
-installs_lynis_recommended_packages() 
+install_lynis_recommended_packages() 
 {
   # Installs lynis recommended packages
   apt install apt-listbugs apt-listchanges needrestart debsecan debsums libpam-cracklib aide usbguard acct 
@@ -268,18 +268,18 @@ net.ipv4.icmp_ignore_bogus_error_responses: 1
 kernel.yama.ptrace_scope: 1" > /etc/sysctl.d/80-lockdown.conf
   sysctl --system
 }
-moves_/tmp_to_/tmpfs() 
+move_/tmp_to_/tmpfs() 
 {
   # Moves /tmp to /tmpfs
   echo "tmpfs /tmp tmpfs rw,nosuid,nodev" >> /etc/fstab
 }
-purges_old_removed_packages() 
+purge_old_removed_packages() 
 {
   # Purges old and removed packages
   apt autoremove 
   apt purge "$(dpkg -l | grep '^rc' | awk '{print $2}')" 
 }
-remounts_directories_with_restrictions() 
+remount_directories_with_restrictions() 
 {
   # Mounts /proc with hidepid=2
   mount -o remount,rw,hidepid=2 /proc
@@ -296,12 +296,12 @@ remounts_directories_with_restrictions()
   # Mounts /run as nodev
   mount -o remount,nodev /run
 }
-restricts_access_to_compilers() 
+restrict_access_to_compilers() 
 {
   # Restricts access to compilers
   chmod o-rx /usr/bin/as
 }
-restricts_logins() 
+restrict_logins() 
 {
   # Configures login.defs
   sed -i s/UMASK.*/UMASK\ 027/ /etc/login.defs
@@ -310,14 +310,14 @@ restricts_logins()
   echo "SHA_CRYPT_MIN_ROUNDS 1000000
 SHA_CRYPT_MAX_ROUNDS 100000000" >> /etc/login.defs
 }
-reverts_/root_permissions() 
+revert_/root_permissions() 
 {
  # Reverts /root permissions
   chmod 750 /home/debian
   chmod 700 /root
 
 }
-secures_ssh() 
+secure_ssh() 
 {
 
   # Secures ssh
@@ -352,9 +352,9 @@ PermitRootLogin no
 " >> /etc/ssh/sshd_config
 fi
 }
-setsup_aide() 
+setup_aide() 
 {
-  # Setwup aide
+  # Setup aide
   aideinit
   mv /var/lib/aide/aide.db.new /var/lib/aide/aide.db
 }
@@ -372,6 +372,9 @@ do
 echo "Please run this script as root"
 exit 
 done
+RED='\033[0;31m'
+YELLOW='\033[1;33'
+NC='\033[0m'
 v="   ######   ##       ##  ################# #############  ##                  ##########               
       ##       ##       ##         ##         ##             ##                  ##       ###                  
       ##       ##       ##         ##         ##             ##                  ##         ##       
@@ -380,17 +383,17 @@ v="   ######   ##       ##  ################# #############  ##                 
       ##       ##       ##         ##         ##             ##                  ##       ###      
  #######       ##       ##  ################# #############  #################   ###########"
 echo $v
-echo "Usage: Shield [command]"
-echo "Commands:"
-echo "========="
-echo "--sysharden Run the system hardener and auditor"
-echo "--info Display project information"
+echo "${RED}Usage: Shield [command]${NC}"
+echo "${YELLOW}Commands:${NC}"
+echo "${RED}=========${NC}"
+echo "${YELLOW}--sysharden Run the system hardener and auditor${NC}"
+echo "${RED}--info Display project information${NC}"
 while true
 do
 read -p "Please enter a command, according to the usage stated above:" a
-info="Shield is a bash scripts created to audit and harden Debian and Debian based OS's.
-It does a number of things to secure and harden your system, for example Shield rewrites your iptable configurationto make your Linux kernel firewall more secure. 
-Shield also purges old and removed packages to remove the vulnerability they pose to your system."
+info="${YELLOW}Shield is a bash scripts created to audit and harden Debian and Debian based OS's.${NC}
+${RED}It does a number of things to secure and harden your system, for example Shield rewrites your iptable configuration to make your Linux kernel firewall more secure. 
+Shield also purges old and removed packages to remove the vulnerability they pose to your system.${NC}"
 if [ $a != "Shield --info" ]
 then 
 echo "Please enter a valid command"
@@ -417,12 +420,28 @@ initiate_function()
   fi
 }
 fi
-initiate_function adds_legal_manner "Would you like to add a legal banner to /etc/issue and /etc/issue.net?" 
-initiate_function auditd_configuration "Would you like to install and configure auditd with reasonable rules?"
-initiate_function automatic_updates "Would you like to enable automatic updates?"
-initiate_function disables_core_dumps "Would you like to disable core dumps?"
-initiate_function disables_firewire "Would you like to disable firewire?"
-initiate_function disables_uncommon_filesystems "Would you like to disable uncommon filesystems?"
+initiate_function add_legal_manner "Would you like to add a legal banner to /etc/issue and /etc/issue.net? on your system" 
+initiate_function auditd_configuration "Would you like to install and configure auditd with reasonable rules on your system?"
+initiate_function automatic_updates "Would you like to enable automatic update on your systems?"
+initiate_function disable_core_dumps "Would you like to disable core dumps on your system?"
+initiate_function disable_firewire "Would you like to disable firewire on your system?"
+initiate_function disable_uncommon_filesystems "Would you like to disable uncommon filesystems on your system?"
+initiate_function disable_uncommon_network_protocols "Would you like to disable uncommon network protocol on your systems?"
+initiate_function disable_usb "Would you like to disable usb on your system?"
+initiate_function enable_process_accounting "Would you like to enable process accounting on your system?"
+initiate_function fail2ban_installation "Would you like to install fail2ban on your system?"
+initiate_function install_lynis_recommended_packages "Would you like to install lynis reccomended packages on your system?"
+initiate_function iptable_configuration "Would you like to install and configure iptables on your system?"
+initiate_function kernel_configuration "Would you like your kernel to be configured on your system?"
+initiate_function move_/tmp_to_/tmpfs "Would you like to move /tmp to /tmpfs on your system?"
+initiate_function purge_old_removed_packages "Would you like to purge old and removed packages on your system?"
+initiate_function remount_directories_with_restrictions "Would you like have certain directories remounted with restrictions on your system?"
+initiate_function restrict_access_to_compilers "Would you like restrict access to compilers on  your system?"
+initiate_function restrict_logins "Would you like to restrict logins on your system?"
+initiate_function revert_/root_permissions "Would you like to revert /root permissions on your system?"
+initiate_function secure_ssh "Would you like to secure ssh and allow ssh only for the admin user on port 652 on your system?"
+initiate_function setup_aide "Would you like to setup aide on your system?"
+initiate_function upgrade_update "Would you like to upgrade your system packages and upgrade your system package list on your system?"
 done
 
 
