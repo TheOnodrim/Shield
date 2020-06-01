@@ -43,13 +43,13 @@ auditd_configuration()
 -w /etc/cron.allow -p wa -k cron
 -w /var/spool/cron/crontabs/ -k cron
 # Audits and logs User, Group, and Password databases
-# Monitors usage of passwd command
 -w /etc/group -p wa -k etcgroup
--w /etc/security/opasswd -k opasswd
 -w /etc/passwd -p wa -k etcpasswd
 -w /etc/gshadow -k etcgroup
 -w /etc/shadow -k etcpasswd
--w /usr/bin/passwd -p x -k passwd_modification
+-w /etc/security/opasswd -k opasswd
+# Monitors usage of passwd command
+ -w /usr/bin/passwd -p x -k passwd_modification
 # Monitor user and group tools
 -w /usr/sbin/usermod -p x -k user_modification
 -w /usr/sbin/addgroup -p x -k group_modification
@@ -419,7 +419,7 @@ initiate_function()
   fi
 }
 fi
-TWE()
+twe()
 {
     tput setaf 2 &>/dev/null # green powaaa
     for ((i=0; i<=${#1}; i++)); do
@@ -429,8 +429,19 @@ TWE()
     tput sgr0 2 &>/dev/null
 }
 initiate_function add_legal_manner "Would you like to add a legal banner to /etc/issue and /etc/issue.net? on your system"
-matrix
-iitiate_function auditd_configuration "Would you like to install and configure auditd with reasonable rules on your system?"
+twe "Adding a legal banner to /etc/issue"
+twe "Adding a legal banner to /etc/issue.net
+intiate_function auditd_configuration "Would you like to install and configure auditd with reasonable rules on your system?"
+twe "Installing auditd"
+twe "Removing any existing auditd rules"
+twe "Setting buffer size"
+twe "Setting Failure Mode to 1"
+twe "Setting up an auditor of the audit logs"
+twe "Modifying the audit configuration that occurs during the audit"
+twe "Scheduling cronjobs"
+twe "Setting up an auditor and a log for the user, group and password databases"
+twe "Setting up a monitor of the usage of the passwd command"
+
 initiate_function automatic_updates "Would you like to enable automatic update on your systems?"
 initiate_function disable_core_dumps "Would you like to disable core dumps on your system?"
 initiate_function disable_firewire "Would you like to disable firewire on your system?"
