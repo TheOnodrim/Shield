@@ -29,34 +29,34 @@ auditd_configuration()
 # Audits the audit logs.
 -w /var/log/audit/ -k auditlog
 # Modifies the audit configuration,that occurs during the audit.
--w /etc/audit/ -p wa -k auditconfig
 -w /etc/libaudit.conf -p wa -k auditconfig
+-w /etc/audit/ -p wa -k auditconfig
 -w /etc/audisp/ -p wa -k audispconfig
 # Schedules cronjobs
--w /etc/cron.allow -p wa -k cron
--w /etc/cron.deny -p wa -k cron
--w /etc/cron.d/ -p wa -k cron
--w /etc/cron.daily/ -p wa -k cron
--w /etc/cron.hourly/ -p wa -k cron
 -w /etc/cron.monthly/ -p wa -k cron
--w /etc/cron.weekly/ -p wa -k cron
+-w /etc/cron.hourly/ -p wa -k cron
 -w /etc/crontab -p wa -k cron
+-w /etc/cron.weekly/ -p wa -k cron
+-w /etc/cron.d/ -p wa -k cron
+-w /etc/cron.deny -p wa -k cron
+-w /etc/cron.daily/ -p wa -k cron
+-w /etc/cron.allow -p wa -k cron
 -w /var/spool/cron/crontabs/ -k cron
 # Audits and logs User, Group, and Password databases
+# Monitors usage of passwd command
 -w /etc/group -p wa -k etcgroup
+-w /etc/security/opasswd -k opasswd
 -w /etc/passwd -p wa -k etcpasswd
 -w /etc/gshadow -k etcgroup
 -w /etc/shadow -k etcpasswd
--w /etc/security/opasswd -k opasswd
-# Monitors usage of passwd command
 -w /usr/bin/passwd -p x -k passwd_modification
 # Monitor user and group tools
--w /usr/sbin/groupadd -p x -k group_modification
--w /usr/sbin/groupmod -p x -k group_modification
--w /usr/sbin/addgroup -p x -k group_modification
--w /usr/sbin/useradd -p x -k user_modification
 -w /usr/sbin/usermod -p x -k user_modification
+-w /usr/sbin/addgroup -p x -k group_modification
 -w /usr/sbin/adduser -p x -k user_modification
+-w /usr/sbin/groupadd -p x -k group_modification
+-w /usr/sbin/useradd -p x -k user_modification
+-w /usr/sbin/groupmod -p x -k group_modification
 # Login configuration and stored info
 -w /etc/login.defs -p wa -k login
 -w /etc/securetty -p wa -k login
@@ -64,12 +64,12 @@ auditd_configuration()
 -w /var/log/lastlog -p wa -k login
 -w /var/log/tallylog -p wa -k login
 # Network configuration
--w /etc/hosts -p wa -k hosts
 -w /etc/network/ -p wa -k network
+-w /etc/hosts -p wa -k hosts
 # System startup scripts
--w /etc/inittab -p wa -k init
 -w /etc/init.d/ -p wa -k init
 -w /etc/init/ -p wa -k init
+-w /etc/inittab -p wa -k init
 # Library search paths
 -w /etc/ld.so.conf -p wa -k libpath
 # Kernel parameters and modules
@@ -84,24 +84,24 @@ auditd_configuration()
 -a exit,always -F arch=b64 -F euid=0 -S execve -k rootcmd
 -a exit,always -F arch=b32 -F euid=0 -S execve -k rootcmd
 # Captures all failures to access on critical elements
--a exit,always -F arch=b64 -S open -F dir=/etc -F success=0 -k unauthedfileacess
+-a exit,always -F arch=b64 -S open -F dir=/usr/local/bin -F success=0 -k unauthedfileacess
 -a exit,always -F arch=b64 -S open -F dir=/bin -F success=0 -k unauthedfileacess
--a exit,always -F arch=b64 -S open -F dir=/home -F success=0 -k unauthedfileacess
+-a exit,always -F arch=b64 -S open -F dir=/var -F success=0 -k unauthedfileacess
 -a exit,always -F arch=b64 -S open -F dir=/sbin -F success=0 -k unauthedfileacess
+-a exit,always -F arch=b64 -S open -F dir=/home -F success=0 -k unauthedfileacess
+-a exit,always -F arch=b64 -S open -F dir=/usr/sbin -F success=0 -k unauthedfileacess
 -a exit,always -F arch=b64 -S open -F dir=/srv -F success=0 -k unauthedfileacess
 -a exit,always -F arch=b64 -S open -F dir=/usr/bin -F success=0 -k unauthedfileacess
--a exit,always -F arch=b64 -S open -F dir=/usr/local/bin -F success=0 -k unauthedfileacess
--a exit,always -F arch=b64 -S open -F dir=/usr/sbin -F success=0 -k unauthedfileacess
--a exit,always -F arch=b64 -S open -F dir=/var -F success=0 -k unauthedfileacess
-## Su and Sudo
--w /bin/su -p x -k priv_esc
--w /usr/bin/sudo -p x -k priv_esc
+-a exit,always -F arch=b64 -S open -F dir=/etc -F success=0 -k unauthedfileacess
+# Su and Sudo
 -w /etc/sudoers -p rw -k priv_esc
+-w /usr/bin/sudo -p x -k priv_esc
+-w /bin/su -p x -k priv_esc
 # Poweroffs and reboots tools
+-w /sbin/shutdown -p x -k power
 -w /sbin/halt -p x -k power
 -w /sbin/poweroff -p x -k power
 -w /sbin/reboot -p x -k power
--w /sbin/shutdown -p x -k power
 # Makes the configuration immutable
 -e 2
 " > /etc/audit/rules.d/audit.rules
@@ -189,8 +189,8 @@ iptable_configuration()
   
   # Stops Masked Attacks
   iptables -A INPUT -p icmp --icmp-type 13 -j DROP
-  iptables -A INPUT -p icmp --icmp-type 17 -j DROP
   iptables -A INPUT -p icmp --icmp-type 14 -j DROP
+  iptables -A INPUT -p icmp --icmp-type 17 -j DROP
   iptables -A INPUT -p icmp -m limit --limit 1/second -j ACCEPT
   
   # Discards Invalid Packets
@@ -212,7 +212,6 @@ iptable_configuration()
   iptables -A INPUT -d 0.0.0.0/8 -j DROP
   iptables -A INPUT -d 239.255.255.0/24 -j DROP
   iptables -A INPUT -d 255.255.255.255 -j DROP
-  
   # Drops packets with excessive RST to avoid Masked attacks
   iptables -A INPUT -p tcp -m tcp --tcp-flags RST RST -m limit --limit 2/second --limit-burst 2 -j ACCEPT
   
@@ -228,7 +227,7 @@ iptable_configuration()
   
   # Allow one ssh connection at a time
   iptables -A INPUT -p tcp --syn --dport 652 -m connlimit --connlimit-above 2 -j REJECT
-  
+  # Saves iptable configurations
   iptables-save > /etc/iptables/rules.v4
   ip6tables-save > /etc/iptables/rules.v6
 }
@@ -420,8 +419,18 @@ initiate_function()
   fi
 }
 fi
-initiate_function add_legal_manner "Would you like to add a legal banner to /etc/issue and /etc/issue.net? on your system" 
-initiate_function auditd_configuration "Would you like to install and configure auditd with reasonable rules on your system?"
+TWE()
+{
+    tput setaf 2 &>/dev/null # green powaaa
+    for ((i=0; i<=${#1}; i++)); do
+        printf '%s' "${1:$i:1}"
+        sleep 0.$(( (RANDOM % 1) + 0 ))
+    done
+    tput sgr0 2 &>/dev/null
+}
+initiate_function add_legal_manner "Would you like to add a legal banner to /etc/issue and /etc/issue.net? on your system"
+matrix
+iitiate_function auditd_configuration "Would you like to install and configure auditd with reasonable rules on your system?"
 initiate_function automatic_updates "Would you like to enable automatic update on your systems?"
 initiate_function disable_core_dumps "Would you like to disable core dumps on your system?"
 initiate_function disable_firewire "Would you like to disable firewire on your system?"
