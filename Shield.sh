@@ -441,7 +441,6 @@ twe "Modifying the audit configuration that occurs during the audit"
 twe "Scheduling cronjobs"
 twe "Setting up an auditor and a log for the user, group and password databases"
 twe "Setting up a monitor of the usage of the passwd command"
-
 initiate_function automatic_updates "Would you like to enable automatic update on your systems?"
 initiate_function disable_core_dumps "Would you like to disable core dumps on your system?"
 initiate_function disable_firewire "Would you like to disable firewire on your system?"
