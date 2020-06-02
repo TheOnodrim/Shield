@@ -406,32 +406,22 @@ Shield does a number of things to secure and harden your system, for instance Sh
 vulnerability they pose to your system."
 while true
 do
-echo -n "Please enter a command, according to the usage stated above:" 
-read a
+read -p "Please enter a command, according to the usage stated above:" a
 done
-while true
-do
-if [ $a != "Shield --info" ]
-then 
+while [ $a != "Shield --info" ]
+do 
 echo "Please enter a valid command"
-fi
 done
-while true
+while [ $a != "Shield --sysharden" ] 
 do
-if [ $a != "Shield --sysharden"]
-then
 echo "Please enter a valid command"
-fi
 done
-while true
+while [ $a = "Shield --info" ] 
 do
-if [ $a = "Shield --info" ]
-then
 echo $info
-fi
 done 
-if [ $a = "Shield --sysharden" ]
-then
+while [ $a = "Shield --sysharden" ]
+do
 initiate_function add_legal_manner "Would you like to add a legal banner to /etc/issue and /etc/issue.net? on your system"
 twe "Adding a legal banner to /etc/issue..."
 twe "Adding a legal banner to /etc/issue.net..."
@@ -466,8 +456,7 @@ initiate_function revert_/root_permissions "Would you like to revert /root permi
 initiate_function secure_ssh "Would you like to secure ssh and allow ssh only for the admin user on port 652 on your system?"
 initiate_function setup_aide "Would you like to setup aide on your system?"
 initiate_function upgrade_update "Would you like to upgrade your system packages and upgrade your system package list on your system?"
-fi
-
+done
 
 
 
