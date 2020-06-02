@@ -363,6 +363,26 @@ upgrade_update()
   apt-get update
 
 }
+initiate_function() 
+{
+  typeset -f "$1" | tail -n +2
+  echo "$2"
+  echo "Run the above commands? [Y/n]"
+  read -r answer
+  if [ "$answer" != "${answer#[Yy]}" ] 
+  then
+    $1
+  fi
+}
+twe()
+{
+    tput setaf 2 &>/dev/null # green powaaa
+    for ((i=0; i<=${#1}; i++)); do
+        printf '%s' "${1:$i:1}"
+        sleep 0.$(( (RANDOM % 1) + 0 ))
+    done
+    tput sgr0 2 &>/dev/null
+}
 while [[ $EUID -ne 0 ]]
 do
 echo "Please run this script as root"
@@ -388,14 +408,10 @@ while true
 do
 echo -n "Please enter a command, according to the usage stated above:" 
 read a
-done
-while true
 if [ $a != "Shield --info" ]
 then 
 echo "Please enter a valid command"
 fi
-done
-while true
 if [ $a != "Shield --sysharden"]
 then
 echo "Please enter a valid command"
@@ -410,29 +426,6 @@ done
 while true
 if [ $a = "Shield --sysharden" ]
 then
-initiate_function() 
-{
-  typeset -f "$1" | tail -n +2
-  echo "$2"
-  echo "Run the above commands? [Y/n]"
-  read -r answer
-  if [ "$answer" != "${answer#[Yy]}" ] 
-  then
-    $1
-  fi
-}
-fi
-done
-twe()
-{
-    tput setaf 2 &>/dev/null # green powaaa
-    for ((i=0; i<=${#1}; i++)); do
-        printf '%s' "${1:$i:1}"
-        sleep 0.$(( (RANDOM % 1) + 0 ))
-    done
-    tput sgr0 2 &>/dev/null
-}
-while true
 initiate_function add_legal_manner "Would you like to add a legal banner to /etc/issue and /etc/issue.net? on your system"
 twe "Adding a legal banner to /etc/issue..."
 twe "Adding a legal banner to /etc/issue.net..."
@@ -467,7 +460,9 @@ initiate_function revert_/root_permissions "Would you like to revert /root permi
 initiate_function secure_ssh "Would you like to secure ssh and allow ssh only for the admin user on port 652 on your system?"
 initiate_function setup_aide "Would you like to setup aide on your system?"
 initiate_function upgrade_update "Would you like to upgrade your system packages and upgrade your system package list on your system?"
+fi
 done
+
 
 
 
