@@ -26,7 +26,7 @@
 
 Photo Source: https://image.freepik.com/free-vector/golden-shield-retro-design_12454-5380.jpg
 
-Shield is a zero configuration, single file shell script made to be run to harden and secure a newly installed Debian or Debian based OS.
+Shield is a zero configuration, single file shell script made to be run to harden and secure your Debian or Debian based OS.
 
 - Zero installation 
 - Zero configuration
