@@ -369,28 +369,33 @@ echo "Please run this script as root"
 exit 
 done
 RED='\033[0;31m'
-YELLOW='\033[1;33m'
+GREEN='\033[0;32m'
 NC='\033[0m'
 echo -e "${RED}                 Shield:            ${NC}"
-echo -e "${YELLOW}=========================================${NC}"
+echo -e "${GREEN}=========================================${NC}"
 echo -e "${RED}        Created by: Jan Heymann${NC}"   
-echo -e "${YELLOW}     GNU GPL v3.0 Public Liscence${NC}"
+echo -e "${GREEN}     GNU GPL v3.0 Public Liscence${NC}"
 
 echo -e "${RED}Usage: Shield [command]${NC}"
-echo -e "${YELLOW}Commands:${NC}"
+echo -e "${GREEN}Commands:${NC}"
 echo -e "${RED}=======================${NC}"
-echo -e "${YELLOW}--sysharden Run the system hardener and auditor${NC}"
+echo -e "${GREEN}--sysharden Run the system hardener and auditor${NC}"
 echo -e "${RED}--info Display project information${NC}"
-while true
-do
-read -p "Please enter a command, according to the usage stated above:" a
 info="Shield was created by Jan Heymann on May 15 2020 with the purpose of securing and hardening your Debian and Debian based OS.
 Shield does a number of things to secure and harden your system, for instance Shield purges old and removed packages to remove the
 vulnerability they pose to your system."
+while true
+do
+echo -n "Please enter a command, according to the usage stated above:" 
+read a
+done
+while true
 if [ $a != "Shield --info" ]
 then 
 echo "Please enter a valid command"
 fi
+done
+while true
 if [ $a != "Shield --sysharden"]
 then
 echo "Please enter a valid command"
@@ -401,6 +406,8 @@ if [ $a = "Shield --info" ]
 then
 echo $info
 fi
+done
+while true
 if [ $a = "Shield --sysharden" ]
 then
 initiate_function() 
@@ -415,6 +422,7 @@ initiate_function()
   fi
 }
 fi
+done
 twe()
 {
     tput setaf 2 &>/dev/null # green powaaa
@@ -424,6 +432,7 @@ twe()
     done
     tput sgr0 2 &>/dev/null
 }
+while true
 initiate_function add_legal_manner "Would you like to add a legal banner to /etc/issue and /etc/issue.net? on your system"
 twe "Adding a legal banner to /etc/issue..."
 twe "Adding a legal banner to /etc/issue.net..."
