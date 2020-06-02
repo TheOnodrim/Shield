@@ -369,7 +369,7 @@ echo "Please run this script as root"
 exit 
 done
 RED='\033[0;31m'
-YLW='\033[1;33m'
+YELLOW='\033[1;33m'
 NC='\033[0m'
 echo -e "${RED}                 Shield:            ${NC}"
 echo -e "${YELLOW}=========================================${NC}"
