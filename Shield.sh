@@ -404,10 +404,7 @@ echo -e "${RED}--info Display project information${NC}"
 info="Shield was created by Jan Heymann on May 15 2020 with the purpose of securing and hardening your Debian and Debian based OS.
 Shield does a number of things to secure and harden your system, for instance Shield purges old and removed packages to remove the
 vulnerability they pose to your system."
-while true
-do
 read -p "Please enter a command, according to the usage stated above:" a
-done
 while [ $a != "Shield --info" ]
 do 
 echo "Please enter a valid command"
