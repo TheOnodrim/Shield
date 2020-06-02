@@ -368,16 +368,19 @@ do
 echo "Please run this script as root"
 exit 
 done
-echo "                Shield:                  "
-echo "========================================="
-echo "      Created by: Jan Heymann"
-echo"     GNU GPL v3.0 Public Liscence"
+RED='\033[0;31m'
+YLW='\033[1;33m'
+NC='\033[0m'
+echo "${RED}                 Shield:            ${NC}"
+echo "${YELLOW}=========================================${NC}"
+echo "${RED}        Created by: Jan Heymann${NC}"   
+echo "${YELLOW}     GNU GPL v3.0 Public Liscence${NC}"
 
-echo "Usage: Shield [command]"
-echo "Commands:"
-echo "========="
-echo "--sysharden Run the system hardener and auditor"
-echo "--info Display project information"
+echo "${RED}Usage: Shield [command]${NC}"
+echo "${YELLOW}Commands:${NC}"
+echo "${RED}=======================${NC}"
+echo "${YELLOW}--sysharden Run the system hardener and auditor${NC}"
+echo "${RED}--info Display project information${NC}"
 while true
 do
 read -p "Please enter a command, according to the usage stated above:" a
@@ -390,13 +393,13 @@ echo "Please enter a valid command"
 fi
 if [ $a != "Shield --sysharden]
 then
-echo "Please enter a valid command
+echo "Please enter a valid command"
 fi
 if [ $a = "Shield --info ]
 then
 echo $info
 fi
-if [ $a = "Shield --sysharden ]
+if [ $a = "Shield --sysharden" ]
 then
 initiate_function() 
 {
