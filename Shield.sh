@@ -57,7 +57,7 @@ auditd_configuration()
 -w /etc/cron.daily/ -p wa -k cron
 -w /etc/cron.allow -p wa -k cron
 -w /var/spool/cron/crontabs/ -k cron
-# Login configuration and stored info
+# Configures login and stored information
 -w /etc/login.defs -p wa -k login
 -w /etc/securetty -p wa -k login
 -w /var/log/faillog -p wa -k login
@@ -428,18 +428,20 @@ twe()
     tput sgr0 2 &>/dev/null
 }
 initiate_function add_legal_manner "Would you like to add a legal banner to /etc/issue and /etc/issue.net? on your system"
-twe "Adding a legal banner to /etc/issue"
-twe "Adding a legal banner to /etc/issue.net
+twe "Adding a legal banner to /etc/issue..."
+twe "Adding a legal banner to /etc/issue.net..."
 intiate_function auditd_configuration "Would you like to install and configure auditd with reasonable rules on your system?"
-twe "Installing auditd"
-twe "Removing any existing auditd rules"
+twe "Installing auditd..."
+twe "Removing any existing auditd rules..."
 twe "Setting buffer size"
-twe "Setting Failure Mode to 1"
-twe "Setting up an auditor of the audit logs"
-twe "Modifying the audit configuration that occurs during the audit"
-twe "Scheduling cronjobs"
-twe "Setting up an auditor and a log for the user, group and password databases"
-twe "Setting up a monitor of the usage of the passwd command"
+twe "Setting Failure Mode to 1..."
+twe "Setting up an auditor of the audit logs..."
+twe "Modifying the audit configuration that occurs during the audit..."
+twe "Scheduling cronjobs..."
+twe "Setting up an auditor and a log for the user, group and password databases..."
+twe "Setting up a monitor of the usage of the passwd command..."
+twe "Setting up a monitor of the user and group tools..."
+twe " 
 initiate_function automatic_updates "Would you like to enable automatic update on your systems?"
 initiate_function disable_core_dumps "Would you like to disable core dumps on your system?"
 initiate_function disable_firewire "Would you like to disable firewire on your system?"
