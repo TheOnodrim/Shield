@@ -367,9 +367,9 @@ initiate_function()
 {
   typeset -f "$1" | tail -n +2
   echo "$2"
-  echo "Run the above commands? [Y/n]"
+  echo "Run the above commands? [y/N]"
   read -r answer
-  if [ "$answer" != "${answer#[Yy]}" ] 
+  if [ "$answer" != "${answer#[yY]}" ] 
   then
     $1
   fi
@@ -404,21 +404,35 @@ echo -e "${RED}--info Display project information${NC}"
 info="Shield was created by Jan Heymann on May 15 2020 with the purpose of securing and hardening your Debian and Debian based OS.
 Shield does a number of things to secure and harden your system, for instance Shield purges old and removed packages to remove the
 vulnerability they pose to your system."
+while true
+do
 read -p "Please enter a command, according to the usage stated above:" a
-while [ $a != "Shield --info" ]
-do 
-echo "Please enter a valid command"
 done
-while [ $a != "Shield --sysharden" ] 
+while true 
 do
+if [ $a != "Shield --info" ]
+then
 echo "Please enter a valid command"
+fi
 done
-while [ $a = "Shield --info" ] 
+while true
 do
+if [ $a != "Shield --sysharden" ] 
+the
+echo "Please enter a valid command"
+fi
+done
+while true
+do
+if [ $a = "Shield --info" ] 
+then
 echo $info
+fi
 done 
-while [ $a = "Shield --sysharden" ]
+while true
 do
+if [ $a = "Shield --sysharden" ]
+then
 initiate_function add_legal_manner "Would you like to add a legal banner to /etc/issue and /etc/issue.net? on your system"
 twe "Adding a legal banner to /etc/issue..."
 twe "Adding a legal banner to /etc/issue.net..."
@@ -453,6 +467,7 @@ initiate_function revert_/root_permissions "Would you like to revert /root permi
 initiate_function secure_ssh "Would you like to secure ssh and allow ssh only for the admin user on port 652 on your system?"
 initiate_function setup_aide "Would you like to setup aide on your system?"
 initiate_function upgrade_update "Would you like to upgrade your system packages and upgrade your system package list on your system?"
+fi
 done
 
 
