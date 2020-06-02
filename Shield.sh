@@ -409,18 +409,27 @@ do
 echo -n "Please enter a command, according to the usage stated above:" 
 read a
 done
+while true
+do
 if [ $a != "Shield --info" ]
 then 
 echo "Please enter a valid command"
 fi
+done
+while true
+do
 if [ $a != "Shield --sysharden"]
 then
 echo "Please enter a valid command"
 fi
+done
+while true
+do
 if [ $a = "Shield --info" ]
 then
 echo $info
 fi
+done 
 if [ $a = "Shield --sysharden" ]
 then
 initiate_function add_legal_manner "Would you like to add a legal banner to /etc/issue and /etc/issue.net? on your system"
