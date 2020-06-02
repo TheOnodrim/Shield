@@ -32,6 +32,21 @@ auditd_configuration()
 -w /etc/libaudit.conf -p wa -k auditconfig
 -w /etc/audit/ -p wa -k auditconfig
 -w /etc/audisp/ -p wa -k audispconfig
+# Audits and logs User, Group, and Password databases
+-w /etc/group -p wa -k etcgroup
+-w /etc/passwd -p wa -k etcpasswd
+-w /etc/gshadow -k etcgroup
+-w /etc/shadow -k etcpasswd
+-w /etc/security/opasswd -k opasswd
+ Monitor user and group tools
+-w /usr/sbin/usermod -p x -k user_modification
+-w /usr/sbin/addgroup -p x -k group_modification
+-w /usr/sbin/adduser -p x -k user_modification
+-w /usr/sbin/groupadd -p x -k group_modification
+-w /usr/sbin/useradd -p x -k user_modification
+-w /usr/sbin/groupmod -p x -k group_modification
+# Monitors usage of passwd command
+-w /usr/bin/passwd -p x -k passwd_modification
 # Schedules cronjobs
 -w /etc/cron.monthly/ -p wa -k cron
 -w /etc/cron.hourly/ -p wa -k cron
@@ -42,21 +57,6 @@ auditd_configuration()
 -w /etc/cron.daily/ -p wa -k cron
 -w /etc/cron.allow -p wa -k cron
 -w /var/spool/cron/crontabs/ -k cron
-# Audits and logs User, Group, and Password databases
--w /etc/group -p wa -k etcgroup
--w /etc/passwd -p wa -k etcpasswd
--w /etc/gshadow -k etcgroup
--w /etc/shadow -k etcpasswd
--w /etc/security/opasswd -k opasswd
-# Monitors usage of passwd command
- -w /usr/bin/passwd -p x -k passwd_modification
-# Monitor user and group tools
--w /usr/sbin/usermod -p x -k user_modification
--w /usr/sbin/addgroup -p x -k group_modification
--w /usr/sbin/adduser -p x -k user_modification
--w /usr/sbin/groupadd -p x -k group_modification
--w /usr/sbin/useradd -p x -k user_modification
--w /usr/sbin/groupmod -p x -k group_modification
 # Login configuration and stored info
 -w /etc/login.defs -p wa -k login
 -w /etc/securetty -p wa -k login
@@ -66,23 +66,20 @@ auditd_configuration()
 # Network configuration
 -w /etc/network/ -p wa -k network
 -w /etc/hosts -p wa -k hosts
-# System startup scripts
--w /etc/init.d/ -p wa -k init
--w /etc/init/ -p wa -k init
--w /etc/inittab -p wa -k init
 # Library search paths
 -w /etc/ld.so.conf -p wa -k libpath
 # Kernel parameters and modules
 -w /etc/sysctl.conf -p wa -k sysctl
 -w /etc/modprobe.conf -p wa -k modprobe
+# System startup scripts
+-w /etc/init.d/ -p wa -k init
+-w /etc/init/ -p wa -k init
+-w /etc/inittab -p wa -k init
 # SSH configuration
 -w /etc/ssh/sshd_config -k sshd
 # Hostname
 -a exit,always -F arch=b32 -S sethostname -k hostname
 -a exit,always -F arch=b64 -S sethostname -k hostname
-# Logs all commands executed by root
--a exit,always -F arch=b64 -F euid=0 -S execve -k rootcmd
--a exit,always -F arch=b32 -F euid=0 -S execve -k rootcmd
 # Captures all failures to access on critical elements
 -a exit,always -F arch=b64 -S open -F dir=/usr/local/bin -F success=0 -k unauthedfileacess
 -a exit,always -F arch=b64 -S open -F dir=/bin -F success=0 -k unauthedfileacess
@@ -93,6 +90,9 @@ auditd_configuration()
 -a exit,always -F arch=b64 -S open -F dir=/srv -F success=0 -k unauthedfileacess
 -a exit,always -F arch=b64 -S open -F dir=/usr/bin -F success=0 -k unauthedfileacess
 -a exit,always -F arch=b64 -S open -F dir=/etc -F success=0 -k unauthedfileacess
+# Logs all commands executed by root
+-a exit,always -F arch=b64 -F euid=0 -S execve -k rootcmd
+-a exit,always -F arch=b32 -F euid=0 -S execve -k rootcmd
 # Su and Sudo
 -w /etc/sudoers -p rw -k priv_esc
 -w /usr/bin/sudo -p x -k priv_esc
@@ -179,25 +179,6 @@ iptable_configuration()
   iptables -P INPUT DROP
   iptables -P OUTPUT ACCEPT
   iptables -P FORWARD DROP
-
-  
-  # Accepts loopback input
-  iptables -A INPUT -i lo -p all -j ACCEPT
-  
-  # Allows a three-way Handshake
-  iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
-  
-  # Stops Masked Attacks
-  iptables -A INPUT -p icmp --icmp-type 13 -j DROP
-  iptables -A INPUT -p icmp --icmp-type 14 -j DROP
-  iptables -A INPUT -p icmp --icmp-type 17 -j DROP
-  iptables -A INPUT -p icmp -m limit --limit 1/second -j ACCEPT
-  
-  # Discards Invalid Packets
-  iptables -A INPUT -m state --state INVALID -j DROP
-  iptables -A FORWARD -m state --state INVALID -j DROP
-  iptables -A OUTPUT -m state --state INVALID -j DROP
-  
   # Drops Spoofing attacks
   iptables -A INPUT -s 10.0.0.0/8 -j DROP
   iptables -A INPUT -s 169.254.0.0/16 -j DROP
@@ -212,21 +193,40 @@ iptable_configuration()
   iptables -A INPUT -d 0.0.0.0/8 -j DROP
   iptables -A INPUT -d 239.255.255.0/24 -j DROP
   iptables -A INPUT -d 255.255.255.255 -j DROP
+  
+  # Accepts loopback input
+  iptables -A INPUT -i lo -p all -j ACCEPT
+  
+  # Allows a three-way Handshake
+  iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+  
   # Drops packets with excessive RST to avoid Masked attacks
   iptables -A INPUT -p tcp -m tcp --tcp-flags RST RST -m limit --limit 2/second --limit-burst 2 -j ACCEPT
   
+  # Stops Masked Attacks
+  iptables -A INPUT -p icmp --icmp-type 13 -j DROP
+  iptables -A INPUT -p icmp --icmp-type 14 -j DROP
+  iptables -A INPUT -p icmp --icmp-type 17 -j DROP
+  iptables -A INPUT -p icmp -m limit --limit 1/second -j ACCEPT
+  
+  # Discards Invalid Packets
+  iptables -A INPUT -m state --state INVALID -j DROP
+  iptables -A FORWARD -m state --state INVALID -j DROP
+  iptables -A OUTPUT -m state --state INVALID -j DROP
+
   # Blocks Ip adresses from doing portscans
   iptables -A INPUT   -m recent --name portscan --rcheck  -j DROP
   iptables -A FORWARD -m recent --name portscan --rcheck  -j DROP
   
   # Allows ssh
   iptables -A INPUT -p tcp -m tcp --dport 652 -j ACCEPT
+   
+   # Allow one ssh connection at a time
+  iptables -A INPUT -p tcp --syn --dport 652 -m connlimit --connlimit-above 2 -j REJECT
   
   # Allows Ping
   iptables -A INPUT -p icmp --icmp-type 0 -j ACCEPT
   
-  # Allow one ssh connection at a time
-  iptables -A INPUT -p tcp --syn --dport 652 -m connlimit --connlimit-above 2 -j REJECT
   # Saves iptable configurations
   iptables-save > /etc/iptables/rules.v4
   ip6tables-save > /etc/iptables/rules.v6
@@ -283,9 +283,6 @@ remount_directories_with_restrictions()
   # Mounts /proc with hidepid=2
   mount -o remount,rw,hidepid=2 /proc
   
-  # Mounts /dev with noexec
-  mount -o remount,noexec /dev
-  
   # Mounts /tmp with noexec
   mount -o remount,noexec /tmp
 
@@ -303,9 +300,9 @@ restrict_access_to_compilers()
 restrict_logins() 
 {
   # Configures login.defs
+  sed -i s/PASS_MIN_DAYS.*/PASS_MIN_DAYS\ 7/ /etc/login.defs
   sed -i s/UMASK.*/UMASK\ 027/ /etc/login.defs
   sed -i s/PASS_MAX_DAYS.*/PASS_MAX_DAYS\ 90/ /etc/login.defs
-  sed -i s/PASS_MIN_DAYS.*/PASS_MIN_DAYS\ 7/ /etc/login.defs
   echo "SHA_CRYPT_MIN_ROUNDS 1000000
 SHA_CRYPT_MAX_ROUNDS 100000000" >> /etc/login.defs
 }
@@ -353,7 +350,7 @@ fi
 }
 setup_aide() 
 {
-  # Setup aide
+  # Setups aide
   aideinit
   mv /var/lib/aide/aide.db.new /var/lib/aide/aide.db
 }
@@ -382,17 +379,19 @@ v="   ######   ##       ##  ################# #############  ##                 
       ##       ##       ##         ##         ##             ##                  ##       ###      
  #######       ##       ##  ################# #############  #################   ###########"
 echo $v
-echo "${RED}Usage: Shield [command]${NC}"
-echo "${YELLOW}Commands:${NC}"
-echo "${RED}=========${NC}"
-echo "${YELLOW}--sysharden Run the system hardener and auditor${NC}"
-echo "${RED}--info Display project information${NC}"
+echo "\t\tCreated by: Jan Heymann"
+echo"\t\t GNU GPL v3.0 Public Liscence"
+echo "Usage: Shield [command]"
+echo "Commands:"
+echo "========="
+echo "--sysharden Run the system hardener and auditor"
+echo "--info Display project information"
 while true
 do
 read -p "Please enter a command, according to the usage stated above:" a
-info="${YELLOW}Shield is a bash scripts created to audit and harden Debian and Debian based OS's.${NC}
-${RED}It does a number of things to secure and harden your system, for example Shield rewrites your iptable configuration to make your Linux kernel firewall more secure. 
-Shield also purges old and removed packages to remove the vulnerability they pose to your system.${NC}"
+info="Shield was created by Jan Heymann on May 15 2020 with the purpose of securing and hardening your Debian and Debian based OS.
+Shield does a number of things to secure and harden your system, for instance Shield purges old and removed packages to remove the
+vulnerability they pose to your system."
 if [ $a != "Shield --info" ]
 then 
 echo "Please enter a valid command"
