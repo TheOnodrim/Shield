@@ -371,16 +371,16 @@ done
 RED='\033[0;31m'
 YLW='\033[1;33m'
 NC='\033[0m'
-echo "${RED}                 Shield:            ${NC}"
-echo "${YELLOW}=========================================${NC}"
-echo "${RED}        Created by: Jan Heymann${NC}"   
-echo "${YELLOW}     GNU GPL v3.0 Public Liscence${NC}"
+echo -e "${RED}                 Shield:            ${NC}"
+echo -e "${YELLOW}=========================================${NC}"
+echo -e "${RED}        Created by: Jan Heymann${NC}"   
+echo -e "${YELLOW}     GNU GPL v3.0 Public Liscence${NC}"
 
-echo "${RED}Usage: Shield [command]${NC}"
-echo "${YELLOW}Commands:${NC}"
-echo "${RED}=======================${NC}"
-echo "${YELLOW}--sysharden Run the system hardener and auditor${NC}"
-echo "${RED}--info Display project information${NC}"
+echo -e "${RED}Usage: Shield [command]${NC}"
+echo -e "${YELLOW}Commands:${NC}"
+echo -e "${RED}=======================${NC}"
+echo -e "${YELLOW}--sysharden Run the system hardener and auditor${NC}"
+echo -e "${RED}--info Display project information${NC}"
 while true
 do
 read -p "Please enter a command, according to the usage stated above:" a
@@ -391,11 +391,13 @@ if [ $a != "Shield --info" ]
 then 
 echo "Please enter a valid command"
 fi
-if [ $a != "Shield --sysharden]
+if [ $a != "Shield --sysharden"]
 then
 echo "Please enter a valid command"
 fi
-if [ $a = "Shield --info ]
+done
+while true
+if [ $a = "Shield --info" ]
 then
 echo $info
 fi
@@ -437,7 +439,6 @@ twe "Scheduling cronjobs..."
 twe "Setting up an auditor and a log for the user, group and password databases..."
 twe "Setting up a monitor of the usage of the passwd command..."
 twe "Setting up a monitor of the user and group tools..."
-twe " 
 initiate_function automatic_updates "Would you like to enable automatic update on your systems?"
 initiate_function disable_core_dumps "Would you like to disable core dumps on your system?"
 initiate_function disable_firewire "Would you like to disable firewire on your system?"
