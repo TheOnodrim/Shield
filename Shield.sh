@@ -368,19 +368,11 @@ do
 echo "Please run this script as root"
 exit 
 done
-RED='\033[0;31m'
-YELLOW='\033[1;33'
-NC='\033[0m'
-v="   ######   ##       ##  ################# #############  ##                  ##########               
-      ##       ##       ##         ##         ##             ##                  ##       ###                  
-      ##       ##       ##         ##         ##             ##                  ##         ##       
-      ##       ###########         ##         #############  ##                  ##         ##         
-      ##       ##       ##         ##         ##             ##                  ##         ##
-      ##       ##       ##         ##         ##             ##                  ##       ###      
- #######       ##       ##  ################# #############  #################   ###########"
-echo $v
-echo "\t\tCreated by: Jan Heymann"
-echo"\t\t GNU GPL v3.0 Public Liscence"
+echo "                Shield:                  "
+echo "========================================="
+echo "      Created by: Jan Heymann"
+echo"     GNU GPL v3.0 Public Liscence"
+
 echo "Usage: Shield [command]"
 echo "Commands:"
 echo "========="
