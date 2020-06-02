@@ -408,6 +408,7 @@ while true
 do
 echo -n "Please enter a command, according to the usage stated above:" 
 read a
+done
 if [ $a != "Shield --info" ]
 then 
 echo "Please enter a valid command"
@@ -416,14 +417,10 @@ if [ $a != "Shield --sysharden"]
 then
 echo "Please enter a valid command"
 fi
-done
-while true
 if [ $a = "Shield --info" ]
 then
 echo $info
 fi
-done
-while true
 if [ $a = "Shield --sysharden" ]
 then
 initiate_function add_legal_manner "Would you like to add a legal banner to /etc/issue and /etc/issue.net? on your system"
@@ -461,7 +458,7 @@ initiate_function secure_ssh "Would you like to secure ssh and allow ssh only fo
 initiate_function setup_aide "Would you like to setup aide on your system?"
 initiate_function upgrade_update "Would you like to upgrade your system packages and upgrade your system package list on your system?"
 fi
-done
+
 
 
 
