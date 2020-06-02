@@ -415,7 +415,6 @@ initiate_function()
   fi
 }
 fi
-done
 twe()
 {
     tput setaf 2 &>/dev/null # green powaaa
