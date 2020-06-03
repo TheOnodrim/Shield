@@ -1,7 +1,6 @@
 #!/bin/bash
 
-add_legal_banner() 
-{
+add_legal_banner() {
   # Adds a legal banner
   echo "
 Unauthorized access to this server is prohibited.
@@ -12,8 +11,7 @@ Unauthorized access to this server is prohibited.
 Legal action will be taken. Disconnect now.
 " > /etc/issue.net
 }
-auditd_configuration() 
-{
+auditd_configuration() }
   # Installs auditd
   apt install auditd 
 
@@ -108,29 +106,25 @@ auditd_configuration()
   systemctl enable auditd.service
   service auditd restart
 }
-automatic_updates() 
-{
+automatic_updates() {
   # Enables automatic updates
   apt install unattended-upgrades 
   dpkg-reconfigure -plow unattended-upgrades
 }
-disable_core_dumps() 
-{
+disable_core_dumps() {
   # Disables core dumps
   echo "* hard core 0" >> /etc/security/limits.conf
   echo "ProcessSizeMax=0
   Storage=none" >> /etc/systemd/coredump.conf
   echo "ulimit -c 0" >> /etc/profile
 }
-disable_firewire() 
-{
+disable_firewire() {
   echo "install udf /bin/true
 blacklist firewire-core
 blacklist firewire-ohci
 blacklist firewire-sbp2" >> /etc/modprobe.d/blacklist.conf
 }
-disable_uncommon_filesystems() 
-{
+disable_uncommon_filesystems() {
   # Disables uncommon filesystems
   echo "install cramfs /bin/true
 install freevxfs /bin/true
@@ -139,36 +133,30 @@ install hfsplus /bin/true
 install jffs2 /bin/true
 install squashfs /bin/true" >> /etc/modprobe.d/filesystems.conf
 }
-disable_uncommon_network_protocols() 
-{
+disable_uncommon_network_protocols() {
   echo "install dccp /bin/true
 install sctp /bin/true
 install tipc /bin/true
 install rds /bin/true" >> /etc/modprobe.d/protocols.conf
 }
-disable_usb() 
-{
+disable_usb() {
   echo "blacklist usb-storage" >> /etc/modprobe.d/blacklist.conf
 }
-enable_process_accounting() 
-{
+enable_process_accounting() {
   # Enables process accounting
   systemctl enable acct.service
   systemctl start acct.service
 }
 
-fail2ban_installation() 
-{
+fail2ban_installation() {
   # Installs fail2ban
   apt install fail2ban 
 }
-install_lynis_recommended_packages() 
-{
+install_lynis_recommended_packages() {
   # Installs lynis recommended packages
   apt install apt-listbugs apt-listchanges needrestart debsecan debsums libpam-cracklib aide usbguard acct 
 }
-iptable_configuration() 
-{
+iptable_configuration() {
   # Installs Iptables
   apt install iptables-persistent 
 
@@ -267,19 +255,16 @@ net.ipv4.icmp_ignore_bogus_error_responses: 1
 kernel.yama.ptrace_scope: 1" > /etc/sysctl.d/80-lockdown.conf
   sysctl --system
 }
-move_/tmp_to_/tmpfs() 
-{
+move_/tmp_to_/tmpfs() {
   # Moves /tmp to /tmpfs
   echo "tmpfs /tmp tmpfs rw,nosuid,nodev" >> /etc/fstab
 }
-purge_old_removed_packages() 
-{
+purge_old_removed_packages() {
   # Purges old and removed packages
   apt autoremove 
   apt purge "$(dpkg -l | grep '^rc' | awk '{print $2}')" 
 }
-remount_directories_with_restrictions() 
-{
+remount_directories_with_restrictions() {
   # Mounts /proc with hidepid=2
   mount -o remount,rw,hidepid=2 /proc
   
@@ -292,13 +277,11 @@ remount_directories_with_restrictions()
   # Mounts /run as nodev
   mount -o remount,nodev /run
 }
-restrict_access_to_compilers() 
-{
+restrict_access_to_compilers() {
   # Restricts access to compilers
-  chmod o-rx /usr/bin/as
-}
-restrict_logins() 
-{
+  sudo chmod o-rx /usr/bin/gcc
+  sudo chmod o-rx /usr/bin/g++}
+restrict_logins() {
   # Configures login.defs
   sed -i s/PASS_MIN_DAYS.*/PASS_MIN_DAYS\ 7/ /etc/login.defs
   sed -i s/UMASK.*/UMASK\ 027/ /etc/login.defs
@@ -306,15 +289,13 @@ restrict_logins()
   echo "SHA_CRYPT_MIN_ROUNDS 1000000
 SHA_CRYPT_MAX_ROUNDS 100000000" >> /etc/login.defs
 }
-revert_/root_permissions() 
-{
+revert_/root_permissions() {
  # Reverts /root permissions
   chmod 750 /home/debian
   chmod 700 /root
 
 }
-secure_ssh() 
-{
+secure_ssh() {
 
   # Secures ssh
   echo "
@@ -331,30 +312,39 @@ PasswordAuthentication no
 " >> /etc/ssh/sshd_config
   sed -i s/^X11Forwarding.*/X11Forwarding\ no/ /etc/ssh/sshd_config
   sed -i s/^UsePAM.*/UsePAM\ no/ /etc/ssh/sshd_config
+while true
+do
 echo -n "Enter the adminstrators username:"
 read username
-echo "
-AllowUsers $username
-PermitRootLogin no
-" >> /etc/ssh/sshd_config
+ad=$(groups $username)
+d="$ad" | grep -oF "sudo"
+case $d in
+  "sudo")
+    echo "
+    AllowUsers $username
+    PermitRootLogin no
+    " >> /etc/ssh/sshd_config
+    ;;
+  *)
+    echo -e "Please enter a valid username"
+    ;;
+esac    
+done
 }
-setup_aide() 
-{
+setup_aide() {
   # Setups aide
   aideinit
   mv /var/lib/aide/aide.db.new /var/lib/aide/aide.db
 }
 
-upgrade_update() 
-{
+upgrade_update() {
   # Updates system packages in a secure way
   apt-get upgrade
   # Updates system package information
   apt-get update
 
 }
-initiate_function() 
-{
+initiate_function() {
   typeset -f "$1" | tail -n +2
   echo "$2"
   echo "Run the above commands? [Y/n]"
@@ -412,6 +402,7 @@ case $a in
     initiate_function secure_ssh "Would you like to secure ssh and allow ssh only for the admin user on port 652 on your system?"
     initiate_function setup_aide "Would you like to setup aide on your system?"
     initiate_function upgrade_update "Would you like to upgrade your system packages and upgrade your system package list on your system?"
+    sudo reboot
     ;;
   "Shield --info")
     echo "$info"
@@ -421,3 +412,4 @@ case $a in
     ;;
 esac
 done
+
