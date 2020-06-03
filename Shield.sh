@@ -376,7 +376,8 @@ initiate_function()
 }
 twe()
 {
-    tput setaf 2 &>/dev/null # green powaaa
+# Type writer effect
+    tput setaf 2 &>/dev/null
     for ((i=0; i<=${#1}; i++)); do
         printf '%s' "${1:$i:1}"
         sleep 0.$(( (RANDOM % 1) + 0 ))
