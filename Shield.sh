@@ -354,6 +354,10 @@ initiate_function() {
     $1
   fi
 }
+reboot() {
+  # Reboots the system
+  sudo reboot
+}
 while [[ $EUID -ne 0 ]]
 do
 echo "Please run this script as root"
@@ -402,7 +406,7 @@ case $a in
     initiate_function secure_ssh "Would you like to secure ssh and allow ssh only for the admin user on port 652 on your system?"
     initiate_function setup_aide "Would you like to setup aide on your system?"
     initiate_function upgrade_update "Would you like to upgrade your system packages and upgrade your system package list on your system?"
-    sudo reboot
+    initiate_function reboot "Would you like to reboot your system"
     ;;
   "Shield --info")
     echo "$info"
