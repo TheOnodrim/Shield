@@ -6,7 +6,7 @@ add_legal_banner() {
 Unauthorized access to this server is prohibited.
 Legal action will be taken. Disconnect now.
 " > /etc/issue
-echo "
+  echo "
 Unauthorized access to this server is prohibited.
 Legal action will be taken. Disconnect now.
 " > /etc/issue.net
