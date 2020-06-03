@@ -358,7 +358,7 @@ initiate_function()
 {
   typeset -f "$1" | tail -n +2
   echo "$2"
-  echo "Run the above commands? [y/N]"
+  echo "Run the above commands? [Y/n]"
   read -r answer
   if [ "$answer" != "${answer#[yY]}" ] 
   then
@@ -392,7 +392,7 @@ read -p "Please enter a command, according to the usage stated above:" a
 case $a in
   "Shield --sysharden")
     initiate_function add_legal_banner "Would you like to add a legal banner to /etc/issue and /etc/issue.net? on your system"
-    intiate_function auditd_configuration "Would you like to install and configure auditd with reasonable rules on your system?"
+    intiate_function  auditd_configuration "Would you like to install and configure auditd with reasonable rules on your system?"
     initiate_function automatic_updates "Would you like to enable automatic update on your systems?"
     initiate_function disable_core_dumps "Would you like to disable core dumps on your system?"
     initiate_function disable_firewire "Would you like to disable firewire on your system?"
