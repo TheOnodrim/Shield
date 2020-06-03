@@ -406,71 +406,49 @@ Shield does a number of things to secure and harden your system, for instance Sh
 vulnerability they pose to your system."
 while true
 do
-read -p "Please enter a command, according to the usage stated above:" a
+read -p "Please enter a command, according to the usage stated above:" a 
+case $a in
+  "Shield --sysharden")
+    initiate_function add_legal_manner "Would you like to add a legal banner to /etc/issue and /etc/issue.net? on your system"
+    twe "Adding a legal banner to /etc/issue..."
+    twe "Adding a legal banner to /etc/issue.net..."
+    intiate_function auditd_configuration "Would you like to install and configure auditd with reasonable rules on your system?"
+    twe "Installing auditd..."
+    twe "Removing any existing auditd rules..."
+    twe "Setting buffer size"
+    twe "Setting Failure Mode to 1..."
+    twe "Setting up an auditor of the audit logs..."
+    twe "Modifying the audit configuration that occurs during the audit..."
+    twe "Scheduling cronjobs..."
+    twe "Setting up an auditor and a log for the user, group and password databases..."
+    twe "Setting up a monitor of the usage of the passwd command..."
+    twe "Setting up a monitor of the user and group tools..."
+    initiate_function automatic_updates "Would you like to enable automatic update on your systems?"
+    initiate_function disable_core_dumps "Would you like to disable core dumps on your system?"
+    initiate_function disable_firewire "Would you like to disable firewire on your system?"
+    initiate_function disable_uncommon_filesystems "Would you like to disable uncommon filesystems on your system?"
+    initiate_function disable_uncommon_network_protocols "Would you like to disable uncommon network protocol on your systems?"
+    initiate_function disable_usb "Would you like to disable usb on your system?"
+    initiate_function enable_process_accounting "Would you like to enable process accounting on your system?"
+    initiate_function fail2ban_installation "Would you like to install fail2ban on your system?"
+    initiate_function install_lynis_recommended_packages "Would you like to install lynis reccomended packages on your system?"
+    initiate_function iptable_configuration "Would you like to install and configure iptables on your system?"
+    initiate_function kernel_configuration "Would you like your kernel to be configured on your system?"
+    initiate_function move_/tmp_to_/tmpfs "Would you like to move /tmp to /tmpfs on your system?"
+    initiate_function purge_old_removed_packages "Would you like to purge old and removed packages on your system?"
+    initiate_function remount_directories_with_restrictions "Would you like have certain directories remounted with restrictions on your system?"
+    initiate_function restrict_access_to_compilers "Would you like restrict access to compilers on  your system?"
+    initiate_function restrict_logins "Would you like to restrict logins on your system?"
+    initiate_function revert_/root_permissions "Would you like to revert /root permissions on your system?"
+    initiate_function secure_ssh "Would you like to secure ssh and allow ssh only for the admin user on port 652 on your system?"
+    initiate_function setup_aide "Would you like to setup aide on your system?"
+    initiate_function upgrade_update "Would you like to upgrade your system packages and upgrade your system package list on your system?"
+    ;;
+  "Shield --info")
+    echo "$info"
+    ;;
+  *)
+    echo -e "Please enter a valid command"
+    ;;
+esac
 done
-while true 
-do
-if [ $a != "Shield --info" ]
-then
-echo "Please enter a valid command"
-fi
-done
-while true
-do
-if [ $a != "Shield --sysharden" ] 
-the
-echo "Please enter a valid command"
-fi
-done
-while true
-do
-if [ $a = "Shield --info" ] 
-then
-echo $info
-fi
-done 
-while true
-do
-if [ $a = "Shield --sysharden" ]
-then
-initiate_function add_legal_manner "Would you like to add a legal banner to /etc/issue and /etc/issue.net? on your system"
-twe "Adding a legal banner to /etc/issue..."
-twe "Adding a legal banner to /etc/issue.net..."
-intiate_function auditd_configuration "Would you like to install and configure auditd with reasonable rules on your system?"
-twe "Installing auditd..."
-twe "Removing any existing auditd rules..."
-twe "Setting buffer size"
-twe "Setting Failure Mode to 1..."
-twe "Setting up an auditor of the audit logs..."
-twe "Modifying the audit configuration that occurs during the audit..."
-twe "Scheduling cronjobs..."
-twe "Setting up an auditor and a log for the user, group and password databases..."
-twe "Setting up a monitor of the usage of the passwd command..."
-twe "Setting up a monitor of the user and group tools..."
-initiate_function automatic_updates "Would you like to enable automatic update on your systems?"
-initiate_function disable_core_dumps "Would you like to disable core dumps on your system?"
-initiate_function disable_firewire "Would you like to disable firewire on your system?"
-initiate_function disable_uncommon_filesystems "Would you like to disable uncommon filesystems on your system?"
-initiate_function disable_uncommon_network_protocols "Would you like to disable uncommon network protocol on your systems?"
-initiate_function disable_usb "Would you like to disable usb on your system?"
-initiate_function enable_process_accounting "Would you like to enable process accounting on your system?"
-initiate_function fail2ban_installation "Would you like to install fail2ban on your system?"
-initiate_function install_lynis_recommended_packages "Would you like to install lynis reccomended packages on your system?"
-initiate_function iptable_configuration "Would you like to install and configure iptables on your system?"
-initiate_function kernel_configuration "Would you like your kernel to be configured on your system?"
-initiate_function move_/tmp_to_/tmpfs "Would you like to move /tmp to /tmpfs on your system?"
-initiate_function purge_old_removed_packages "Would you like to purge old and removed packages on your system?"
-initiate_function remount_directories_with_restrictions "Would you like have certain directories remounted with restrictions on your system?"
-initiate_function restrict_access_to_compilers "Would you like restrict access to compilers on  your system?"
-initiate_function restrict_logins "Would you like to restrict logins on your system?"
-initiate_function revert_/root_permissions "Would you like to revert /root permissions on your system?"
-initiate_function secure_ssh "Would you like to secure ssh and allow ssh only for the admin user on port 652 on your system?"
-initiate_function setup_aide "Would you like to setup aide on your system?"
-initiate_function upgrade_update "Would you like to upgrade your system packages and upgrade your system package list on your system?"
-fi
-done
-
-
-
-
-
