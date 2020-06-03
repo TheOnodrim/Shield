@@ -337,7 +337,6 @@ echo "
 AllowUsers $username
 PermitRootLogin no
 " >> /etc/ssh/sshd_config
-fi
 }
 setup_aide() 
 {
