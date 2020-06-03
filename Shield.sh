@@ -6,11 +6,11 @@ add_legal_banner()
   echo "
 Unauthorized access to this server is prohibited.
 Legal action will be taken. Disconnect now.
-" > /etc/issue.net
-  echo "
+" > /etc/issue
+echo "
 Unauthorized access to this server is prohibited.
 Legal action will be taken. Disconnect now.
-" > /etc/issue
+" > /etc/issue.net
 }
 auditd_configuration() 
 {
@@ -333,15 +333,6 @@ PasswordAuthentication no
   sed -i s/^UsePAM.*/UsePAM\ no/ /etc/ssh/sshd_config
 echo -n "Enter the adminstrators username:"
 read username
-while true
-do
-if [ groups $username != $username : $username sudo ] 
-then
-echo "Please enter a valid admin username"
-fi
-done
-if [ groups $username == $username : $username sudo ]
-then
 echo "
 AllowUsers $username
 PermitRootLogin no
@@ -374,16 +365,6 @@ initiate_function()
     $1
   fi
 }
-twe()
-{
-# Type writer effect
-    tput setaf 2 &>/dev/null
-    for ((i=0; i<=${#1}; i++)); do
-        printf '%s' "${1:$i:1}"
-        sleep 0.$(( (RANDOM % 1) + 0 ))
-    done
-    tput sgr0 2 &>/dev/null
-}
 while [[ $EUID -ne 0 ]]
 do
 echo "Please run this script as root"
@@ -411,19 +392,7 @@ read -p "Please enter a command, according to the usage stated above:" a
 case $a in
   "Shield --sysharden")
     initiate_function add_legal_banner "Would you like to add a legal banner to /etc/issue and /etc/issue.net? on your system"
-    twe "Adding a legal banner to /etc/issue..."
-    twe "Adding a legal banner to /etc/issue.net..."
     intiate_function auditd_configuration "Would you like to install and configure auditd with reasonable rules on your system?"
-    twe "Installing auditd..."
-    twe "Removing any existing auditd rules..."
-    twe "Setting buffer size"
-    twe "Setting Failure Mode to 1..."
-    twe "Setting up an auditor of the audit logs..."
-    twe "Modifying the audit configuration that occurs during the audit..."
-    twe "Scheduling cronjobs..."
-    twe "Setting up an auditor and a log for the user, group and password databases..."
-    twe "Setting up a monitor of the usage of the passwd command..."
-    twe "Setting up a monitor of the user and group tools..."
     initiate_function automatic_updates "Would you like to enable automatic update on your systems?"
     initiate_function disable_core_dumps "Would you like to disable core dumps on your system?"
     initiate_function disable_firewire "Would you like to disable firewire on your system?"
