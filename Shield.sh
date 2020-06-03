@@ -335,12 +335,12 @@ echo -n "Enter the adminstrators username:"
 read username
 while true
 do
-if [ groups $username != "$username : $username sudo" ] 
+if [ groups $username != $username : $username sudo ] 
 then
 echo "Please enter a valid admin username"
 fi
 done
-if [ groups $username == "$username : $username sudo" ]
+if [ groups $username == $username : $username sudo ]
 then
 echo "
 AllowUsers $username
@@ -409,7 +409,7 @@ do
 read -p "Please enter a command, according to the usage stated above:" a 
 case $a in
   "Shield --sysharden")
-    initiate_function add_legal_manner "Would you like to add a legal banner to /etc/issue and /etc/issue.net? on your system"
+    initiate_function add_legal_banner "Would you like to add a legal banner to /etc/issue and /etc/issue.net? on your system"
     twe "Adding a legal banner to /etc/issue..."
     twe "Adding a legal banner to /etc/issue.net..."
     intiate_function auditd_configuration "Would you like to install and configure auditd with reasonable rules on your system?"
