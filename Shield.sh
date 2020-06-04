@@ -300,7 +300,7 @@ secure_ssh() {
 
   # Secures ssh
   echo "
-ClientAliveCountMax 2
+ ClientAliveCountMax 2
 Compression no
 LogLevel VERBOSE
 MaxAuthTries 3
@@ -313,24 +313,24 @@ PasswordAuthentication no
 " >> /etc/ssh/sshd_config
   sed -i s/^X11Forwarding.*/X11Forwarding\ no/ /etc/ssh/sshd_config
   sed -i s/^UsePAM.*/UsePAM\ no/ /etc/ssh/sshd_config
-while true
-do
-echo -n "Enter the adminstrators username:"
-read username
-ad=$(groups $username)
-d="$ad" | grep -oF "sudo"
-case $d in
-  "sudo")
-    echo "
-    AllowUsers $username
-    PermitRootLogin no
-    " >> /etc/ssh/sshd_config
-    ;;
-  *)
-    echo -e "Please enter a valid username:"
-    ;;
-esac    
-done
+  while true
+  do
+  echo -n "Enter the adminstrators username:"
+  read username
+  ad=$(groups $username)
+  d="$ad" | grep -oF "sudo"
+  case $d in
+    "sudo")
+      echo "
+      AllowUsers $username
+      PermitRootLogin no
+      " >> /etc/ssh/sshd_config
+      ;;
+    *)
+      echo -e "Please enter a valid username:"
+      ;;
+  esac    
+  done
 }
 setup_aide() {
   # Setups aide
@@ -416,4 +416,5 @@ case $a in
     echo -e "Please enter a valid command"
     ;;
 esac
+done
 
