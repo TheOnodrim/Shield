@@ -282,6 +282,7 @@ restrict_access_to_compilers() {
   chmod o-x /usr/bin/as /usr/bin/g++ /usr/bin/gcc
   chmod o-r /usr/bin/as /usr/bin/g++ /usr/bin/gcc
   chmod o-w /usr/bin/as /usr/bin/g++ /usr/bin/gcc
+}
 restrict_logins() {
   # Configures login.defs
   sed -i s/PASS_MIN_DAYS.*/PASS_MIN_DAYS\ 7/ /etc/login.defs
@@ -417,4 +418,4 @@ case $a in
     ;;
 esac
 done
-
+}
