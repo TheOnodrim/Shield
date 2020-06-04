@@ -351,8 +351,7 @@ initiate_function() {
   echo "$2"
   echo "Run the above commands? [Y/n]"
   read -r answer
-  if [ "$answer" != "${answer#[yY]}" ] 
-  then
+  if [ "$answer" != "${answer#[yY]}" ] ;then
     $1
   fi
 }
