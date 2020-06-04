@@ -316,21 +316,8 @@ PasswordAuthentication no
   sed -i s/^UsePAM.*/UsePAM\ no/ /etc/ssh/sshd_config
   while true
   do
-  echo -n "Enter the adminstrators username:"
-  read username
-  ad=$(groups $username)
-  d="$ad" | grep -oF "sudo"
-  case $d in
-    "sudo")
-      echo "
-      AllowUsers $username
-      PermitRootLogin no
-      " >> /etc/ssh/sshd_config
-      ;;
-    *)
-      echo -e "Please enter a valid username:"
-      ;;
-  esac    
+  ad=$(gentent group sudo)
+  
   done
 }
 setup_aide() {
