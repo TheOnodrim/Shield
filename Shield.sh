@@ -279,8 +279,9 @@ remount_directories_with_restrictions() {
 }
 restrict_access_to_compilers() {
   # Restricts access to compilers
-  sudo chmod o-rx /usr/bin/gcc
-  sudo chmod o-rx /usr/bin/g++}
+  chmod o-x /usr/bin/as /usr/bin/g++ /usr/bin/gcc
+  chmod o-r /usr/bin/as /usr/bin/g++ /usr/bin/gcc
+  chmod o-w /usr/bin/as /usr/bin/g++ /usr/bin/gcc
 restrict_logins() {
   # Configures login.defs
   sed -i s/PASS_MIN_DAYS.*/PASS_MIN_DAYS\ 7/ /etc/login.defs
@@ -326,7 +327,7 @@ case $d in
     " >> /etc/ssh/sshd_config
     ;;
   *)
-    echo -e "Please enter a valid username"
+    echo -e "Please enter a valid username:"
     ;;
 esac    
 done
@@ -415,4 +416,4 @@ case $a in
     echo -e "Please enter a valid command"
     ;;
 esac
-done
+
