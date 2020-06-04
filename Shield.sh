@@ -321,9 +321,9 @@ PasswordAuthentication no
 " >> /etc/ssh/sshd_config
   sed -i s/^X11Forwarding.*/X11Forwarding\ no/ /etc/ssh/sshd_config
   sed -i s/^UsePAM.*/UsePAM\ no/ /etc/ssh/sshd_config
+  echo -n "Please enter the admin username:"
   while true
   do
-  echo -n "Please enter the admin username:"
   read username
   ad=$(getent group sudo)
   if [[ "$ad" = *"$username"* ]]
@@ -333,7 +333,8 @@ AllowUsers $username
 PermitRootLogin no
 " >> /etc/ssh/sshd_config
   else
-  echo "Please enter a valid admin username"
+  echo "Please enter a valid admin username:"
+  echo -n "Please enter the admin username:"
   fi  
   done
 }
