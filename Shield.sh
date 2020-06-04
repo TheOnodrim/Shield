@@ -4,12 +4,19 @@ add_legal_banner() {
   # Adds a legal banner
   echo "
 Unauthorized access to this server is prohibited.
-Legal action will be taken. Disconnect now.
+All connections are monitored and recorded.
+Legal action will be taken. Please disconnect now.
 " > /etc/issue
   echo "
 Unauthorized access to this server is prohibited.
-Legal action will be taken. Disconnect now.
+All connections are monitored and recorded.
+Legal action will be taken. Please disconnect now.
 " > /etc/issue.net
+  echo "
+Unauthorized access to this server is prohibited.
+All connections are monitored and recorded.
+Legal action will be taken. Please disconnect now.
+" > /etc/motd
 }
 auditd_configuration() {
   # Installs auditd
@@ -316,8 +323,18 @@ PasswordAuthentication no
   sed -i s/^UsePAM.*/UsePAM\ no/ /etc/ssh/sshd_config
   while true
   do
-  ad=$(gentent group sudo)
-  
+  echo -n "Please enter the admin username:"
+  read username
+  ad=$(getent group sudo)
+  if [[ "$ad" = *"$username"* ]]
+  then
+  echo "
+AllowUsers $username
+PermitRootLogin no
+" >> /etc/ssh/sshd_config
+  else
+  echo "Please enter a valid admin username"
+  fi  
   done
 }
 setup_aide() {
