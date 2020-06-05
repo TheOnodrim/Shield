@@ -23,6 +23,11 @@ def auditd_configuration():
   else:
     pass
   d = su.check_output("bash Auditd_Configuration.sh",shell = True)
-  
-  
 
+  def automatic_updates():
+  # This function enables automatic updates
+  if os.getcwd() != ("%s/Shield/Hardening_Scripts" % home):
+    i = su.check_output("cd Shield/Hardening_Scripts",shell = True)
+  else:
+    pass
+  h = su.check_output("bash Automatic_Updates.sh",shell = True)
