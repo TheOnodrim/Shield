@@ -73,3 +73,6 @@ This shell script reverts the ssh port to `652`, and it restricts the ssh key to
 
 ## Contributing:
 Please open issues and pull requests on anything you come across.
+
+## Dependencies:
+Make sure you are using a version of python that is version 3.5 or higher.
