@@ -1,3 +1,4 @@
+#!/bin/bash
 legal_banner() {
   # This function adds a legal banner to /etc/motd, /etc/issue and /etc/issue.net
   echo "
