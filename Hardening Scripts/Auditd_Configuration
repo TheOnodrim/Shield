@@ -1,5 +1,5 @@
  auditd_configuration() }
- echo "
+  echo "
 # Removes any existing auditd rules
 -D
 # Sets the buffer size, which may need to be increased, depending on the load of your system.
