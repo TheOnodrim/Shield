@@ -147,14 +147,6 @@
 -a always,exit -F arch=b64 -S mount -S umount2 -F auid!=-1 -k mount
 -a always,exit -F arch=b32 -S mount -S umount -S umount2 -F auid!=-1 -k mount
 
-# Change swap 
--a always,exit -F arch=b64 -S swapon -S swapoff -F auid!=-1 -k swap
--a always,exit -F arch=b32 -S swapon -S swapoff -F auid!=-1 -k swap
-
-# Time
--a exit,always -F arch=b32 -S adjtimex -S settimeofday -S clock_settime -k time
--a exit,always -F arch=b64 -S adjtimex -S settimeofday -S clock_settime -k time
-
 # Local time zone
 -w /etc/localtime -p wa -k localtime
 
@@ -171,9 +163,17 @@
 -a always,exit -F dir=/etc/NetworkManager/ -F perm=wa -k network_modifications
 -w /etc/sysconfig/network -p wa -k network_modifications
 
+# Time
+-a exit,always -F arch=b32 -S adjtimex -S settimeofday -S clock_settime -k time
+-a exit,always -F arch=b64 -S adjtimex -S settimeofday -S clock_settime -k time
+
 # Changes to /etc/issue
 -w /etc/issue -p wa -k etcissue
 -w /etc/issue.net -p wa -k etcissu
+
+# Change swap 
+-a always,exit -F arch=b64 -S swapon -S swapoff -F auid!=-1 -k swap
+-a always,exit -F arch=b32 -S swapon -S swapoff -F auid!=-1 -k swap
 
 # Pam configuration
 -w /etc/pam.d/ -p wa -k pam
@@ -263,10 +263,10 @@
 -a always,exit -F arch=b32 -S ptrace -F a0=0x6 -k register_injection
 -a always,exit -F arch=b64 -S ptrace -F a0=0x6 -k register_injection
 
-# Privilege Abuse, the purpose of this rule is to detect when an admin may be abusing power by looking in user's home dir.
+# Privilege Abuse, the purpose of this rule is to detect when an admin may be abusing power by looking in user's home directory.
 -a always,exit -F dir=/home -F uid=0 -F auid>=1000 -F auid!=4294967295 -C auid!=obj_uid -k power_abuse
 
-# Dpkg and apt-get
+# Apt-get and dpkg
 -w /usr/bin/dpkg -p x -k software_mgmt
 -w /usr/bin/apt-add-repository -p x -k software_mgmt
 -w /usr/bin/apt-get -p x -k software_mgmt
