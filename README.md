@@ -75,4 +75,4 @@ This shell script reverts the ssh port to `652`, and it restricts the ssh key to
 Please open issues and pull requests on anything you come across.
 
 ## Dependencies:
-Make sure you are using a version of python that is version 3.5 or higher.
+Python must be installed on you computer and you must have a python version of 3.5 or higher.
