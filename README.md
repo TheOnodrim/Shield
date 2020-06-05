@@ -46,7 +46,7 @@ This shell script reverts the ssh port to `652`, and it restricts the ssh key to
 - Debian 8
 - Debian based OS's
 
-## What does this shell script do?
+## What does this python script do?
 - Adds a legal banner to /etc/motd, /etc/issue and /etc/issue.net
 - Adds an automatic updater
 - Adds a daily cronjob to update system packages on the server
