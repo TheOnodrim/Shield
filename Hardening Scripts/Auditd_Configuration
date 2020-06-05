@@ -1,3 +1,4 @@
+ auditd_configuration() }
  echo "
 # Removes any existing auditd rules
 -D
