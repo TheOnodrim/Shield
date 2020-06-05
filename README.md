@@ -11,7 +11,7 @@
       <img src="https://img.shields.io/badge/Liscence-MIT-informational?style=flat-square&logo=appveyor">
   </a>
   <a href="https://github.com/CrystalX127/Shield.git">
-      <img src="https://img.shields.io/badge/Language-Bash-9cf?style=flat-square&logo=appveyor" >
+      <img src="https://img.shields.io/badge/Language-Python and Bash-9cf?style=flat-square&logo=appveyor" >
   </a>
   <a href="https://github.com/CrystalX127/Shield.git">
     <img src="https://img.shields.io/badge/Repository Status-Active-success?style=flat-square&logo=appveyor">
