@@ -48,7 +48,7 @@ This shell script reverts the ssh port to `652`, and it restricts the ssh key to
 - Debian based OS's
 
 ## What does this shell script do?
-- Adds a legal banner to /etc/issue and /etc/issue.net
+- Adds a legal banner to /etc/motd, /etc/issue and /etc/issue.net
 - Adds an automatic updater
 - Adds a daily cronjob to update system packages on the server
 - Configures the iptables
@@ -65,7 +65,7 @@ This shell script reverts the ssh port to `652`, and it restricts the ssh key to
 - Moves /tmp to /tmpfs
 - Purges old and removed packages
 - Remounts /tmp, /proc, /dev, /run to be more restrictive
-- Restrict access to compilers
+- Restricts access to compilers
 - Restricts access to /root 
 - Restricts firewall to only allow ssh on port `652`
 - Restricts logins
