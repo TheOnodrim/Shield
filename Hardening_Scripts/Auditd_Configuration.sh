@@ -2,6 +2,7 @@
  auditd_configuration() }
   # Installs auditd
   apt install auditd
+  # Configures auditd
   echo "
 # Removes any existing auditd rules
 -D
