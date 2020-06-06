@@ -27,6 +27,7 @@
 Photo Source: https://image.freepik.com/free-vector/golden-shield-retro-design_12454-5380.jpg
 
 Shield is a zero configuration, single file python script made to be run to harden and secure your Debian or Debian based OS.
+The python script is used to create a UI and automate the running of the bash hardening scripts.
 
 - Zero installation 
 - Zero configuration
