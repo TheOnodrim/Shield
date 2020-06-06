@@ -136,8 +136,8 @@
 -w /etc/modprobe.conf -p wa -k modprobe
 
 # KExec usage 
--a always,exit -F arch=b64 -S kexec_load -k KEXEC
 -a always,exit -F arch=b32 -S sys_kexec_load -k KEXEC
+-a always,exit -F arch=b64 -S kexec_load -k KEXEC
 
 # Special files
 -a exit,always -F arch=b32 -S mknod -S mknodat -k specialfiles
@@ -157,11 +157,11 @@
 -w /etc/sudoers -p wa -k actions
 
 # Changes to other files
+-a always,exit -F dir=/etc/NetworkManager/ -F perm=wa -k network_modifications
+-w /etc/sysconfig/network -p wa -k network_modifications
 -w /etc/hosts -p wa -k network_modifications
 -w /etc/sysconfig/network -p wa -k network_modifications
 -w /etc/network/ -p wa -k network
--a always,exit -F dir=/etc/NetworkManager/ -F perm=wa -k network_modifications
--w /etc/sysconfig/network -p wa -k network_modifications
 
 # Time
 -a exit,always -F arch=b32 -S adjtimex -S settimeofday -S clock_settime -k time
@@ -175,16 +175,16 @@
 -a always,exit -F arch=b64 -S swapon -S swapoff -F auid!=-1 -k swap
 -a always,exit -F arch=b32 -S swapon -S swapoff -F auid!=-1 -k swap
 
+# Postfix configuration
+-w /etc/postfix/ -p wa -k mail
+-w /etc/aliases -p wa -k mail
+
 # Pam configuration
--w /etc/pam.d/ -p wa -k pam
--w /etc/security/limits.conf -p wa  -k pam
--w /etc/security/pam_env.conf -p wa -k pam
 -w /etc/security/namespace.conf -p wa -k pam
 -w /etc/security/namespace.init -p wa -k pam
-
-# Postfix configuration
--w /etc/aliases -p wa -k mail
--w /etc/postfix/ -p wa -k mail
+-w /etc/security/limits.conf -p wa  -k pam
+-w /etc/pam.d/ -p wa -k pam
+-w /etc/security/pam_env.conf -p wa -k pam
 
 # Systemd
 -w /bin/systemctl -p x -k systemd 
@@ -228,29 +228,29 @@
 -a always,exit -F arch=b64 -S removexattr -F auid>=500 -F auid!=4294967295 -k perm_mod
 -a always,exit -F arch=b64 -S setxattr -F auid>=500 -F auid!=4294967295 -k perm_mod
 
-# Reconnaissance
--w /usr/bin/whoami -p x -k recon
--w /etc/issue -p r -k recon
--w /etc/hostname -p r -k recon
-
-# Suspicious activity
--w /usr/bin/wget -p x -k susp_activity
--w /usr/bin/curl -p x -k susp_activity
--w /usr/bin/base64 -p x -k susp_activity
--w /bin/nc -p x -k susp_activity
--w /bin/netcat -p x -k susp_activity
--w /usr/bin/ncat -p x -k susp_activity
--w /usr/bin/ssh -p x -k susp_activity
--w /usr/bin/socat -p x -k susp_activity
+# Suspicious activities
 -w /usr/bin/wireshark -p x -k susp_activity
+-w /usr/bin/ssh -p x -k susp_activity
+-w /usr/bin/curl -p x -k susp_activity
+-w /usr/bin/ncat -p x -k susp_activity
+-w /usr/bin/base64 -p x -k susp_activity
+-w /usr/bin/wget -p x -k susp_activity
 -w /usr/bin/rawshark -p x -k susp_activity
+-w /bin/nc -p x -k susp_activity
 -w /usr/bin/rdesktop -p x -k sbin_susp
+-w /bin/netcat -p x -k susp_activity
+-w /usr/bin/socat -p x -k susp_activity
 
 # Sbin suspicious activity
--w /sbin/iptables -p x -k sbin_susp 
+-w /usr/sbin/traceroute -p x -k sbin_susp
 -w /sbin/ifconfig -p x -k sbin_susp
 -w /usr/sbin/tcpdump -p x -k sbin_susp
--w /usr/sbin/traceroute -p x -k sbin_susp
+-w /sbin/iptables -p x -k sbin_susp
+
+# Reconnaissance and information gathering
+-w /usr/bin/whoami -p x -k recon
+-w /etc/hostname -p r -k recon
+-w /etc/issue -p r -k recon
 
 # Injection, these rules watch for code injection by the ptrace facility
 # This could indicate someone trying to do something bad or just debugging
@@ -267,10 +267,13 @@
 -a always,exit -F dir=/home -F uid=0 -F auid>=1000 -F auid!=4294967295 -C auid!=obj_uid -k power_abuse
 
 # Apt-get and dpkg
--w /usr/bin/dpkg -p x -k software_mgmt
--w /usr/bin/apt-add-repository -p x -k software_mgmt
 -w /usr/bin/apt-get -p x -k software_mgmt
+-w /usr/bin/apt-add-repository -p x -k software_mgmt
 -w /usr/bin/aptitude -p x -k software_mgmt
+-w /usr/bin/dpkg -p x -k software_mgmt
+
+# CHEF
+-w /etc/chef -p wa -k soft_chef
 
 # GDS specific secrets
 -w /etc/puppet/ssl -p wa -k puppet_ssl
@@ -279,23 +282,19 @@
 -a exit,always -F arch=b64 -S open -F dir=/opt/BESClient -F success=0 -k soft_besclient
 -w /var/opt/BESClient/ -p wa -k soft_besclient
 
-# CHEF
--w /etc/chef -p wa -k soft_chef
-
 # Root command executions 
 -a exit,always -F arch=b64 -F euid=0 -S execve -k rootcmd
 -a exit,always -F arch=b32 -F euid=0 -S execve -k rootcmd
 
-# File Deletion Events by User
--a always,exit -F arch=b32 -S rmdir -S unlink -S unlinkat -S rename -S renameat -F auid>=500 -F auid!=4294967295 -k delete
--a always,exit -F arch=b64 -S rmdir -S unlink -S unlinkat -S rename -S renameat -F auid>=500 -F auid!=4294967295 -k delete
-
-# File Access
-# Unauthorized Access
+# Unauthorized file Access
 -a always,exit -F arch=b32 -S creat -S open -S openat -S open_by_handle_at -S truncate -S ftruncate -F exit=-EACCES -F auid>=500 -F auid!=4294967295 -k file_access
 -a always,exit -F arch=b32 -S creat -S open -S openat -S open_by_handle_at -S truncate -S ftruncate -F exit=-EPERM -F auid>=500 -F auid!=4294967295 -k file_access
 -a always,exit -F arch=b64 -S creat -S open -S openat -S open_by_handle_at -S truncate -S ftruncate -F exit=-EACCES -F auid>=500 -F auid!=4294967295 -k file_access
 -a always,exit -F arch=b64 -S creat -S open -S openat -S open_by_handle_at -S truncate -S ftruncate -F exit=-EPERM -F auid>=500 -F auid!=4294967295 -k file_access
+
+# File Deletion Events by User
+-a always,exit -F arch=b32 -S rmdir -S unlink -S unlinkat -S rename -S renameat -F auid>=500 -F auid!=4294967295 -k delete
+-a always,exit -F arch=b64 -S rmdir -S unlink -S unlinkat -S rename -S renameat -F auid>=500 -F auid!=4294967295 -k delete
 
 # Unsuccessful Creation
 -a always,exit -F arch=b32 -S creat,link,mknod,mkdir,symlink,mknodat,linkat,symlinkat -F exit=-EACCES -k file_creation
