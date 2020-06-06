@@ -1,7 +1,6 @@
 #!/bin/bash
 
-disable_uncommon_network_protocols() 
-{
+disable_uncommon_network_protocols() {
   # Disables uncommon network protocols
   echo "install dccp /bin/true
 install sctp /bin/true
