@@ -1,5 +1,5 @@
  #!/bin/bash
- auditd_configuration() }
+ auditd_configuration() {
   # Installs auditd
   apt install auditd
   # Configures auditd
