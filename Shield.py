@@ -1,13 +1,16 @@
 import os
 import subprocess as su
+from pathlib import Path
 
 # Exits program if the script is not run as root
 if os.getuid() != 0:
   exit("Please run this script as root")
 
 # Returning to the directory where the shell scripts are located
-v = su.check_output("cd",shell = True)
-f = su.check_output("cd Shield/Hardening_Scripts",shell = True)
+d = (str(Path.home()))
+e = ("/Shield/Hardening_Scripts")
+r = (d+e)
+os.chdir(r)
  
 def legal_banner():
   # This function adds a legal banner to /etc/motd, /etc/issue, /etc/issue.net
