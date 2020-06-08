@@ -63,7 +63,9 @@ def iptable_configuration():
 def kernel_configuration():
   # This function configures the kernel
   e = su.check_output("bash Kernel_Configuration.sh",shell = True)
-
   
+def move_tmp_to_tmpfs():
+  # This function moves /tmp to /tmpfs
+  w = su.check_output("bash Move_Tmp_To_Tmpfs.sh",shell = True)
 
   
