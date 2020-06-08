@@ -53,7 +53,14 @@ def lynis_recommended_packages_installation():
   # This function installs lynis recomended packages
   a = su.check_ouput("bash Lynis_Recomended_Packages.sh",shell = True)
 
-  
+def iptable_configuration():
+  # This function configures the iptables
+  t = su.check_output("bash Iptable_Configuration.sh",shell = True)
+
+def kernel_configuration():
+  # This function configures the kernel
+  e = su.check_output("bash Kernel_Configuration.sh",shell = True)
+
   
 
   
