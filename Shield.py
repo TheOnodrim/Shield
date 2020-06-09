@@ -102,3 +102,15 @@ def secure_ssh():
       PermitRootLogin no
       ''' % v)
     f = su.check_output("Secure_Ssh.sh",shell = True)
+
+def setup_aide():
+  # This function setsup aide
+  b = su.check_output("Setup_Aide.sh",shell = True)
+  
+def update_upgrade():
+  # This function updates and upgrades your system
+  y = su.check_output("Update_Upgrade.sh",shell = True)
+
+def reboot():
+  # This function reboots the system to save all changes made
+  e = su.check_output("sudo reboot",shell = True)
