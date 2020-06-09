@@ -27,7 +27,7 @@
 Photo Source: https://image.freepik.com/free-vector/golden-shield-retro-design_12454-5380.jpg
 
 Shield is a zero configuration, single file python script made to be run to harden and secure your Debian or Debian based OS.
-The python script is used to create a UI and automate bash hardening scripts.
+The python script is mainly used to create a UI and automate bash hardening scripts.
 
 - Zero installation 
 - Zero configuration
@@ -65,13 +65,13 @@ This shell script reverts the ssh port to `652`, and it restricts the ssh key to
 - Installs packages recommended by lynis
 - Moves /tmp to /tmpfs
 - Purges old and removed packages
-- Remounts /tmp, /proc, /dev, /run to be more restrictive
+- Remounts  /dev, /tmp, /run and /proc to be more restrictive
 - Restricts access to compilers
 - Restricts access to /root 
 - Restricts firewall to only allow ssh on port `652`
 - Restricts logins
 - Restricts ssh, and enables ssh only for the admin user
-- Updates system packages
+- Updates system packages and the package list
 
 ## Contributing:
 Please open issues and pull requests on anything you come across.
