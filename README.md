@@ -26,12 +26,7 @@
 
 Photo Source: https://image.freepik.com/free-vector/golden-shield-retro-design_12454-5380.jpg
 
-Shield is a zero configuration, single file python script made to be run to harden and secure your Debian or Debian based OS.
-The python script is mainly used to create a UI and automate bash hardening scripts.
-
-- Zero installation 
-- Zero configuration
-- Single file python script
+Shield is a single file python script, and a folder of hardening scripts, made to be run to harden and secure your Debian or Debian based OS. The python script is mainly used to create a UI and automate the running of bash hardening scripts.
 
 ## Usage:
 Clone the script and follow these instruction below, and then run it as root and select which sections to run when prompted.
@@ -48,7 +43,7 @@ This shell script reverts the ssh port to `652`, and it restricts the ssh key to
 - Debian 8
 - Debian based OS's
 
-## What does this python script do?
+## What do the hardening scripts do?
 - Adds a legal banner to /etc/motd, /etc/issue and /etc/issue.net
 - Adds an automatic updater
 - Adds a daily cronjob to update system packages on the server
