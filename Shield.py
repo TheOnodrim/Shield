@@ -68,4 +68,37 @@ def move_tmp_to_tmpfs():
   # This function moves /tmp to /tmpfs
   w = su.check_output("bash Move_Tmp_To_Tmpfs.sh",shell = True)
 
+def purge_old_removed_packages():
+  # This function purges old and removed packages
+  z = su.check_output("bash Purges_Old_Removed_Packages.sh",shell = True)
+
+def remount_directories_with_restrictions():
+  # This function remount directories with restrictions
+  l = su.check_output("bash Remount_Directories_With_Restrictions.sh",shell = True)
+
+def restrict_access_to_compilers():
+  # This function restricts access to compilers
+  r = su.check_output("bash Restrict_Access_To_Compilers.sh",shell = True)
+
+def restrict_logins():
+  # This function restricts logins
+  x = su.check_output("bash Restrict_Logins.sh",shell = True)
   
+def revert_root_permissions():
+  # This function reverts /root permissions
+  q = su.check_output("bash Revert_Root_Permission.sh",shell = True)
+
+def secure_ssh():
+  # This function secures ssh
+  v = input("Please enter the adminstrators username:")
+  d = su.check_output("getent group sudo | cut -d: -f4",shell = True)
+  while v not in d:
+    print("Please enter a valid username:")
+    v = input("Please enter the adminstrators username:")
+  if v in d:
+    with open("/etc/ssh/sshd_config","a") as ssconf:
+      ssconf.append('''
+      AllowUsers %s
+      PermitRootLogin no
+      ''' % v)
+    f = su.check_output("Secure_Ssh.sh",shell = True)
