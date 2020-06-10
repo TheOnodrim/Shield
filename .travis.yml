@@ -1,9 +1,5 @@
 language: python
 python:
-before_install:  
-  - apt install python-pip
-  - apt install python3-pip
-  - python -m pip install --upgrade pip
 cache: pip
   - "2.7"
   - "3.8.3"
@@ -12,3 +8,7 @@ install:
 os: linux
 dist: bionic
 sudo: required
+before_install:  
+  - apt install python-pip
+  - apt install python3-pip
+  - python -m pip install --upgrade pip
