@@ -11,10 +11,6 @@ d = (str(Path.home()))
 e = ("/Shield/Hardening_Scripts")
 r = (d+e)
 os.chdir(r)
- 
-def legal_banner():
-  # This function adds a legal banner to /etc/motd, /etc/issue, /etc/issue.net
-  g = su.check_output("bash Legal_Banner.sh",shell = True)
 
 def auditd_configuration():
   # This function downloads auditd and configures it with reasonable rules
@@ -52,6 +48,10 @@ def fail2ban_installation():
   # This function installs fail2ban
   b = su.check_output("bash Fail2ban_Installation.sh",shell = True)
 
+def legal_banner():
+  # This function adds a legal banner to /etc/motd, /etc/issue, /etc/issue.net
+  g = su.check_output("bash Legal_Banner.sh",shell = True)
+  
 def lynis_recommended_packages_installation():
   # This function installs lynis recomended packages
   a = su.check_ouput("bash Lynis_Recomended_Packages.sh",shell = True)
@@ -114,29 +114,70 @@ def reboot():
   e = su.check_output("sudo reboot",shell = True)
 
 # UI
-def prGreen(srt): 
+def prGreen(srt):
+  # This function prints a string in a green color
   print("\033[92m {}\033[00m".format(srt))
-
+  
 def prRed(trs):
+  # This function prints a string in a red color
   print("\033[91m {}\033[00m".format(trs))
 
-prRed("\t\tShield")
-prGreen("\t\tLiscence: GNU GPL v3.0")
-prRed("\t\tCreated by: Jan Heymann")
+def callfunc(v):
+  # This function calls other functions
+  d = v
+  return d()
+
+def Input(d,s):
+  # This function gives users a choice, via user input for which aspects of their computer they would like to harden
+  # As well as those they do not want to harden
+  while True:
+    cont = input(d + "[y/N]")
+    while cont.lower() not in ("y","n"):
+        print("Please enter a valid response :")
+        cont = input(d+"[y/N]?")   
+    if cont == "N":
+        break
+        pass
+    if cont == "y":
+      callfunc(s)
+      break
+  return d()
+prRed(".          Shield")
+prGreen("  Liscence: GNU GPL v3.0")
+prRed("    Created by: Jan Heymann")
 prGreen("Usage: Shield [Command]")
 prRed("Commands:")
 prGreen("-sysharden Begin the system audit and harden")
 prRed("-info Display project information")
 while True:
   v = input("Please enter a command according to the usage stated above:")
-  while v != "Shield -sysharden" or "Shield -info":
+  while v not in ("Shield -sysharden", "Shield -info"):
     prGreen("Please enter a valid command")
+    v = input("Please enter a command according to the usage stated above:")
   if v == "Shield -sysharden":
-    pass
+    Input("Would you like to install auditd and configure it with reasonable rules on your system",auditd_configuration)
+    Input("Would you like to allow automatic updates on your system",automatic_updates)
+    Input("Would you like to disable core dumps on your system",disable_core_dumps)
+    Input("Would you like to disable firewire storage on your system",disable_firewire)
+    Input("Would you like to disable usb storage on your system",disable_usb)
+    Input("Would you like to disable uncommon filesystems on your system",disable_uncommon_filesystems)
+    Input("Would you like to disable uncommon network protocols on your system",disable_uncommon_network_protocols)
+    Input("Would you like to enable process accounting on your system",enable_process_accounting)
+    Input("Would you like to install fail2ban on your system",fail2ban_installation)
+    Input("Would you like to install iptables and configure the iptables on your system",iptable_configuration)
+    Input("Would you like to configure your kernel on your system",kernel_configuration)
+    Input("Would you like to add a legal banner to your system",legal_banner)
+    Input("Would you like to install lynis recommended packages on your system",lynis_recommended_packages_installation)
+    Input("Would you like to move /tmp to /tmpfs on your system",move_tmp_to_tmpfs)
+    Input("Would you like to purge old and removed packages on your system",purge_old_removed_packages)
+    Input("Would you like to remount directories on your system with restrictions",remount_directories_with_restrictions)
+    Input("Would you like to restrict access to compilers on your system",restrict_access_to_compilers)
+    Input("Would you like to restrict logins on your system",restrict_logins)
+    Input("Would you like to revert /root permissions on your system",revert_root_permissions)
+    Input("Would you like to secure ssh on your system",secure_ssh)
+    Input("Would you like to install and setup aide on your system",setup_aide)
+    Input("Would you like to update your system package list and upgrade your system packages on your system",update_upgrade) 
   if v == "Shield -info":
     prRed('''Shield was created on May 27 2020, by Jan Heymann with the purpose of creating a Debian hardener.
-    Shield does many things to harden your system, for example Shield 
-         
-
-
-
+    Shield does many things to harden your system, for example Shield purges old and removed packages to remove
+    the vulnerability they pose.''')
