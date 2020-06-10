@@ -1,1 +1,14 @@
-
+language: python
+python:
+before_install:  
+  - apt install python-pip
+  - apt install python3-pip
+  - python -m pip install --upgrade pip
+cache: pip
+  - "2.7"
+  - "3.8.3"
+install:
+  - pip install -r requirments.txt
+os: linux
+dist: bionic
+sudo: required
