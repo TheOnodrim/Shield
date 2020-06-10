@@ -97,10 +97,8 @@ def secure_ssh():
     v = input("Please enter the adminstrators username:")
   if v in d:
     with open("/etc/ssh/sshd_config","a") as ssconf:
-      ssconf.append('''
-      AllowUsers %s
-      PermitRootLogin no
-      ''' % v)
+      ssconf.append('''AllowUsers %s
+      PermitRootLogin no''' % v)
     f = su.check_output("Secure_Ssh.sh",shell = True)
 
 def setup_aide():
@@ -114,3 +112,31 @@ def update_upgrade():
 def reboot():
   # This function reboots the system to save all changes made
   e = su.check_output("sudo reboot",shell = True)
+
+# UI
+def prGreen(srt): 
+  print("\033[92m {}\033[00m".format(srt))
+
+def prRed(trs):
+  print("\033[91m {}\033[00m".format(trs))
+
+prRed("\t\tShield")
+prGreen("\t\tLiscence: GNU GPL v3.0")
+prRed("\t\tCreated by: Jan Heymann")
+prGreen("Usage: Shield [Command]")
+prRed("Commands:")
+prGreen("-sysharden Begin the system audit and harden")
+prRed("-info Display project information")
+while True:
+  v = input("Please enter a command according to the usage stated above:")
+  while v != "Shield -sysharden" or "Shield -info":
+    prGreen("Please enter a valid command")
+  if v == "Shield -sysharden":
+    pass
+  if v == "Shield -info":
+    prRed('''Shield was created on May 27 2020, by Jan Heymann with the purpose of creating a Debian hardener.
+    Shield does many things to harden your system, for example Shield 
+         
+
+
+
