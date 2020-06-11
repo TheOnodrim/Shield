@@ -7,7 +7,7 @@ if os.getuid() != 0:
   exit("Please run this script as root")
 
 # Returning to the directory where the shell scripts are located
-r = ("/Shield/Hardening_Scripts")
+r = ("Hardening_Scripts")
 os.chdir(r)
 
 def auditd_configuration():
