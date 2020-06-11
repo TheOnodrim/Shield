@@ -10,6 +10,10 @@ if os.getuid() != 0:
 r = ("Hardening_Scripts")
 os.chdir(r)
 
+# Make every script executable
+v = ["Audid_Configuration.sh","Automatic_Updates.sh","Disable_Core_Dumps.sh","Disable_Firewire.sh","Disable_Uncommon_Filesystems.sh",
+"Disable_Uncommon_Network_Protocols.sh","Disable_USB.sh","Enable_Process_Accounting.sh","Fail2ban_Installation.sh",
+"bash Legal_Banner.sh",  
 def auditd_configuration():
   # This function downloads auditd and configures it with reasonable rules
   d = su.check_output("bash Auditd_Configuration.sh",shell = True)
