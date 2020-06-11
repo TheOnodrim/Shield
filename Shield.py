@@ -13,7 +13,7 @@ os.chdir(r)
 # Make every script executable
 qw = ["Auditd_Configuration.sh","Automatic_Updates.sh","Disable_Core_Dumps.sh","Disable_Firewire.sh","Disable_Uncommon_Filesystems.sh",
 "Disable_Uncommon_Network_Protocols.sh","Disable_USB.sh","Enable_Process_Accounting.sh","Fail2ban_Installation.sh",
-"Legal_Banner.sh","Lynis_Recomended_Packages.sh","bash Iptable_Configuration.sh","Kernel_Configuration.sh",
+"Legal_Banner.sh","Lynis_Recomended_Packages.sh","Iptable_Configuration.sh","Kernel_Configuration.sh",
 "Move_Tmp_To_Tmpfs.sh","Purges_Old_Removed_Packages.sh","Remount_Directories_With_Restrictions.sh","Restrict_Access_To_Compilers.sh",
 "Restrict_Logins.sh","Revert_Root_Permission.sh","Secure_Ssh.sh","Setup_Aide.sh","Update_Upgrade.sh"]
 
