@@ -122,10 +122,10 @@ def prRed(trs):
 
 def callfunc(v):
   # This function calls other functions
-  d = v
-  return d()
+  z = v
+  return z()
 
-def Input(d,s):
+def Input(d,z):
   # This function gives users a choice, via user input for which aspects of their computer they would like to harden
   # As well as those they do not want to harden
   while True:
@@ -137,14 +137,16 @@ def Input(d,s):
         break
         pass
     if cont == "y":
-      callfunc(s)
+      callfunc(z)
       break
   return d()
-prRed(".          Shield")
+prRed("           Shield")
 prGreen("  Liscence: GNU GPL v3.0")
 prRed("    Created by: Jan Heymann")
 prGreen("Usage: Shield [Command]")
+
 prRed("Commands:")
+
 prGreen("-sysharden Begin the system audit and harden")
 prRed("-info Display project information")
 while True:
@@ -176,6 +178,6 @@ while True:
     Input("Would you like to install and setup aide on your system",setup_aide)
     Input("Would you like to update your system package list and upgrade your system packages on your system",update_upgrade) 
   if v == "Shield -info":
-    prRed('''Shield was created on May 27 2020, by Jan Heymann with the purpose of creating a Debian hardener.
+    prGreen('''Shield was created on May 27 2020, by Jan Heymann with the purpose of creating a Debian hardener.
     Shield does many things to harden your system, for example Shield purges old and removed packages to remove
     the vulnerability they pose.''')
