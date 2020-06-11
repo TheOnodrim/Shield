@@ -34,7 +34,7 @@ def disable_core_dumps():
 
 def disable_firewire():
   # This function disables firewire
-  k = su.check_output("bash Disable_Firewire.sh")
+  k = su.check_output("bash Disable_Firewire.sh",shell = True)
   
 def disable_uncommon_filesystems():
   # This function disables uncommon filesystems
