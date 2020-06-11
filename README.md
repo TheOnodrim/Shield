@@ -34,7 +34,7 @@ Clone the script and follow these instruction below, and then run it as root and
    1. git clone https://github.com/CrystalX127/Shield.git
    2. cd Shield
    3. sudo su
-   4. python Shield.py
+   4. python3 Shield.py
 ```
 ## Warning:
 This shell script reverts the ssh port to `652`, and it restricts the ssh key to the admin user.
