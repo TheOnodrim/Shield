@@ -139,7 +139,6 @@ def Input(d,z):
     if cont == "y":
       callfunc(z)
       break
-  return d()
 prRed("           Shield")
 prGreen("  Liscence: GNU GPL v3.0")
 prRed("    Created by: Jan Heymann")
