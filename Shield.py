@@ -151,10 +151,10 @@ def Input(d,z):
       break
 prRed("           Shield")
 prGreen("  Liscence: GNU GPL v3.0")
-prRed("    Created by: Jan Heymann")
+prRed("    Created by: Jan Heymann\n")
 prGreen("Usage: Shield [Command]")
 
-prRed("Commands:")
+prRed("Commands:\n")
 
 prGreen("-sysharden Begin the system audit and harden")
 prRed("-info Display project information")
