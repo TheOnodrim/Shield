@@ -184,7 +184,7 @@ while True:
     Input("Would you like to restrict logins on your system",restrict_logins)
     Input("Would you like to revert /root permissions on your system",revert_root_permissions)
     Input("Would you like to secure ssh on your system",secure_ssh)
-    Input("Would you like to install and setup aide on your system",setup_aide)
+    Input("Would you like to setup aide on your system",setup_aide)
     Input("Would you like to update your system package list and upgrade your system packages on your system",update_upgrade) 
   if v == "Shield -info":
     prGreen('''Shield was created on May 27 2020, by Jan Heymann with the purpose of creating a Debian hardener.
