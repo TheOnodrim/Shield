@@ -5,4 +5,4 @@ automatic_updates() {
   apt install unattended-upgrades 
   dpkg-reconfigure -plow unattended-upgrades
 }
-automatic_update
+automatic_updates
