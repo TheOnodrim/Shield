@@ -149,6 +149,14 @@ def Input(d,z):
     if cont == "y":
       callfunc(z)
       break
+ qer="""\  
+      ######   ##       ##  ################# #############  ##                  ##########               
+      ##       ##       ##         ##         ##             ##                  ##       ###                  
+      ##       ##       ##         ##         ##             ##                  ##         ##       
+      ##       ###########         ##         ############   ##                  ##        ##
+      ##       ##       ##         ##         ##             ##                  ##       ###      
+ #######       ##       ##  ################# #############  #################   ###########"""
+prGreen(qer)
 prRed("           Shield")
 prGreen("  Liscence: GNU GPL v3.0")
 prRed("    Created by: Jan Heymann\n")
@@ -187,6 +195,8 @@ while True:
     Input("Would you like to setup aide on your system",setup_aide)
     Input("Would you like to update your system package list and upgrade your system packages on your system",update_upgrade) 
   if v == "Shield -info":
-    prGreen('''Shield was created on May 27 2020, by Jan Heymann with the purpose of creating a Debian hardener.
+    v = prGreen("""\
+    Shield was created on May 27 2020, by Jan Heymann with the purpose of creating a Debian hardener.
     Shield does many things to harden your system, for example Shield purges old and removed packages to remove
-    the vulnerability they pose.''')
+    the vulnerability they pose.
+    """)
