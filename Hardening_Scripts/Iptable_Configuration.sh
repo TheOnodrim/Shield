@@ -9,7 +9,7 @@ iptable_configuration() {
   
   # Installs prips
   apt-get install prips
-  ip=$(prips 0.0.0.0 255.255.255.255)
+  ip=$(prips 0.0.0.0 239.255.255.255)
   
   # Blocks and rejects all ip addresses
   for i in ip
