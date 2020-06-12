@@ -12,8 +12,7 @@ os.chdir(r)
 
 # Make every script executable
 qw = ["Auditd_Configuration.sh","Automatic_Updates.sh","Disable_Core_Dumps.sh","Disable_Firewire.sh","Disable_Uncommon_Filesystems.sh",
-"Disable_Uncommon_Network_Protocols.sh","Disable_USB.sh","Enable_Process_Accounting.sh","Fail2ban_Installation.sh",
-"Legal_Banner.sh","Lynis_Recomended_Packages.sh","Iptable_Configuration.sh","Kernel_Configuration.sh",
+"Disable_Uncommon_Network_Protocols.sh","Disable_USB.sh","Fail2ban_Installation.sh","Legal_Banner.sh","Lynis_Recomended_Packages.sh","Iptable_Configuration.sh","Kernel_Configuration.sh",
 "Move_Tmp_To_Tmpfs.sh","Purge_Old_Removed_Packages.sh","Remount_Directories_With_Restrictions.sh","Restrict_Access_To_Compilers.sh",
 "Restrict_Logins.sh","Revert_Root_Permission.sh","Secure_Ssh.sh","Setup_Aide.sh","Update_Upgrade.sh"]
 
@@ -47,10 +46,6 @@ def disable_uncommon_network_protocols():
 def disable_usb():
   # This function disables usb
   y = su.check_output("bash Disable_USB.sh",shell = True)
-
-def enable_process_accounting():
-  # This function enables process accounting
-  s = su.check_output("bash Enable_Process_Accounting.sh",shell = True)
 
 def fail2ban_installation():
   # This function installs fail2ban
@@ -179,7 +174,6 @@ while True:
     Input("Would you like to disable usb storage on your system",disable_usb)
     Input("Would you like to disable uncommon filesystems on your system",disable_uncommon_filesystems)
     Input("Would you like to disable uncommon network protocols on your system",disable_uncommon_network_protocols)
-    Input("Would you like to enable process accounting on your system",enable_process_accounting)
     Input("Would you like to install fail2ban on your system",fail2ban_installation)
     Input("Would you like to install iptables and configure the iptables on your system",iptable_configuration)
     Input("Would you like to configure your kernel on your system",kernel_configuration)
