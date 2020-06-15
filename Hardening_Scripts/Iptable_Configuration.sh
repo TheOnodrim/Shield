@@ -148,10 +148,5 @@ iptable_configuration() {
   iptables -t mangle -A PREROUTING -p tcp --tcp-flags ALL FIN,PSH,URG -j DROP
   iptables -t mangle -A PREROUTING -p tcp --tcp-flags ALL SYN,FIN,PSH,URG -j DROP
   iptables -t mangle -A PREROUTING -p tcp --tcp-flags ALL SYN,RST,ACK,FIN,URG -j DROP
-
-  
-  # Saves iptable configurations
-  iptables-save > /etc/iptables/rules.v4
-  ip6tables-save > /etc/iptables/rules.v6
 }
 iptable_configuration
