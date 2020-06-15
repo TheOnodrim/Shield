@@ -25,8 +25,9 @@ def auditd_configuration():
 
 def automatic_updates():
   # This function enables automatic updates
-  h = os.popen("bash Automatic_Updates.sh",)
-def disable_core_dumps():
+  h = os.popen("bash Automatic_Updates.sh")
+
+  def disable_core_dumps():
   # This function disables core dumps
   j = os.popen("bash Disable_Core_Dumps.sh")
 
