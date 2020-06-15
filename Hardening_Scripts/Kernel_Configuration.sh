@@ -33,6 +33,7 @@ kernel.randomize_va_space: 2
 net.ipv6.conf.all.accept_redirects: 0
 net.ipv6.conf.default.accept_redirects: 0
 net.ipv4.icmp_ignore_bogus_error_responses: 1
+net.ipv4.conf.all.promote_secondaries : 1
 kernel.yama.ptrace_scope: 1" > /etc/sysctl.d/80-lockdown.conf
   sysctl --system  
 }
