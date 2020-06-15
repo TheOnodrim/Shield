@@ -21,43 +21,42 @@ for i in qw:
   
 def auditd_configuration():
   # This function downloads auditd and configures it with reasonable rules
-  d = su.check_output("bash Auditd_Configuration.sh",shell = True)
+  d = os.popen("bash Auditd_Configuration.sh")
 
 def automatic_updates():
   # This function enables automatic updates
-  h = su.check_output("bash Automatic_Updates.sh",shell = True)
-
+  h = os.popen("bash Automatic_Updates.sh",)
 def disable_core_dumps():
   # This function disables core dumps
-  j = su.check_output("bash Disable_Core_Dumps.sh",shell = True)
+  j = os.popen("bash Disable_Core_Dumps.sh")
 
 def disable_firewire():
   # This function disables firewire
-  k = su.check_output("bash Disable_Firewire.sh",shell = True)
+  k = os.popen("bash Disable_Firewire.sh")
   
 def disable_uncommon_filesystems():
   # This function disables uncommon filesystems
-  t = su.check_output("bash Disable_Uncommon_Filesystems.sh",shell = True)
+  t = so.popen("bash Disable_Uncommon_Filesystems.sh")
 
 def disable_uncommon_network_protocols():
   # This function disables uncommon network protocols
-  u = su.check_output("bash Disable_Uncommon_Network_Protocols.sh",shell = True)
+  u = os.popen("bash Disable_Uncommon_Network_Protocols.sh")
 
 def disable_usb():
   # This function disables usb
-  y = su.check_output("bash Disable_USB.sh",shell = True)
+  y = os.popen("bash Disable_USB.sh")
 
 def fail2ban_installation():
   # This function installs fail2ban
-  b = su.check_output("bash Fail2ban_Installation.sh",shell = True)
+  b = os.popen("bash Fail2ban_Installation.sh")
 
 def legal_banner():
   # This function adds a legal banner to /etc/motd, /etc/issue, /etc/issue.net
-  g = su.check_output("bash Legal_Banner.sh",shell = True)
+  g = os.popen("bash Legal_Banner.sh",shell = True)
   
 def lynis_recommended_packages_installation():
   # This function installs lynis recomended packages
-  a = su.check_ouput("bash Lynis_Recomended_Packages.sh",shell = True)
+  a = os.popen("bash Lynis_Recomended_Packages.sh")
 
 def iptable_configuration():
   # This function configures the iptables
@@ -65,36 +64,36 @@ def iptable_configuration():
 
 def kernel_configuration():
   # This function configures the kernel
-  e = su.check_output("bash Kernel_Configuration.sh",shell = True)
+  e = os.popen("bash Kernel_Configuration.sh")
   
 def move_tmp_to_tmpfs():
   # This function moves /tmp to /tmpfs
-  w = su.check_output("bash Move_Tmp_To_Tmpfs.sh",shell = True)
+  w = os.popen("bash Move_Tmp_To_Tmpfs.sh")
 
 def purge_old_removed_packages():
   # This function purges old and removed packages
-  z = su.check_output("bash Purge_Old_Removed_Packages.sh",shell = True)
+  z = os.popen("bash Purge_Old_Removed_Packages.sh")
 
 def remount_directories_with_restrictions():
   # This function remount directories with restrictions
-  l = su.check_output("bash Remount_Directories_With_Restrictions.sh",shell = True)
+  l = os.popen("bash Remount_Directories_With_Restrictions.sh")
 
 def restrict_access_to_compilers():
   # This function restricts access to compilers
-  r = su.check_output("bash Restrict_Access_To_Compilers.sh",shell = True)
+  r = os.popen("bash Restrict_Access_To_Compilers.sh")
 
 def restrict_logins():
   # This function restricts logins
-  x = su.check_output("bash Restrict_Logins.sh",shell = True)
+  x = os.popen("bash Restrict_Logins.sh")
   
 def revert_root_permissions():
   # This function reverts /root permissions
-  q = su.check_output("bash Revert_Root_Permission.sh",shell = True)
+  q = os.popen("bash Revert_Root_Permission.sh")
 
 def secure_ssh():
   # This function secures ssh
   v = input("Please enter the adminstrators username:")
-  d = su.check_output("getent group sudo | cut -d: -f4",shell = True)
+  d = os.popen("getent group sudo | cut -d: -f4",)
   while v not in d:
     print("Please enter a valid username:")
     v = input("Please enter the adminstrators username:")
@@ -102,19 +101,19 @@ def secure_ssh():
     with open("/etc/ssh/sshd_config","a") as ssconf:
       ssconf.append('''AllowUsers %s
       PermitRootLogin no''' % v)
-    f = su.check_output("Secure_Ssh.sh",shell = True)
+    f = os.popen("Secure_Ssh.sh")
 
 def setup_aide():
   # This function setsup aide
-  b = su.check_output("Setup_Aide.sh",shell = True)
+  b = os.popen("Setup_Aide.sh")
   
 def update_upgrade():
   # This function updates and upgrades your system
-  y = su.check_output("Update_Upgrade.sh",shell = True)
+  y = os.popen("Update_Upgrade.sh")
 
 def reboot():
   # This function reboots the system to save all changes made
-  e = su.check_output("sudo reboot",shell = True)
+  e = os.popen("sudo reboot")
 
 # UI
 def prGreen(srt):
