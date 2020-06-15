@@ -61,7 +61,7 @@ def lynis_recommended_packages_installation():
 
 def iptable_configuration():
   # This function configures the iptables
-  t = os.Popen("bash Iptable_Configuration.sh")
+  t = os.popen("bash Iptable_Configuration.sh")
 
 def kernel_configuration():
   # This function configures the kernel
