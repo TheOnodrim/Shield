@@ -1,5 +1,4 @@
 import os
-from subprocess import PIPE
 import subprocess as su
 from pathlib import Path
 
@@ -62,7 +61,7 @@ def lynis_recommended_packages_installation():
 
 def iptable_configuration():
   # This function configures the iptables
-  t = su.Popen("bash Iptable_Configuration.sh",stdin=PIPE,stdout=PIPE)
+  t = os.Popen("bash Iptable_Configuration.sh")
 
 def kernel_configuration():
   # This function configures the kernel
