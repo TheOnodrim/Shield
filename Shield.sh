@@ -557,8 +557,8 @@ restrict_access_to_compilers() {
   # Restricts access to compilers
   if [ -d "/usr/bin/as" ]
   then
-  chmod o-x /usr/bin/as /usr/bin/g++ /usr/bin/gcc
-  chmod o-r /usr/bin/as /usr/bin/g++ /usr/bin/gcc
+  chmod o-x /usr/bin/as 
+  chmod o-r /usr/bin/as 
   chmod o-w /usr/bin/as
   fi
   
