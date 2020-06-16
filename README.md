@@ -31,10 +31,9 @@ Shield is a single file python script, and a folder of hardening scripts, made t
 ## Usage:
 Clone the script and follow these instruction below, and then run it as root and select which sections to run when prompted.
 ```
-   1. git clone https://github.com/CrystalX127/Shield.git
-   2. cd Shield
-   3. sudo su
-   4. python3 Shield.py
+   1. wget https://raw.githubusercontent.com/CrystalX127/Shield/master/Shield.sh
+   2. chmod +x Shield.sh
+   3. ./Shield.sh
 ```
 ## Warning:
 This shell script reverts the ssh port to `652`, and it restricts the ssh key to the admin user.
