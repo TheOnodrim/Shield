@@ -652,26 +652,23 @@ Shield does many things to harden your system, for example Shield purges old and
 the vulnerability they pose${NC}"
 
 echo -e "${RED}                 Shield:            ${NC}"
-echo -e "${GREEN}=========================================${NC}"
-echo -e "${RED}=========================================${NC}"
-echo -e "${GREEN}        Created by: Jan Heymann${NC}"   
+echo -e "${GREEN}=========================================${NC}" 
 echo -e "${RED}     GNU GPL v3.0 Public Liscence${NC}"
 echo -e "${GREEN}     GNU GPL v3.0 Public Liscence${NC}"
 
 echo -e "${RED}Usage: Shield [command]${NC}"
 echo -e "${GREEN}Commands:${NC}"
-echo -e "${RED}Commands:${NC}"
-echo -e "${GREEN}=======================${NC}"
-echo -e "${RED}--sysharden Run the system hardener and auditor${NC}"
-echo -e "${GREEN}--info Display project information${NC}"
+echo -e "${RED}=======================${NC}"
+echo -e "${GREEN}--sysharden Run the system hardener and auditor${NC}"
+echo -e "${RED}--info Display project information${NC}"
 while true
 do
 echo -n "Please enter a command, according to the usage stated above:" 
 read -r a
 case $a in
   "Shield --sysharden")
-    initiate_function add_legal_manner "Would you like to add a legal banner to /etc/issue, /etc/issue.net and /etc/motd? on your system"
-    intiate_function auditd_configuration "Would you like to install and configure auditd with reasonable rules on your system?"
+    initiate_function add_legal_banner "Would you like to add a legal banner to /etc/issue, /etc/issue.net and /etc/motd? on your system"
+    initiate_function auditd_configuration "Would you like to install and configure auditd with reasonable rules on your system?"
     initiate_function automatic_updates "Would you like to enable automatic update on your systems?"
     initiate_function disable_core_dumps "Would you like to disable core dumps on your system?"
     initiate_function disable_firewire "Would you like to disable firewire on your system?"
@@ -694,7 +691,7 @@ case $a in
     initiate_function upgrade_update "Would you like to upgrade your system packages and upgrade your system package list on your system?"
     ;;
   "Shield --info")
-    echo "$info"
+    echo -e "$info"
     ;;
   *)
     echo -e "Please enter a valid command"
