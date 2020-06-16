@@ -141,9 +141,6 @@ auditd_configuration() {
 # Change swap 
 -a always,exit -F arch=b64 -S swapon -S swapoff -F auid!=-1 -k swap
 -a always,exit -F arch=b32 -S swapon -S swapoff -F auid!=-1 -k swap
-# Postfix configuration
--w /etc/postfix/ -p wa -k mail
--w /etc/aliases -p wa -k mail
 # Pam configuration
 -w /etc/security/namespace.conf -p wa -k pam
 -w /etc/security/namespace.init -p wa -k pam
