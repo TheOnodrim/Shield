@@ -1,3 +1,4 @@
+#!/bin/bash
 auditd_configuration() {
   # Installs auditd
   apt-get install auditd
@@ -336,7 +337,7 @@ iptable_configuration() {
   _ips=("172.31.250.10" "172.31.250.11" "172.31.250.12" "172.31.250.13")
   for ip in "${_ips[@]}" ; do
     iptables -A PREROUTING -i eth0 -p tcp --dport 80 -m state --state NEW -m nth --counter 0 --every 4 --packet 0 \
-    -j DNAT --to-destination ${ip}:80
+    -j DNAT --to-destination "${ip}":80
   done
   
   # Restricts the number of connections
@@ -555,6 +556,7 @@ remount_directories_with_restrictions() {
 
 restrict_access_to_compilers() {
   # Restricts access to compilers
+  
   if [ -d "/usr/bin/as" ]
   then
   chmod o-x /usr/bin/as 
@@ -570,6 +572,7 @@ restrict_access_to_compilers() {
   fi
   
   if [ -d "/usr/bin/gcc" ]
+  then
   chmod o-x /usr/bin/gcc
   chmod o-r /usr/bin/gcc
   chmod o-w /usr/bin/gcc
@@ -663,7 +666,8 @@ echo -e "${RED}--sysharden Run the system hardener and auditor${NC}"
 echo -e "${GREEN}--info Display project information${NC}"
 while true
 do
-read -p "Please enter a command, according to the usage stated above:" a
+echo -n "Please enter a command, according to the usage stated above:" 
+read -r a
 case $a in
   "Shield --sysharden")
     initiate_function add_legal_manner "Would you like to add a legal banner to /etc/issue, /etc/issue.net and /etc/motd? on your system"
@@ -696,4 +700,4 @@ case $a in
     echo -e "Please enter a valid command"
     ;;
 esac
-
+done
