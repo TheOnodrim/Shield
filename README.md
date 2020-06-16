@@ -31,9 +31,10 @@ Shield is a single file bash script, and a folder of hardening scripts, made to 
 ## Usage:
 Clone the script and follow these instruction below, and then run it as root and select which sections to run when prompted.
 ```
-   1. wget https://raw.githubusercontent.com/CrystalX127/Shield/master/Shield.sh?token=APSHKPC3ULIZVOQYSZ7ORDS65EI6W
-   2. chmod +x Shield.sh
-   3. ./Shield.sh
+   1. git clone https://github.com/CrystalX127/Shield.git
+   2. cd Shield
+   3. chmod +x Shield.sh
+   4. ./Shield.sh
 ```
 ## Warning:
 This shell script reverts the ssh port to `652`, and it restricts the ssh key to the admin user.
