@@ -29,7 +29,7 @@ def automatic_updates():
 
 def disable_core_dumps():
   # This function disables core dumps
-  j = su.check_output("bash Disable_Core_Dumps.sh",shell = True)
+  j = os.popen("bash Disable_Core_Dumps.sh")
 
 def disable_firewire():
   # This function disables firewire
