@@ -8,10 +8,10 @@
 
 <p align="center">
   <a href="https://github.com/CrystalX127/Shield.git">
-      <img src="https://img.shields.io/badge/Liscence-MIT-informational?style=flat-square&logo=appveyor">
+      <img src="https://img.shields.io/badge/Liscence-GNU GPL v.3.0-informational?style=flat-square&logo=appveyor">
   </a>
   <a href="https://github.com/CrystalX127/Shield.git">
-      <img src="https://img.shields.io/badge/Language-Python and Bash-9cf?style=flat-square&logo=appveyor" >
+      <img src="https://img.shields.io/badge/Language-Bash-9cf?style=flat-square&logo=appveyor" >
   </a>
   <a href="https://github.com/CrystalX127/Shield.git">
     <img src="https://img.shields.io/badge/Repository Status-Active-success?style=flat-square&logo=appveyor">
@@ -20,13 +20,13 @@
       <img src="https://img.shields.io/badge/Contributions-Welcome-yellow?style=flat-square&logo=appveyor">
   </a>
   <a href="https://github.com/CrystalX127/Shield.git">
-      <img src="https://img.shields.io/badge/Build-Passing-orange?style=flat-square&logo=appveyor">
+      <img src="https://img.shields.io/badge/Build-Passing-success?style=flat-square&logo=appveyor">
   </a>
 </p>
 
 Photo Source: https://image.freepik.com/free-vector/golden-shield-retro-design_12454-5380.jpg
 
-Shield is a single file python script, and a folder of hardening scripts, made to be run to harden and secure your Debian or Debian based OS. The python script is mainly used to create a UI and automate the running of bash hardening scripts.
+Shield is a single file bash script, and a folder of hardening scripts, made to be run to harden and secure your Debian or Debian based OS.
 
 ## Usage:
 Clone the script and follow these instruction below, and then run it as root and select which sections to run when prompted.
@@ -37,6 +37,7 @@ Clone the script and follow these instruction below, and then run it as root and
 ```
 ## Warning:
 This shell script reverts the ssh port to `652`, and it restricts the ssh key to the admin user.
+
 ## Supported OS types:
 - Debian 10
 - Debian 8
@@ -69,6 +70,3 @@ This shell script reverts the ssh port to `652`, and it restricts the ssh key to
 
 ## Contributing:
 Please open issues and pull requests on anything you come across.
-
-## Dependencies:
-Python must be installed on you computer and you must have a python version of 3.5 or higher.
