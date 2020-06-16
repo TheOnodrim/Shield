@@ -652,11 +652,11 @@ for example Shield purges old and removed packages to remove
 the vulnerability they pose${NC}"
 
 echo -e "${RED}             Shield:            ${NC}"
-echo -e "${GREEN} ============================${NC}\n" 
+echo -e "${GREEN} ============================${NC}" 
 echo -e "${RED}    Created by: Jan Heymann${NC}"
 echo -e "${GREEN}   GNU GPL v3.0 Public Liscence${NC}\n"
 echo -e "${RED}Usage: Shield [Command]${NC}\n"
-echo -e "${GREEN}Commands:${NC}"\n
+echo -e "${GREEN}Commands:${NC}\n"
 echo -e "${RED}=======================${NC}"
 echo -e "${GREEN}-sysharden Run the system hardener and auditor${NC}"
 echo -e "${RED}-info Display project information${NC}"
@@ -675,7 +675,6 @@ case $a in
     initiate_function disable_uncommon_filesystems "Would you like to disable uncommon filesystems on your system?"
     initiate_function disable_uncommon_network_protocols "Would you like to disable uncommon network protocol on your systems?"
     initiate_function disable_usb "Would you like to disable usb on your system?"
-    initiate_function enable_process_accounting "Would you like to enable process accounting on your system?"
     initiate_function fail2ban_installation "Would you like to install fail2ban on your system?"
     initiate_function install_lynis_recommended_packages "Would you like to install lynis reccomended packages on your system?"
     initiate_function iptable_configuration "Would you like to install and configure iptables on your system?"
