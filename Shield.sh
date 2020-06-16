@@ -656,11 +656,14 @@ the vulnerability they pose${NC}"
 
 echo -e "${RED}             Shield:            ${NC}"
 echo -e "${GREEN} ============================${NC}" 
+
 echo -e "${RED}    Created by: Jan Heymann${NC}"
-echo -e "${RED}   GNU GPL v3.0 Public Liscence${NC}"
+echo -e "${GREEN}   GNU GPL v3.0 Public Liscence${NC}"
 
 echo -e "${GREEN}Usage: Shield [Command]${NC}"
+
 echo -e "${RED}Commands:${NC}"
+
 echo -e "${GREEN}=======================${NC}"
 echo -e "${RED}-sysharden Run the system hardener and auditor${NC}"
 echo -e "${GREEN}-info Display project information${NC}"
