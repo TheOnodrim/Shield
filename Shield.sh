@@ -567,11 +567,13 @@ restrict_access_to_compilers() {
   chmod o-x /usr/bin/g++ 
   chmod o-r /usr/bin/g++ 
   chmod o-w /usr/bin/g++
+  fi
   
   if [ -d "/usr/bin/gcc" ]
   chmod o-x /usr/bin/gcc
   chmod o-r /usr/bin/gcc
   chmod o-w /usr/bin/gcc
+  fi
 }
 
 restrict_logins() {
