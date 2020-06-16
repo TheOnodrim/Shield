@@ -320,17 +320,6 @@ iptable_configuration() {
   iptables -A INPUT -i eth1 -s 10.0.0.0/8 -j LOG --log-prefix "IP_SPOOF A: "
   iptables -A INPUT -i eth1 -s 10.0.0.0/8 -j DROP
   
-  # Load balancing
-  _ips=("172.31.250.10" "172.31.250.11" "172.31.250.12" "172.31.250.13")
-  for ip in "${_ips[@]}" ; do
-    iptables -A PREROUTING -i eth0 -p tcp --dport 80 -m state --state NEW -m nth --counter 0 --every 4 --packet 0 \
-    -j DNAT --to-destination "${ip}":80
-  done
-  
-  # Restricts the number of connections
-  iptables -A INPUT -p tcp -m state --state NEW --dport http -m iplimit --iplimit-above 5 -j DROP
-  iptables -A FORWARD -m state --state NEW -p tcp -m multiport --dport http,https -o eth0 -i eth1 -m limit --limit 20/hour --limit-burst 5 -j ACCEPT
-  
   # Maintains a list of recent connections to match against
   iptables -A FORWARD -m recent --name portscan --rcheck --seconds 100 -j DROP
   iptables -A FORWARD -p tcp -i eth0 --dport 443 -m recent --name portscan --set -j DROP
