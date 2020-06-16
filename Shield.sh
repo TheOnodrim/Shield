@@ -652,19 +652,15 @@ for example Shield purges old and removed packages to remove
 the vulnerability they pose${NC}"
 
 echo -e "${RED}             Shield:            ${NC}"
-echo -e "${GREEN} ============================${NC}" 
-
+echo -e "${GREEN} ============================${NC}\n" 
 echo -e "${RED}    Created by: Jan Heymann${NC}"
-echo -e "${GREEN}   GNU GPL v3.0 Public Liscence${NC}"
-
-echo -e "${GREEN}Usage: Shield [Command]${NC}"
-
-echo -e "${RED}Commands:${NC}"
-
-echo -e "${GREEN}=======================${NC}"
-echo -e "${RED}-sysharden Run the system hardener and auditor${NC}"
-echo -e "${GREEN}-info Display project information${NC}"
+echo -e "${GREEN}   GNU GPL v3.0 Public Liscence${NC}\n"
+echo -e "${RED}Usage: Shield [Command]${NC}\n"
+echo -e "${GREEN}Commands:${NC}"\n
 echo -e "${RED}=======================${NC}"
+echo -e "${GREEN}-sysharden Run the system hardener and auditor${NC}"
+echo -e "${RED}-info Display project information${NC}"
+echo -e "${GREEN}=======================${NC}"
 while true
 do
 echo -n "Please enter a command, according to the usage stated above:" 
