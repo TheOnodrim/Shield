@@ -658,8 +658,7 @@ echo -e "${GREEN}Commands:${NC}"
 echo -e "${RED}Commands:${NC}"
 echo -e "${GREEN}=======================${NC}"
 echo -e "${RED}--sysharden Run the system hardener and auditor${NC}"
-echo -e "${GREEN}--sysharden Run the system hardener and auditor${NC}"
-echo -e "${RED}--info Display project information${NC}"
+echo -e "${GREEN}--info Display project information${NC}"
 while true
 do
 read -p "Please enter a command, according to the usage stated above:" a
