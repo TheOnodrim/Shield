@@ -27,7 +27,6 @@ def automatic_updates():
   # This function enables automatic updates
   h = su.check_output("bash Automatic_Updates.sh",shell = True)
 
-  h = os.popen("bash Automatic_Updates.sh",)
 def disable_core_dumps():
   # This function disables core dumps
   j = su.check_output("bash Disable_Core_Dumps.sh",shell = True)
