@@ -316,16 +316,6 @@ iptable_configuration() {
    # Flushes existing iptable rules
   iptables -F
   
-  # Installs prips
-  apt-get install prips
-  ip=$(prips 0.0.0.0 239.255.255.255)
-  
-  # Blocks and rejects all ip addresses
-  for i in ip
-  do
-    iptables -A INPUT -s ${i} -j REJECT
-  done
-  
   # Logs and drops packets
   iptables -A INPUT -i eth1 -s 10.0.0.0/8 -j LOG --log-prefix "IP_SPOOF A: "
   iptables -A INPUT -i eth1 -s 10.0.0.0/8 -j DROP
