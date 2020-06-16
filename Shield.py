@@ -135,7 +135,7 @@ def Input(d,z):
   # As well as those they do not want to harden
   while True:
     cont = input(d + "[y/N]")
-    while cont.lower() not in ("y","n"):
+    while cont not in ("y","N"):
         print("Please enter a valid response :")
         cont = input(d+"[y/N]?")   
     if cont == "N":
