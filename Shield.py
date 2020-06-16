@@ -37,7 +37,7 @@ def disable_firewire():
   
 def disable_uncommon_filesystems():
   # This function disables uncommon filesystems
-  t = so.popen("bash Disable_Uncommon_Filesystems.sh")
+  t = os.popen("bash Disable_Uncommon_Filesystems.sh")
 
 def disable_uncommon_network_protocols():
   # This function disables uncommon network protocols
