@@ -685,7 +685,7 @@ Shield was created on May 27 2020, by Jan Heymann
 with the purpose of creating a Debian hardener.
 Shield does many things to harden your system, 
 for example Shield purges old and removed packages to remove
-the vulnerability they pose${NC}"
+the vulnerability they pose.${NC}"
 
 echo -e "${RED}             Shield:            ${NC}"
 echo -e "${GREEN} ============================${NC}" 
