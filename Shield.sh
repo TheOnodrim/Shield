@@ -356,6 +356,7 @@ disable_uncommon_network_protocols() {
 install sctp /bin/true
 install tipc /bin/true
 install rds /bin/true" >> /etc/modprobe.d/protocols.conf
+  sudo apt --purge remove xinetd nis yp-tools tftpd atftpd tftpd-hpa telnetd rsh-server rsh-redone-server
 }
 
 fail2ban_installation() {
@@ -610,7 +611,7 @@ restrict_access_to_compilers() {
 }
 
 restrict_logins() {
-  # Restrics logins by configuring login.defs
+  # Restricts logins by configuring login.defs
   sed -i s/PASS_MIN_DAYS.*/PASS_MIN_DAYS\ 7/ /etc/login.defs
   sed -i s/UMASK.*/UMASK\ 027/ /etc/login.defs
   sed -i s/PASS_MAX_DAYS.*/PASS_MAX_DAYS\ 30/ /etc/login.defs
@@ -637,7 +638,7 @@ PasswordAuthentication no
 }
 
 setup_aide() {
-  # Setups aide
+  # Installs and setsup aide
   apt install aide
   aideinit
   cp /var/lib/aide/aide.db.new /var/lib/aide/aide.db
@@ -704,6 +705,7 @@ echo -n "Please enter a command, according to the usage stated above:"
 read -r a
 case $a in
   "Shield -sysharden")
+    initiate_function update_upgrade "Would you like to upgrade your system packages and upgrade your system package list on your system?"
     initiate_function add_legal_banner "Would you like to add a legal banner to /etc/issue, /etc/issue.net and /etc/motd? on your system"
     initiate_function auditd_configuration "Would you like to install and configure auditd with reasonable rules on your system?"
     initiate_function automatic_updates "Would you like to enable automatic update on your systems?"
@@ -723,7 +725,6 @@ case $a in
     initiate_function restrict_logins "Would you like to restrict logins on your system?"
     initiate_function revert_/root_permissions "Would you like to revert /root permissions on your system?"
     initiate_function secure_ssh "Would you like to secure ssh and allow ssh only for the admin user on port 652 on your system?"
-    initiate_function update_upgrade "Would you like to upgrade your system packages and upgrade your system package list on your system?"
     initiate_function setup_aide "Would you like to install and setup aide on your system (This may take awhile)?"
     ;;
   "Shield -info")
