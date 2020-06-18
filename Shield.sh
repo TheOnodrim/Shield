@@ -656,11 +656,13 @@ update_upgrade() {
   apt dist-upgrade
 }
 
+# Green color
+GREEN='\033[0;32m'
 initiate_function() {
   # Asks for user input as to which hardening programs they would like to run
   typeset -f "$1" | tail -n +2
   echo "$2"
-  echo "Run the commands above? [y/N]"
+  echo "${GREEN}Run the commands above? [y/N]"
   read -r answer
   if [ "$answer" != "${answer#[Yy]}" ] 
   then
@@ -677,7 +679,6 @@ done
 
 # UI
 RED='\033[0;31m'
-GREEN='\033[0;32m'
 NC='\033[0m'
 info="${GREEN}
 Shield was created on May 27 2020, by Jan Heymann
