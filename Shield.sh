@@ -664,8 +664,8 @@ initiate_function() {
   # Asks for user input as to which hardening programs they would like to run
   typeset -f "$1" | tail -n +2
   echo "$2"
-  echo "${GREEN}Run the commands above? [y/N]"
-  read -r answer
+  echo -ne "${GREEN}Run the commands above? [y/N]"
+  read answer
   if [ "$answer" != "${answer#[Yy]}" ] 
   then
     $1
