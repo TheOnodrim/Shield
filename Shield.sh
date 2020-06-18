@@ -723,8 +723,8 @@ case $a in
     initiate_function restrict_logins "Would you like to restrict logins on your system?"
     initiate_function revert_/root_permissions "Would you like to revert /root permissions on your system?"
     initiate_function secure_ssh "Would you like to secure ssh and allow ssh only for the admin user on port 652 on your system?"
-     initiate_function update_upgrade "Would you like to upgrade your system packages and upgrade your system package list on your system?"
-    initiate_function setup_aide "Would you like to setup aide on your system?"
+    initiate_function update_upgrade "Would you like to upgrade your system packages and upgrade your system package list on your system?"
+    initiate_function setup_aide "Would you like to install and setup aide on your system (This may take awhile)?"
     ;;
   "Shield -info")
     echo -e "$info"
