@@ -356,7 +356,6 @@ disable_uncommon_network_protocols() {
 install sctp /bin/true
 install tipc /bin/true
 install rds /bin/true" >> /etc/modprobe.d/protocols.conf
-  sudo apt --purge remove xinetd nis yp-tools tftpd atftpd tftpd-hpa telnetd rsh-server rsh-redone-server
 }
 
 fail2ban_installation() {
