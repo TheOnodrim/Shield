@@ -499,7 +499,9 @@ iptable_configuration() {
 kernel_configuration() {
   # Configures the kernel
   echo "net.ipv4.tcp_syncookies: 1
+net.ipv4.tcp_synack_retries = 5
 net.ipv4.conf.default.accept_source_route: 0
+
 kernel.core_uses_pid: 1
 net.ipv4.conf.default.rp_filter: 1
 net.ipv4.conf.all.log_martians: 1
@@ -529,6 +531,27 @@ net.ipv6.conf.all.accept_redirects: 0
 net.ipv6.conf.default.accept_redirects: 0
 net.ipv4.icmp_ignore_bogus_error_responses: 1
 net.ipv4.conf.all.promote_secondaries : 1
+fs.file-max : 65535
+net.ipv4.ip_local_port_range : 2000 65000
+net.core.rmem : 8388608
+net.core.wmem_max : 8388608
+net.core.netdev_max_backlog : 5000
+net.ipv4.tcp_window_scaling : 1
+kernel.exec-shield : 2
+kernel.randomize_va_space : 2
+net.ipv4.tcp_rmem : 4096 87380 8388608
+net.ipv4.tcp_wmem : 4096 87380 8388608
+net.ipv4.tcp_rfc1337 : 1
+net.ipv6.conf.default.max_addresses : 1
+net.ipv6.conf.default.dad_transmits : 0
+net.ipv6.conf.default.autoconf : 0
+net.ipv6.conf.default.accept_ra_defrtr : 0
+net.ipv6.conf.default.accept_ra_pinfo : 0
+net.ipv6.conf.default.router_solicitations : 0
+kernel.panic : 10
+kernel.randomize_va_space : 2
+fs.protected_hardlinks : 1
+fs.protected_symlinks : 1
 kernel.yama.ptrace_scope: 1" > /etc/sysctl.d/80-lockdown.conf
   sysctl --system  
 }
@@ -697,7 +720,8 @@ echo -e "${GREEN}Commands:${NC}\n"
 echo -e "${RED}=======================${NC}"
 echo -e "${GREEN}-sysharden Run the system hardener and auditor${NC}"
 echo -e "${RED}-info Display project information${NC}"
-echo -e "${GREEN}=======================${NC}"
+echo -e "${GREEN}-exit Exit the program${NC}"
+echo -e "${RED}=======================${NC}"
 while true
 do
 echo -n "Please enter a command, according to the usage stated above:" 
@@ -728,6 +752,10 @@ case $a in
     ;;
   "Shield -info")
     echo -e "$info"
+    ;;
+  "Shield -exit")
+    exit
+    exit
     ;;
   *)
     echo -e "Please enter a valid command"
