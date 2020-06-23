@@ -356,6 +356,9 @@ disable_uncommon_network_protocols() {
 install sctp /bin/true
 install tipc /bin/true
 install rds /bin/true" >> /etc/modprobe.d/protocols.conf
+  # Install rssh to restrict insecure network protocols
+  apt install rssh
+  
 }
 
 fail2ban_installation() {
@@ -645,6 +648,7 @@ secure_ssh() {
   # Secures ssh
   echo "
  ClientAliveCountMax 2
+ClientAliveInterval 300
 Compression no
 LogLevel VERBOSE
 MaxAuthTries 3
@@ -654,6 +658,13 @@ AllowAgentForwarding no
 AllowTcpForwarding no
 Port 652
 PasswordAuthentication no
+AuthenticationMethods publickey
+PubkeyAuthentication yes
+ChallengeResponseAuthentication no
+PermitEmptyPasswords no
+HostbasedAuthentication no
+IgnoreRhosts yes
+
 " >> /etc/ssh/sshd_config
   sed -i s/^X11Forwarding.*/X11Forwarding\ no/ /etc/ssh/sshd_config
   sed -i s/^UsePAM.*/UsePAM\ no/ /etc/ssh/sshd_config
@@ -678,6 +689,30 @@ update_upgrade() {
   
   # Does a dist upgrade, which "intelligently" handles changing dependencies
   apt dist-upgrade
+}
+
+setup_rkhunter_and_chkrootkit() {
+  
+  # Installs chkrootkit
+  apt install chkrootkit
+  
+  # Installs rkhunter
+  apt install rkhunter
+  
+  # You need to specify where both softwares should look for the commands they require to run scans to detect rootkits
+  chkrootkit -p /mnt/safe
+  rkhunter --check --bindir /mnt/safe
+  
+  # To run a rootkit scan using chkrootkit run:
+  # chkrootkit
+  
+  # To run a rootkit scan using rkhunter run:
+  # sudo rkhunter --check  
+}
+
+disable_thunderbolt() {
+  # Disables Thunderbolt
+  echo "blacklist thunderbolt" >> /etc/modprobe.d/thunderbolt.conf
 }
 
 # Green color
@@ -748,6 +783,8 @@ case $a in
     initiate_function restrict_logins "Would you like to restrict logins on your system?"
     initiate_function revert_/root_permissions "Would you like to revert /root permissions on your system?"
     initiate_function secure_ssh "Would you like to secure ssh and allow ssh only for the admin user on port 652 on your system?"
+    initiate_function setup_rkhunter_and_chkrootkit "Would you like to setup and install rkhunter and chkrootkit on your system?"
+    initiate_function disable_thunderbolt "Would you like to disable thunderbolt on your system?"
     initiate_function setup_aide "Would you like to install and setup aide on your system (This may take awhile)?"
     ;;
   "Shield -info")
