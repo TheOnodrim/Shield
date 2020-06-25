@@ -664,10 +664,15 @@ ChallengeResponseAuthentication no
 PermitEmptyPasswords no
 HostbasedAuthentication no
 IgnoreRhosts yes
-
 " >> /etc/ssh/sshd_config
   sed -i s/^X11Forwarding.*/X11Forwarding\ no/ /etc/ssh/sshd_config
   sed -i s/^UsePAM.*/UsePAM\ no/ /etc/ssh/sshd_config
+  echo -n "Please enter the adminsters username:"
+  read e
+  echo "
+AllowUsers $e
+PermitRootLogin no
+" >> /etc/ssh/sshd_config
 }
 
 setup_aide() {
@@ -713,6 +718,14 @@ setup_rkhunter_and_chkrootkit() {
 disable_thunderbolt() {
   # Disables Thunderbolt
   echo "blacklist thunderbolt" >> /etc/modprobe.d/thunderbolt.conf
+}
+
+protect_physcal_console_access {
+  grub-md5-crypt
+  echo -n "Please enter the password you received:"
+  read as
+  echo "password --md5 $as" >> /boot/grub/menu.lst
+  echo "~~:S:wait:/sbin/sulogin" >> /etc/inittab
 }
 
 # Green color
