@@ -356,9 +356,6 @@ disable_uncommon_network_protocols() {
 install sctp /bin/true
 install tipc /bin/true
 install rds /bin/true" >> /etc/modprobe.d/protocols.conf
-  # Install rssh to restrict insecure network protocols
-  apt install rssh
-  
 }
 
 fail2ban_installation() {
