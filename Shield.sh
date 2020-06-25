@@ -720,13 +720,7 @@ disable_thunderbolt() {
   echo "blacklist thunderbolt" >> /etc/modprobe.d/thunderbolt.conf
 }
 
-protect_physcal_console_access {
-  
-  # Creates a grub boot loader password
-  grub-md5-crypt
-  echo -n "Please enter the password you received:"
-  read as
-  echo "password --md5 $as" >> /boot/grub/menu.lst
+protect_physical_console_access {
   
   # Enables authentication for single-user mode
   echo "~~:S:wait:/sbin/sulogin" >> /etc/inittab
@@ -764,7 +758,7 @@ initiate_function() {
 }
 
 # Checks to see if you are root, otherwise it exits the program
-while [[ $EUID -ne 0 ]]
+while [ $EUID -ne 0 ]
 do
 echo "Please run this script as root"
 exit 1
