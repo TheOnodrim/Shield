@@ -720,29 +720,6 @@ disable_thunderbolt() {
   echo "blacklist thunderbolt" >> /etc/modprobe.d/thunderbolt.conf
 }
 
-protect_physical_console_access {
-  
-  # Enables authentication for single-user mode
-  echo "~~:S:wait:/sbin/sulogin" >> /etc/inittab
-  
-  # Disables interactive hotkey startup at boot
-  echo "PROMPT=no" >> /etc/sysconfig/init 
-  
-  # Automatically logsout Bash and Tcsh users
-  echo "
-  TMOUT=300
-  readonly TMOUT
-  export TMOUT" >> /etc/profile.d/autologout.sh
-  chmod +x /etc/profile.d/autologout.sh
-  echo "set -r autologout 5" >> /etc/profile.d/autologout.csh
-  chmod +x /etc/profile.d/autologout.csh
-  
-  # Disable Ctrl-Alt-Delete
-  sed -e '/ca::ctrlaltdel:/sbin/shutdown -t3 -r now/ s/^#*/#/' -i /etc/inittab
-  init q
-  sed -e '/exec /sbin/shutdown -r now "Control-Alt-Delete pressed"/ s/^#*/#/' -i /etc/event.d/control-alt-delete 
-}
-
 # Green color
 GREEN='\033[0;32m'
 initiate_function() {
@@ -813,7 +790,6 @@ case $a in
     initiate_function secure_ssh "Would you like to secure ssh and allow ssh only for the admin user on port 652 on your system?"
     initiate_function setup_rkhunter_and_chkrootkit "Would you like to setup and install rkhunter and chkrootkit on your system?"
     initiate_function disable_thunderbolt "Would you like to disable thunderbolt on your system?"
-    initiate_function protect_physical_console_access "Would you like to protect physical console access on your system?"
     initiate_function setup_aide "Would you like to install and setup aide on your system (This may take awhile)?"
     ;;
   "Shield -info")
