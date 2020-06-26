@@ -647,7 +647,7 @@ SHA_CRYPT_MAX_ROUNDS 100000000" >> /etc/login.defs
  then
  for i in $v
  do
- passwd -l "$i"
+  passwd -l "$i"
  done
  fi
  
