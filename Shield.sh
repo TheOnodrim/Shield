@@ -650,16 +650,6 @@ SHA_CRYPT_MAX_ROUNDS 100000000" >> /etc/login.defs
     passwd -l "$i"
   done
  fi
- 
- # Configure sudo to send e-mails about when sudo is used
- echo -n "Please enter your email so that you can be sent e-mails about when sudo is used:"
- read -r ly
- echo "mailto $ly
- mail_always on
- mail_badpass
- mail_no_host
- mail_no_perms
- mail_no_user" >> /etc/sudoers
 }
 
 secure_ssh() {
@@ -715,6 +705,9 @@ update_upgrade() {
 }
 
 setup_rkhunter_and_chkrootkit() {
+  
+  # Cleans out the local repository of retrieved package files that are left in /var/cache
+  apt clean
   
   # Installs chkrootkit
   apt install chkrootkit
