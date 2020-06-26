@@ -643,18 +643,18 @@ SHA_CRYPT_MAX_ROUNDS 100000000" >> /etc/login.defs
  # Locks all empty password accounts
  v=$(awk -F: '($2 == "") {print}' /etc/shadow)
  d=length=${#v} 
- if [ d > 0 ]
+ if [ "$d" -gt 0 ]
  then
  for i in $v
  do
- passwd -l $i
+ passwd -l "$i"
  done
  fi
  
  # Configure sudo to send e-mails about when sudo is used
  echo -n "Please enter your email so that you can be sent e-mails about when sudo is used:"
- read ly
- echo "mailto "ly"
+ read -r ly
+ echo "mailto $ly
  mail_always on
  mail_badpass
  mail_no_host
@@ -686,8 +686,7 @@ IgnoreRhosts yes
   sed -i s/^X11Forwarding.*/X11Forwarding\ no/ /etc/ssh/sshd_config
   sed -i s/^UsePAM.*/UsePAM\ no/ /etc/ssh/sshd_config
   echo -n "Please enter the adminsters username:"
-  read e
-  
+  read -r e
   echo "
 AllowUsers $e
 PermitRootLogin no
@@ -738,11 +737,11 @@ setup_psad() {
   apt install psad
   
   # Setsup psad
-  echo -e ’kern.info\t|/var/lib/psad/psadfifo’ >> /etc/syslog.conf
+  echo -e "kern.info\t|/var/lib/psad/psadfifo" >> /etc/syslog.conf
   /etc/init.d/sysklogd restart
   /etc/init.d/klogd
   echo -n "Please enter your email address to receive port scan detection messages:"
-  read la
+  read -r la
   echo -e "EMAIL_ADDRESSES          $la;
   ENABLE_AUTO_IDS             Y;
   IPTABLES_BLOCK_METHOD       Y;
@@ -760,7 +759,7 @@ protect_physical_console_access() {
   # Create a grub boot loader password
   openssl passwd -1
   echo -n "Please enter the hashed password that you were just given:"
-  read lye
+  read -r lye
   echo "password --md5 $lye" >> /boot/grub/menu.lst
   
   
@@ -791,7 +790,7 @@ initiate_function() {
   typeset -f "$1" | tail -n +2
   echo -e "$2"
   echo -ne "${GREEN}Run the commands above? [y/N]${NC}"
-  read answer
+  read -r answer
   if [ "$answer" != "${answer#[Yy]}" ] 
   then
     $1
