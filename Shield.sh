@@ -643,12 +643,12 @@ SHA_CRYPT_MAX_ROUNDS 100000000" >> /etc/login.defs
  # Locks all empty password accounts
  v=$(awk -F: '($2 == "") {print}' /etc/shadow)
  d=length=${#v} 
- if [ "$d" -gt 0 ]
+ if [ $d -gt 0 ]
  then
- for i in $v
- do
-  passwd -l "$i"
- done
+  for i in $v
+  do
+    passwd -l "$i"
+  done
  fi
  
  # Configure sudo to send e-mails about when sudo is used
