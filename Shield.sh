@@ -356,6 +356,7 @@ disable_uncommon_network_protocols() {
 install sctp /bin/true
 install tipc /bin/true
 install rds /bin/true" >> /etc/modprobe.d/protocols.conf
+  sudo apt --purge remove xinetd nis yp-tools tftpd atftpd tftpd-hpa telnetd rsh-server rsh-redone-server
 }
 
 fail2ban_installation() {
@@ -501,7 +502,6 @@ kernel_configuration() {
   echo "net.ipv4.tcp_syncookies: 1
 net.ipv4.tcp_synack_retries = 5
 net.ipv4.conf.default.accept_source_route: 0
-
 kernel.core_uses_pid: 1
 net.ipv4.conf.default.rp_filter: 1
 net.ipv4.conf.all.log_martians: 1
@@ -639,6 +639,27 @@ restrict_logins() {
   sed -i s/PASS_MAX_DAYS.*/PASS_MAX_DAYS\ 30/ /etc/login.defs
   echo "SHA_CRYPT_MIN_ROUNDS 1000000
 SHA_CRYPT_MAX_ROUNDS 100000000" >> /etc/login.defs
+
+ # Locks all empty password accounts
+ v=$(awk -F: '($2 == "") {print}' /etc/shadow)
+ d=length=${#v} 
+ if [ d > 0 ]
+ then
+ for i in $v
+ do
+ passwd -l $i
+ done
+ fi
+ 
+ # Configure sudo to send e-mails about when sudo is used
+ echo -n "Please enter your email so that you can be sent e-mails about when sudo is used:"
+ read ly
+ echo "mailto "ly"
+ mail_always on
+ mail_badpass
+ mail_no_host
+ mail_no_perms
+ mail_no_user" >> /etc/sudoers
 }
 
 secure_ssh() {
@@ -666,6 +687,7 @@ IgnoreRhosts yes
   sed -i s/^UsePAM.*/UsePAM\ no/ /etc/ssh/sshd_config
   echo -n "Please enter the adminsters username:"
   read e
+  
   echo "
 AllowUsers $e
 PermitRootLogin no
@@ -704,12 +726,6 @@ setup_rkhunter_and_chkrootkit() {
   # You need to specify where both softwares should look for the commands they require to run scans to detect rootkits
   chkrootkit -p /mnt/safe
   rkhunter --check --bindir /mnt/safe
-  
-  # To run a rootkit scan using chkrootkit run:
-  # chkrootkit
-  
-  # To run a rootkit scan using rkhunter run:
-  # sudo rkhunter --check  
 }
 
 disable_thunderbolt() {
@@ -717,13 +733,64 @@ disable_thunderbolt() {
   echo "blacklist thunderbolt" >> /etc/modprobe.d/thunderbolt.conf
 }
 
+setup_psad() {
+  # Installs psad
+  apt install psad
+  
+  # Setsup psad
+  echo -e ’kern.info\t|/var/lib/psad/psadfifo’ >> /etc/syslog.conf
+  /etc/init.d/sysklogd restart
+  /etc/init.d/klogd
+  echo -n "Please enter your email address to receive port scan detection messages:"
+  read la
+  echo -e "EMAIL_ADDRESSES          $la;
+  ENABLE_AUTO_IDS             Y;
+  IPTABLES_BLOCK_METHOD       Y;
+  HOME_NET                NOT_USED;
+  "  >> /etc/psad/psad.conf
+  
+  # Automatically removes all blocked ip addresses
+  psad -F
+  
+  # Restarts psad to save configuaration information 
+  /etc/init.d/psad restart
+}
+
+protect_physical_console_access() {
+  # Create a grub boot loader password
+  openssl passwd -1
+  echo -n "Please enter the hashed password that you were just given:"
+  read lye
+  echo "password --md5 $lye" >> /boot/grub/menu.lst
+  
+  
+  # Enables authentication for single-user mode
+  echo "~~:S:wait:/sbin/sulogin" >> /etc/inittab
+
+  # Disables interactive hotkey startup at boot
+  echo "PROMPT=no" >> /etc/sysconfig/init 
+
+  # Automatically logsout Bash users
+  echo "
+  TMOUT=300
+  readonly TMOUT
+  export TMOUT" >> /etc/profile.d/autologout.sh
+  chmod +x /etc/profile.d/autologout.sh
+
+  # Disable Ctrl-Alt-Delete
+  sed -e '/ca::ctrlaltdel:/sbin/shutdown -t3 -r now/ s/^#*/#/' -i /etc/inittab
+  init q
+  sed -e '/exec /sbin/shutdown -r now "Control-Alt-Delete pressed"/ s/^#*/#/' -i /etc/event.d/control-alt-delete
+}
+
 # Green color
 GREEN='\033[0;32m'
+NC='\033[0m'
 initiate_function() {
   # Asks for user input as to which hardening programs they would like to run
   typeset -f "$1" | tail -n +2
-  echo "$2"
-  echo -ne "${GREEN}Run the commands above? [y/N]"
+  echo -e "$2"
+  echo -ne "${GREEN}Run the commands above? [y/N]${NC}"
   read answer
   if [ "$answer" != "${answer#[Yy]}" ] 
   then
@@ -787,6 +854,8 @@ case $a in
     initiate_function secure_ssh "Would you like to secure ssh and allow ssh only for the admin user on port 652 on your system?"
     initiate_function setup_rkhunter_and_chkrootkit "Would you like to setup and install rkhunter and chkrootkit on your system?"
     initiate_function disable_thunderbolt "Would you like to disable thunderbolt on your system?"
+    initiate_function setup_psad "Would you like to install and setup psad on your system?"
+    initiate_function protect_physical_console_access "Would you like to protect physical console access on your system?"
     initiate_function setup_aide "Would you like to install and setup aide on your system (This may take awhile)?"
     ;;
   "Shield -info")
