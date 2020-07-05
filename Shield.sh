@@ -492,9 +492,16 @@ iptable_configuration() {
   iptables -t mangle -A PREROUTING -p tcp --tcp-flags ALL SYN,FIN,PSH,URG -j DROP
   iptables -t mangle -A PREROUTING -p tcp --tcp-flags ALL SYN,RST,ACK,FIN,URG -j DROP
   
+  # Drops connections if the ip address makes more than 5 connection attempts to port 80 within 50 seconds
+  $IPT -I INPUT -p tcp --dport 80 -i eth0 -m state --state NEW -m recent --set
+  $IPT -I INPUT -p tcp --dport 80 -i eth0 -m state --state NEW -m recent --update --seconds 50 --hitcount 5 -j DROP
+  
   # Saves iptables rules
   iptables-save > /etc/iptables/rules.v4
   ip6tables-save > /etc/iptables/rules.v6
+  
+  # Starts iptables
+  sudo ufw enable
 }
 
 kernel_configuration() {
@@ -609,26 +616,58 @@ remount_directories_with_restrictions() {
 
 restrict_access_to_compilers() {
   # Restricts access to compilers
+  v=$(which clang)
+  d=$(which gcc)
+  f=$(which c++)
+  h=$(which clang++)
+  r=$(which g++)
+  
+  length=${#v}
+  lengt=${#d}
+  leng=${#f}
+  len=${#h}
+  le=${#r}
+  
+  if [ length > 0 ]
+  then
+  chmod o-x $v
+  chmod o-r $v
+  chmod o-w $v
+  fi
+  
+  if [ lengt > 0 ]
+  then
+  chmod o-x $d
+  chmod o-r $d
+  chmod o-w $d
+  fi
+  
+  if [ leng > 0 ]
+  then
+  chmod o-x $f
+  chmod o-r $f
+  chmod o-w $f
+  fi
+  
+  if [ len > 0 ]
+  then
+  chmod o-x $h
+  chmod o-r $h
+  chmod o-w $h
+  fi
+  
+  if [ le > 0 ]
+  then
+  chmod o-x $r
+  chmod o-r $r
+  chmod o-w $r
+  fi
   
   if [ -d "/usr/bin/as" ]
   then
   chmod o-x /usr/bin/as 
   chmod o-r /usr/bin/as 
   chmod o-w /usr/bin/as
-  fi
-  
-  if [ -d "/usr/bin/g++" ]
-  then
-  chmod o-x /usr/bin/g++ 
-  chmod o-r /usr/bin/g++ 
-  chmod o-w /usr/bin/g++
-  fi
-  
-  if [ -d "/usr/bin/gcc" ]
-  then
-  chmod o-x /usr/bin/gcc
-  chmod o-r /usr/bin/gcc
-  chmod o-w /usr/bin/gcc
   fi
 }
 
@@ -775,12 +814,15 @@ protect_physical_console_access() {
   sed -e '/exec /sbin/shutdown -r now "Control-Alt-Delete pressed"/ s/^#*/#/' -i /etc/event.d/control-alt-delete
 }
 
-setup_shoreline_firewall() {
-  # Installs shoreline firewall
-  apt install shorewall shorewall-common shorewall-shell
+setup_lighttpd() {
+  # Installs lighttpd
+  apt install lighttpd
   
-  
-
+  # Setsup lighttpd
+  echo "server.kbytes-per-second=1024" >> lighttpd.conf
+  service lighttpd reload
+  echo "connection.kbytes-per-second=64" >> lighttpd.conf
+  service lighttpd reload
 }
 
 # Green color
@@ -856,6 +898,7 @@ case $a in
     initiate_function disable_thunderbolt "Would you like to disable thunderbolt on your system?"
     initiate_function setup_psad "Would you like to install and setup psad on your system?"
     initiate_function protect_physical_console_access "Would you like to protect physical console access on your system?"
+    initiate_function setup_lighttpd "Would you like to install and setup lighttpd on your system?"
     initiate_function setup_aide "Would you like to install and setup aide on your system (This may take awhile)?"
     ;;
   "Shield -info")
