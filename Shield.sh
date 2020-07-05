@@ -491,18 +491,10 @@ iptable_configuration() {
   iptables -t mangle -A PREROUTING -p tcp --tcp-flags ALL FIN,PSH,URG -j DROP
   iptables -t mangle -A PREROUTING -p tcp --tcp-flags ALL SYN,FIN,PSH,URG -j DROP
   iptables -t mangle -A PREROUTING -p tcp --tcp-flags ALL SYN,RST,ACK,FIN,URG -j DROP
-  SECONDS=100
-  
-  # Drops incomming connection if the ip address makes more than five connections attempts to port 80 within 50 seconds
-  iptables -I INPUT -p tcp --dport 80 -i eth0 -m state --state NEW -m recent --set
-  iptables -I INPUT -p tcp --dport 80 -i eth0 -m state --state NEW -m recent --update --seconds 50 --hitcount 5 -j DROP}
   
   # Saves iptables rules
   iptables-save > /etc/iptables/rules.v4
   ip6tables-save > /etc/iptables/rules.v6
-  
-  # Starts iptables
-  
 }
 
 kernel_configuration() {
@@ -781,6 +773,14 @@ protect_physical_console_access() {
   sed -e '/ca::ctrlaltdel:/sbin/shutdown -t3 -r now/ s/^#*/#/' -i /etc/inittab
   init q
   sed -e '/exec /sbin/shutdown -r now "Control-Alt-Delete pressed"/ s/^#*/#/' -i /etc/event.d/control-alt-delete
+}
+
+setup_shoreline_firewall() {
+  # Installs shoreline firewall
+  apt install shorewall shorewall-common shorewall-shell
+  
+  
+
 }
 
 # Green color
