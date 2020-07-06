@@ -356,7 +356,7 @@ disable_uncommon_network_protocols() {
 install sctp /bin/true
 install tipc /bin/true
 install rds /bin/true" >> /etc/modprobe.d/protocols.conf
-  sudo apt --purge remove xinetd nis yp-tools tftpd atftpd tftpd-hpa telnetd rsh-server rsh-redone-server
+  apt-get --purge remove xinetd nis yp-tools tftpd atftpd tftpd-hpa telnetd rsh-server rsh-redone-server 
 }
 
 fail2ban_installation() {
@@ -612,6 +612,9 @@ remount_directories_with_restrictions() {
 
   # Mounts /run as nodev
   mount -o remount,nodev /run
+  
+  # Keeps /boot as read only
+  echo "LABEL=/boot     /boot     ext2     defaults,ro     1 2" >> /etc/fstab
 }
 
 restrict_access_to_compilers() {
@@ -711,6 +714,7 @@ ChallengeResponseAuthentication no
 PermitEmptyPasswords no
 HostbasedAuthentication no
 IgnoreRhosts yes
+Protocol 2
 " >> /etc/ssh/sshd_config
   sed -i s/^X11Forwarding.*/X11Forwarding\ no/ /etc/ssh/sshd_config
   sed -i s/^UsePAM.*/UsePAM\ no/ /etc/ssh/sshd_config
@@ -850,6 +854,22 @@ net     ppp+            detect          dhcp" >> /etc/shorewall/interfaces
 install_logcheck() {
   # Installs logcheck
   apt install logcheck
+}
+
+setup_ufw() {
+  # Installs ufw
+  apt install ufw
+  
+  # Sets up ufw
+  ufw default deny incoming
+  ufw default allow outgoing
+  ufw logging on
+  ufw deny 20/tcp
+  ufw deny 21/tcp
+  ufw deny 23/tcp
+  ufw deny 69/udp
+  ufw deny 110/tcp
+  ufw deny 143/tcp
 }
 
 # Green color
