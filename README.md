@@ -27,6 +27,7 @@
 Photo Source: https://image.freepik.com/free-vector/golden-shield-retro-design_12454-5380.jpg
 
 Shield is a single file bash script, and a folder of hardening scripts, made to be run to harden and secure your Debian or Debian based OS.
+This project has been thoroughly tested and checked for error.
 
 ## Usage:
 Clone the script and follow these instruction below, and then run it as root and select which sections to run when prompted.
@@ -68,6 +69,12 @@ This shell script reverts the ssh port to `652`, and it restricts the ssh key to
 - Restricts logins
 - Restricts ssh, and enables ssh only for the admin user
 - Updates system packages and the package list
+- Sets up rkhunter and chkrootkit
+- Disables thunderbolt
+- Sets up psad
+- Protects physical console access
+- Sets up shorewall
+- Installs logcheck
 
 ## Contributing:
 Please open issues and pull requests on anything you come across.
