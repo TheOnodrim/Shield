@@ -914,9 +914,21 @@ done
 }
 
 disk_quotas() {
-
-
-
+  # Installs disk quota tools
+  apt install quota quotatool
+  
+  # Installs require quota modules
+  apt install linux-image-extra-virtual
+  
+  # Updates file mount options
+  sed -i 's///LABEL=cloudimg-rootfs   /        ext4   usrquota,grpquota        0 0/g" /etc/fstab
+  mount -o remount /
+  
+  # Enables disk quotas
+  quotacheck -ugm /
+  
+  # Start disk quotas
+  quotaon -v /
 }
 
 reboot() {
