@@ -628,39 +628,39 @@ restrict_access_to_compilers() {
   len=${#h}
   le=${#r}
   
-  if [ length > 0 ]
+  if [ "$length" -gt 0 ]
   then
-  chmod o-x $v
-  chmod o-r $v
-  chmod o-w $v
+  chmod o-x "$v"
+  chmod o-r "$v"
+  chmod o-w "$v"
   fi
   
-  if [ lengt > 0 ]
+  if [ "$lengt" -gt 0 ]
   then
-  chmod o-x $d
-  chmod o-r $d
-  chmod o-w $d
+  chmod o-x "$d"
+  chmod o-r "$d"
+  chmod o-w "$d"
   fi
   
-  if [ leng > 0 ]
+  if [ "$leng" -gt 0 ]
   then
-  chmod o-x $f
-  chmod o-r $f
-  chmod o-w $f
+  chmod o-x "$f"
+  chmod o-r "$f"
+  chmod o-w "$f"
   fi
   
-  if [ len > 0 ]
+  if [ "$len" -gt 0 ]
   then
-  chmod o-x $h
-  chmod o-r $h
-  chmod o-w $h
+  chmod o-x "$h"
+  chmod o-r "$h"
+  chmod o-w "$h"
   fi
   
-  if [ le > 0 ]
+  if [ "$le" -gt 0 ]
   then
-  chmod o-x $r
-  chmod o-r $r
-  chmod o-w $r
+  chmod o-x "$r"
+  chmod o-r "$r"
+  chmod o-w "$r"
   fi
   
   if [ -d "/usr/bin/as" ]
@@ -682,7 +682,7 @@ SHA_CRYPT_MAX_ROUNDS 100000000" >> /etc/login.defs
  # Locks all empty password accounts
  v=$(awk -F: '($2 == "") {print}' /etc/shadow)
  d=length=${#v} 
- if [ $d -gt 0 ]
+ if [ "$d" -gt 0 ]
  then
   for i in $v
   do
