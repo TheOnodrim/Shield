@@ -723,7 +723,7 @@ PermitRootLogin no
 }
 
 setup_aide() {
-  # Installs and setsup aide
+  # Installs and sets up aide
   apt install aide
   aideinit
   cp /var/lib/aide/aide.db.new /var/lib/aide/aide.db
@@ -768,7 +768,7 @@ setup_psad() {
   # Installs psad
   apt install psad
   
-  # Setsup psad
+  # Sets up psad
   echo -e "kern.info\t|/var/lib/psad/psadfifo" >> /etc/syslog.conf
   /etc/init.d/sysklogd restart
   /etc/init.d/klogd
@@ -818,7 +818,7 @@ setup_lighttpd() {
   # Installs lighttpd
   apt install lighttpd
   
-  # Setsup lighttpd
+  # Sets up lighttpd
   echo "server.kbytes-per-second=1024" >> lighttpd.conf
   service lighttpd reload
   echo "connection.kbytes-per-second=64" >> lighttpd.conf
@@ -829,7 +829,7 @@ setup_shorewall() {
   # Installs shorewall
   apt install shorewall shorewall-common shorewall-shell
   
-  # Setsup shorewall
+  # Sets up shorewall
   echo "startup=1" >> /etc/default/shorewall
   echo "#ZONE   TYPE    OPTIONS         IN                      OUT
 #                                       OPTIONS                 OPTIONS
