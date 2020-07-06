@@ -368,9 +368,24 @@ setup_fail2ban() {
   
   # Sets up fail2ban
 echo "
-bantime  = 900
+bantime  = 86400
 findtime = 300
-maxretry = 3" >> nano /etc/fail2ban/jail.local
+maxretry = 3
+backend = systemd
+banaction = iptables-multiport
+banaction_allports = iptables-allports
+[sshd]
+enabled = true
+[ssh]
+enabled  = true
+port     = 652
+filter   = sshd
+logpath  = /var/log/auth.log
+maxretry = 3
+" >> nano /etc/fail2ban/jail.local
+
+  # Restarts fail2ban
+  service fail2ban restart
 }
 
 iptable_configuration() {
@@ -898,6 +913,17 @@ do
 done
 }
 
+disk_quotas() {
+
+
+
+}
+
+reboot() {
+  # Reboots the system
+  sudo reboot
+}
+
 # Green color
 GREEN='\033[0;32m'
 NC='\033[0m'
@@ -978,6 +1004,7 @@ case $a in
     initiate_function setup_ufw "Would you like to install and setup ufw on your system?"
     initiate_function core_file_permissions "Would you like to set core file permissions on your system?"
     initiate_function setup_aide "Would you like to install and setup aide on your system (This may take awhile)?"
+    initiate_function reboot "Would you like to reboot your system to save all changes made?"
     ;;
   "Shield -info")
     echo -e "$info"
