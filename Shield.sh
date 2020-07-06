@@ -825,6 +825,29 @@ setup_lighttpd() {
   service lighttpd reload
 }
 
+setup_shorewall() {
+  # Installs shorewall
+  apt install shorewall shorewall-common shorewall-shell
+  
+  # Setsup shorewall
+  echo "startup=1" >> /etc/default/shorewall
+  echo "#ZONE   TYPE    OPTIONS         IN                      OUT
+#                                       OPTIONS                 OPTIONS
+fw      firewall
+net     ipv4" >> /etc/shorewall/zones
+  echo "#ZONE   INTERFACE       BROADCAST       OPTIONS
+net     eth0            detect          tcpflags,logmartians,nosmurfs
+net     eth1            detect          dhcp
+net     ppp+            detect          dhcp" >> /etc/shorewall/interfaces
+  echo "#SOURCE         DEST            POLICY          LOG LEVEL       LIMIT:
+        BURST
+        fw              all             ACCEPT
+        net             all             DROP            info
+        
+        all             all             REJECT          info" >> /etc/shorewall/policy
+}
+
+
 # Green color
 GREEN='\033[0;32m'
 NC='\033[0m'
@@ -899,6 +922,7 @@ case $a in
     initiate_function setup_psad "Would you like to install and setup psad on your system?"
     initiate_function protect_physical_console_access "Would you like to protect physical console access on your system?"
     initiate_function setup_lighttpd "Would you like to install and setup lighttpd on your system?"
+    initiate_function setup_shorewall "Would you like to install and setup shorewall on your system?"
     initiate_function setup_aide "Would you like to install and setup aide on your system (This may take awhile)?"
     ;;
   "Shield -info")
