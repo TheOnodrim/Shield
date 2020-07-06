@@ -855,6 +855,7 @@ install_logcheck() {
 # Green color
 GREEN='\033[0;32m'
 NC='\033[0m'
+
 initiate_function() {
   # Asks for user input as to which hardening programs they would like to run
   typeset -f "$1" | tail -n +2
