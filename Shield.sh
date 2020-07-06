@@ -847,6 +847,10 @@ net     ppp+            detect          dhcp" >> /etc/shorewall/interfaces
         all             all             REJECT          info" >> /etc/shorewall/policy
 }
 
+install_logcheck() {
+  # Installs logcheck
+  apt install logcheck
+}
 
 # Green color
 GREEN='\033[0;32m'
@@ -923,6 +927,7 @@ case $a in
     initiate_function protect_physical_console_access "Would you like to protect physical console access on your system?"
     initiate_function setup_lighttpd "Would you like to install and setup lighttpd on your system?"
     initiate_function setup_shorewall "Would you like to install and setup shorewall on your system?"
+    initiate_function install_logcheck "Would you like to install logcheck on your system?"
     initiate_function setup_aide "Would you like to install and setup aide on your system (This may take awhile)?"
     ;;
   "Shield -info")
