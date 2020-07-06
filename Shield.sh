@@ -359,9 +359,18 @@ install rds /bin/true" >> /etc/modprobe.d/protocols.conf
   apt-get --purge remove xinetd nis yp-tools tftpd atftpd tftpd-hpa telnetd rsh-server rsh-redone-server 
 }
 
-fail2ban_installation() {
+setup_fail2ban() {
   # Installs fail2ban
-  apt install fail2ban 
+  apt install fail2ban
+  
+  # Enable fail2ban
+  systemctl start fail2ban && systemctl enable fail2ban
+  
+  # Sets up fail2ban
+echo "
+bantime  = 900
+findtime = 300
+maxretry = 3" >> nano /etc/fail2ban/jail.local
 }
 
 iptable_configuration() {
@@ -715,9 +724,11 @@ PermitEmptyPasswords no
 HostbasedAuthentication no
 IgnoreRhosts yes
 Protocol 2
+Ciphers aes128-ctr,aes192-ctr,aes256-ctr
+X11Forwarding no
 " >> /etc/ssh/sshd_config
   sed -i s/^X11Forwarding.*/X11Forwarding\ no/ /etc/ssh/sshd_config
-  sed -i s/^UsePAM.*/UsePAM\ no/ /etc/ssh/sshd_config
+  sed -i s/^UsePAM.*/UsePAM\ yes/ /etc/ssh/sshd_config
   echo -n "Please enter the adminsters username:"
   read -r e
   echo "
@@ -870,6 +881,9 @@ setup_ufw() {
   ufw deny 69/udp
   ufw deny 110/tcp
   ufw deny 143/tcp
+  ufw deny 161/udp
+  ufw deny 162/udp
+  ufw deny 25/tcp
 }
 
 # Green color
@@ -931,7 +945,7 @@ case $a in
     initiate_function disable_uncommon_filesystems "Would you like to disable uncommon filesystems on your system?"
     initiate_function disable_uncommon_network_protocols "Would you like to disable uncommon network protocol on your systems?"
     initiate_function disable_usb "Would you like to disable usb on your system?"
-    initiate_function fail2ban_installation "Would you like to install fail2ban on your system?"
+    initiate_function setup_fail2ban "Would you like to install and setup fail2ban on your system?"
     initiate_function install_lynis_recommended_packages "Would you like to install lynis reccomended packages on your system?"
     initiate_function iptable_configuration "Would you like to install and configure iptables on your system?"
     initiate_function kernel_configuration "Would you like your kernel to be configured on your system?"
