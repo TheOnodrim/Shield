@@ -827,6 +827,9 @@ protect_physical_console_access() {
   sed -e '/ca::ctrlaltdel:/sbin/shutdown -t3 -r now/ s/^#*/#/' -i /etc/inittab
   init q
   sed -e '/exec /sbin/shutdown -r now "Control-Alt-Delete pressed"/ s/^#*/#/' -i /etc/event.d/control-alt-delete
+  
+  # Configures root user timeout
+  echo "[ $UID -eq 0 ] && TMOUT=300" >> /etc/profiles
 }
 
 setup_lighttpd() {
@@ -884,6 +887,15 @@ setup_ufw() {
   ufw deny 161/udp
   ufw deny 162/udp
   ufw deny 25/tcp
+}
+
+core_file_permissions() {
+v=("anacrontab" "crontab" "cron.hourly" "cron.daily" "cron.weekly" "cron.monthly" "cron.d" "passed" "group" "shadow" "gshadow")
+for i in "${v[@]}"
+do
+   chown root:root "$i"
+   chmod og-rwx "$i"
+done
 }
 
 # Green color
@@ -963,6 +975,8 @@ case $a in
     initiate_function setup_lighttpd "Would you like to install and setup lighttpd on your system?"
     initiate_function setup_shorewall "Would you like to install and setup shorewall on your system?"
     initiate_function install_logcheck "Would you like to install logcheck on your system?"
+    initiate_function setup_ufw "Would you like to install and setup ufw on your system?"
+    initiate_function core_file_permissions "Would you like to set core file permissions on your system?"
     initiate_function setup_aide "Would you like to install and setup aide on your system (This may take awhile)?"
     ;;
   "Shield -info")
