@@ -981,6 +981,7 @@ do
 echo "Please run this script as root"
 exit 1
 done
+clear
 
 # UI
 RED='\033[0;31m'
@@ -1010,37 +1011,68 @@ read -r a
 case $a in
   "Shield -sysharden")
     initiate_function update_upgrade "Would you like to upgrade your system packages and upgrade your system package list on your system?"
+    clear
     initiate_function legal_banner "Would you like to add a legal banner to /etc/issue, /etc/issue.net and /etc/motd? on your system"
+    clear
     initiate_function auditd_configuration "Would you like to install and configure auditd with reasonable rules on your system?"
-    initiate_function automatic_updates "Would you like to enable automatic update on your systems?"
+    clear
+    initiate_function automatic_updates "Would you like to enable automatic update on your system?"
+    clear
     initiate_function disable_core_dumps "Would you like to disable core dumps on your system?"
+    clear
     initiate_function disable_firewire "Would you like to disable firewire on your system?"
+    clear
     initiate_function disable_uncommon_filesystems "Would you like to disable uncommon filesystems on your system?"
+    clear
     initiate_function disable_uncommon_network_protocols "Would you like to disable uncommon network protocol on your systems?"
+    clear
     initiate_function disable_usb "Would you like to disable usb on your system?"
+    clear
     initiate_function setup_fail2ban "Would you like to install and setup fail2ban on your system?"
+    clear
     initiate_function install_lynis_recommended_packages "Would you like to install lynis reccomended packages on your system?"
+    clear
     initiate_function iptable_configuration "Would you like to install and configure iptables on your system?"
+    clear
     initiate_function kernel_configuration "Would you like your kernel to be configured on your system?"
+    clear
     initiate_function move_/tmp_to_/tmpfs "Would you like to move /tmp to /tmpfs on your system?"
+    clear
     initiate_function purge_old_removed_packages "Would you like to purge old and removed packages on your system?"
+    clear
     initiate_function remount_directories_with_restrictions "Would you like have certain directories remounted with restrictions on your system?"
+    clear
     initiate_function restrict_access_to_compilers "Would you like restrict access to compilers on  your system?"
+    clear
     initiate_function restrict_logins "Would you like to restrict logins on your system?"
+    clear
     initiate_function revert_/root_permissions "Would you like to revert /root permissions on your system?"
+    clear
     initiate_function secure_ssh "Would you like to secure ssh and allow ssh only for the admin user on port 652 on your system?"
+    clear
     initiate_function setup_rkhunter_and_chkrootkit "Would you like to setup and install rkhunter and chkrootkit on your system?"
+    clear
     initiate_function disable_thunderbolt "Would you like to disable thunderbolt on your system?"
+    clear
     initiate_function setup_psad "Would you like to install and setup psad on your system?"
+    clear
     initiate_function protect_physical_console_access "Would you like to protect physical console access on your system?"
+    clear
+    clear
     initiate_function setup_lighttpd "Would you like to install and setup lighttpd on your system?"
     initiate_function setup_shorewall "Would you like to install and setup shorewall on your system?"
+    clear
     initiate_function install_logcheck "Would you like to install logcheck on your system?"
     initiate_function setup_ufw "Would you like to install and setup ufw on your system?"
+    clear
     initiate_function core_file_permissions "Would you like to set core file permissions on your system?"
+    clear
     initiate_function disk_quotas "Would you like to enforce disk quotas on your system?"
+    clear
     initiate_function enable_process_accounting "Would you like to enable process accounting on your system?"
+    clear
     initiate_function setup_aide "Would you like to install and setup aide on your system (This may take awhile)?"
+    clear
     initiate_function reboot "Would you like to reboot your system to save all changes made?"
     ;;
   "Shield -info")
