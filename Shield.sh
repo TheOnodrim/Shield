@@ -1010,7 +1010,7 @@ read -r a
 case $a in
   "Shield -sysharden")
     initiate_function update_upgrade "Would you like to upgrade your system packages and upgrade your system package list on your system?"
-    initiate_function add_legal_banner "Would you like to add a legal banner to /etc/issue, /etc/issue.net and /etc/motd? on your system"
+    initiate_function legal_banner "Would you like to add a legal banner to /etc/issue, /etc/issue.net and /etc/motd? on your system"
     initiate_function auditd_configuration "Would you like to install and configure auditd with reasonable rules on your system?"
     initiate_function automatic_updates "Would you like to enable automatic update on your systems?"
     initiate_function disable_core_dumps "Would you like to disable core dumps on your system?"
