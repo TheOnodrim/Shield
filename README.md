@@ -79,3 +79,6 @@ This shell script reverts the ssh port to `652`, and it restricts the ssh key to
 
 ## Contributing:
 Please open issues and pull requests on anything you come across.
+
+## Reaching out to me
+If you have anything you would like to tell me, simply create an issue with the title To Repository Owner.
