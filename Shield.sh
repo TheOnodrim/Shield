@@ -943,6 +943,17 @@ disk_quotas() {
   done
 }
 
+enable_process_accounting() {
+  # Installs process accounting software
+  apt install acct
+  
+  # Creates log file
+  touch /var/log/pacct
+  
+  # Turns process accounting on
+   accton /var/log/pacct
+}
+
 reboot() {
   # Reboots the system
   sudo reboot
@@ -1028,6 +1039,7 @@ case $a in
     initiate_function setup_ufw "Would you like to install and setup ufw on your system?"
     initiate_function core_file_permissions "Would you like to set core file permissions on your system?"
     initiate_function disk_quotas "Would you like to enforce disk quotas on your system?"
+    initiate_function enable_process_accounting "Would you like to enable process accounting on your system?"
     initiate_function setup_aide "Would you like to install and setup aide on your system (This may take awhile)?"
     initiate_function reboot "Would you like to reboot your system to save all changes made?"
     ;;
