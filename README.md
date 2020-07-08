@@ -77,6 +77,7 @@ This shell script reverts the ssh port to `652`, and it restricts the ssh key to
 - Installs logcheck
 - Enables and enforces disk quotas
 - Enables process accounting
+- Restricts core file access
 
 ## Contributing:
 Please open issues and pull requests on anything you come across.
