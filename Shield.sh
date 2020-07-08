@@ -921,7 +921,7 @@ disk_quotas() {
   apt install linux-image-extra-virtual
   
   # Updates file mount options
-  sed -i 's///LABEL=cloudimg-rootfs   /        ext4   usrquota,grpquota        0 0/g" /etc/fstab
+  sed -i "s///LABEL=cloudimg-rootfs   /        ext4   usrquota,grpquota        0 0/g" /etc/fstab
   mount -o remount /
   
   # Enables disk quotas
@@ -929,6 +929,18 @@ disk_quotas() {
   
   # Start disk quotas
   quotaon -v /
+  
+  echo -n "How many users would you like to enforce disk quotas on?"
+  read -r ef
+  length=${#ef}
+  for i in length
+  do
+    echo -n "Please enter the username of the user you like to enforce disk quotas on?"
+    read -r t
+    echo -n "Please enter the quota limit you wood like to set and enter M for megabytes, K for kilobytes and G for gigabytes write after the limit:"
+    read -r y
+    setquota -u "$t" "$y" 0 0 0 /
+  done
 }
 
 reboot() {
@@ -1015,6 +1027,7 @@ case $a in
     initiate_function install_logcheck "Would you like to install logcheck on your system?"
     initiate_function setup_ufw "Would you like to install and setup ufw on your system?"
     initiate_function core_file_permissions "Would you like to set core file permissions on your system?"
+    initiate_function disk_quotas "Would you like to enforce disk quotas on your system?"
     initiate_function setup_aide "Would you like to install and setup aide on your system (This may take awhile)?"
     initiate_function reboot "Would you like to reboot your system to save all changes made?"
     ;;
