@@ -367,7 +367,13 @@ setup_fail2ban() {
   systemctl start fail2ban && systemctl enable fail2ban
   
   # Sets up fail2ban
-echo "
+  echo -n "Would you like to change the ssh port on your system [y/N]?"
+  read -r qw
+  if [ "$qw" == "y" ]
+  then
+  echo -n "Please enter the port you like to change the ssh port to: "
+  read -r ty
+  echo"
 bantime  = 86400
 findtime = 300
 maxretry = 3
@@ -378,12 +384,32 @@ banaction_allports = iptables-allports
 enabled = true
 [ssh]
 enabled  = true
-port     = 652
+port     = $ty
 filter   = sshd
 logpath  = /var/log/auth.log
 maxretry = 3
 " >> nano /etc/fail2ban/jail.local
-
+  fi
+  if [ "$qw" == "N" ]
+  then
+  echo "
+bantime  = 86400
+findtime = 300
+maxretry = 3
+backend = systemd
+banaction = iptables-multiport
+banaction_allports = iptables-allports
+[sshd]
+enabled = true
+[ssh]
+enabled  = true
+port     = 22
+filter   = sshd
+logpath  = /var/log/auth.log
+maxretry = 3
+" >> nano /etc/fail2ban/jail.local
+  fi
+  
   # Restarts fail2ban
   service fail2ban restart
 }
@@ -720,6 +746,8 @@ SHA_CRYPT_MAX_ROUNDS 100000000" >> /etc/login.defs
 
 secure_ssh() {
   # Secures ssh
+  if [ "$qw" == "y" ]
+  then
   echo "
 ClientAliveCountMax 2
 ClientAliveInterval 300
@@ -730,7 +758,7 @@ MaxSessions 2
 TCPKeepAlive no
 AllowAgentForwarding no
 AllowTcpForwarding no
-Port 652
+Port $ty
 PasswordAuthentication no
 AuthenticationMethods publickey
 PubkeyAuthentication yes
@@ -750,6 +778,41 @@ X11Forwarding no
 AllowUsers $e
 PermitRootLogin no
 " >> /etc/ssh/sshd_config
+  fi
+
+  if [ "$qw" == "N" ]
+  then
+  echo "
+ClientAliveCountMax 2
+ClientAliveInterval 300
+Compression no
+LogLevel VERBOSE
+MaxAuthTries 3
+MaxSessions 2
+TCPKeepAlive no
+AllowAgentForwarding no
+AllowTcpForwarding no
+Port 22
+PasswordAuthentication no
+AuthenticationMethods publickey
+PubkeyAuthentication yes
+ChallengeResponseAuthentication no
+PermitEmptyPasswords no
+HostbasedAuthentication no
+IgnoreRhosts yes
+Protocol 2
+Ciphers aes128-ctr,aes192-ctr,aes256-ctr
+X11Forwarding no
+" >> /etc/ssh/sshd_config
+  sed -i s/^X11Forwarding.*/X11Forwarding\ no/ /etc/ssh/sshd_config
+  sed -i s/^UsePAM.*/UsePAM\ yes/ /etc/ssh/sshd_config
+  echo -n "Please enter the adminsters username:"
+  read -r e
+  echo "
+AllowUsers $e
+PermitRootLogin no
+" >> /etc/ssh/sshd_config
+fi
 }
 
 setup_aide() {
@@ -934,7 +997,7 @@ disk_quotas() {
   echo -n "How many users would you like to enforce disk quotas on?"
   read -r ef
   length=${#ef}
-  for i in length
+  for i in $length
   do
     echo -n "Please enter the username of the user you like to enforce disk quotas on?"
     read -r t
