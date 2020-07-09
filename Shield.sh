@@ -820,6 +820,7 @@ setup_psad() {
 protect_physical_console_access() {
   # Create a grub boot loader password
   openssl passwd -1
+  echo "Please copy down this password"
   echo -n "Please enter the hashed password that you were just given:"
   read -r lye
   echo "password --md5 $lye" >> /boot/grub/menu.lst
