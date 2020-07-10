@@ -38,7 +38,7 @@ Clone the script and follow these instruction below, and then run it as root and
    4. ./Shield.sh
 ```
 ## Warning:
-This shell script reverts the ssh port to `652`, and it restricts the ssh key to the admin user.
+This shell script restricts the ssh key to the admin user.
 
 ## Supported OS types:
 - Debian 10
@@ -65,7 +65,7 @@ This shell script reverts the ssh port to `652`, and it restricts the ssh key to
 - Remounts  /dev, /tmp, /run and /proc to be more restrictive
 - Restricts access to compilers
 - Restricts access to /root 
-- Restricts firewall to only allow ssh on port `652`
+- Restrics ssh key to admin user`
 - Restricts logins
 - Restricts ssh, and enables ssh only for the admin user
 - Updates system packages and the package list
