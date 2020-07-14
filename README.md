@@ -75,7 +75,7 @@ This shell script restricts the ssh key to the admin user.
 - Protects physical console access
 - Sets up shorewall
 - Installs logcheck
-- Enables and enforces disk quotas
+- Enables disk quotas
 - Enables process accounting
 - Restricts core file access
 
