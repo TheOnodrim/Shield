@@ -45,7 +45,7 @@ This shell script restricts the ssh key to the admin user.
 - Debian 8
 - Debian based OS's
 
-## What do the hardening scripts do?
+## What does the hardening script do?
 - Adds a legal banner to /etc/motd, /etc/issue and /etc/issue.net
 - Adds an automatic updater
 - Adds a daily cronjob to update system packages on the server
