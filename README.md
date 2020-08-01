@@ -26,7 +26,7 @@
 
 Photo Source: https://image.freepik.com/free-vector/golden-shield-retro-design_12454-5380.jpg
 
-Shield is a single file bash script, and a folder of hardening scripts, made to be run to harden and secure your Debian or Debian based OS.
+Shield is a single file bash script, made to be harden and secure your Debian or Debian based OS.
 This project has been thoroughly tested and checked for errors.
 
 ## Usage:
