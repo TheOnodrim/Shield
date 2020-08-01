@@ -858,6 +858,10 @@ disable_thunderbolt() {
 }
 
 setup_psad() {
+
+  # Cleans out the local repository of retrieved package files that are left in /var/cache
+  apt clean
+  
   # Installs psad
   apt install psad
   
@@ -912,6 +916,10 @@ protect_physical_console_access() {
 }
 
 setup_lighttpd() {
+
+  # Cleans out the local repository of retrieved package files that are left in /var/cache
+  apt clean
+  
   # Installs lighttpd
   apt install lighttpd
   
@@ -923,6 +931,10 @@ setup_lighttpd() {
 }
 
 setup_shorewall() {
+
+  # Cleans out the local repository of retrieved package files that are left in /var/cache
+  apt clean
+  
   # Installs shorewall
   apt install shorewall shorewall-common shorewall-shell
   
@@ -945,11 +957,19 @@ net     ppp+            detect          dhcp" >> /etc/shorewall/interfaces
 }
 
 install_logcheck() {
+
+  # Cleans out the local repository of retrieved package files that are left in /var/cache
+  apt clean
+  
   # Installs logcheck
   apt install logcheck
 }
 
 setup_ufw() {
+
+  # Cleans out the local repository of retrieved package files that are left in /var/cache
+  apt clean
+  
   # Installs ufw
   apt install ufw
   
@@ -969,15 +989,19 @@ setup_ufw() {
 }
 
 core_file_permissions() {
-v=("anacrontab" "crontab" "cron.hourly" "cron.daily" "cron.weekly" "cron.monthly" "cron.d" "passed" "group" "shadow" "gshadow")
-for i in "${v[@]}"
-do
+  v=("anacrontab" "crontab" "cron.hourly" "cron.daily" "cron.weekly" "cron.monthly" "cron.d" "passed" "group" "shadow" "gshadow")
+  for i in "${v[@]}"
+  do
    chown root:root "$i"
    chmod og-rwx "$i"
-done
+  done
 }
 
 disk_quotas() {
+
+  # Cleans out the local repository of retrieved package files that are left in /var/cache
+  apt clean
+  
   # Installs disk quota tools
   apt install quota quotatool
   
@@ -1008,6 +1032,10 @@ disk_quotas() {
 }
 
 enable_process_accounting() {
+
+  # Cleans out the local repository of retrieved package files that are left in /var/cache
+  apt clean
+  
   # Installs process accounting software
   apt install acct
   
@@ -1031,7 +1059,7 @@ initiate_function() {
   # Asks for user input as to which hardening programs they would like to run
   typeset -f "$1" | tail -n +2
   echo -e "$2"
-  echo -ne "${GREEN}Run the commands above? [y/N]${NC}"
+  echo -ne "${GREEN}Would you like to run the commands above? [y/N]${NC}"
   read -r answer
   if [ "$answer" != "${answer#[Yy]}" ] 
   then
