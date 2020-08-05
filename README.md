@@ -29,6 +29,9 @@ Photo Source: https://image.freepik.com/free-vector/golden-shield-retro-design_1
 Shield is a single file bash script, made to be harden and secure your Debian or Debian based OS.
 This project has been thoroughly tested and checked for errors.
 
+# If you enjoyed it:
+Feel free to star my project, I have worked very hard on this repository.
+
 ## Usage:
 Clone the script and follow these instruction below, and then run it as root and select which sections to run when prompted.
 ```
