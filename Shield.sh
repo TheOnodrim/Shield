@@ -10,7 +10,7 @@ auditd_configuration() {
 # Sets the buffer size, which may need to be increased, depending on the load of your system.
 -b 8192
 
-# Failure Mode 1, prints a failure message.
+# Sets the failure mode to Failure Mode 1, which prints a failure message.
 -f 2
 
 # Audits the audit logs.
@@ -251,7 +251,7 @@ auditd_configuration() {
 -w /etc/issue -p r -k recon
 
 # Injection, these rules watch for code injection by the ptrace facility
-# This could indicate someone trying to do something bad or just debugging
+# This could indicate someone trying to do something malicious or just debugging
 -a always,exit -F arch=b32 -S ptrace -k tracing
 -a always,exit -F arch=b64 -S ptrace -k tracing
 -a always,exit -F arch=b32 -S ptrace -F a0=0x4 -k code_injection
@@ -1025,7 +1025,7 @@ disk_quotas() {
   do
     echo -n "Please enter the username of the user you like to enforce disk quotas on?"
     read -r t
-    echo -n "Please enter the quota limit you wood like to set and enter M for megabytes, K for kilobytes and G for gigabytes write after the limit:"
+    echo -n "Please enter the quota limit you would like to set and enter M for megabytes, K for kilobytes and G for gigabytes write after the limit:"
     read -r y
     setquota -u "$t" "$y" 0 0 0 /
   done
@@ -1043,8 +1043,61 @@ enable_process_accounting() {
   touch /var/log/pacct
   
   # Turns process accounting on
-   accton /var/log/pacct
+  accton /var/log/pacct
 }
+
+install_ClamAV() {
+  # Installs ClamAV
+  apt-get install clamav clamav-daemon
+}
+
+daily_cronjob() {
+
+  # Installs cron just in case it isn't already installed
+  apt install cron
+  
+  # This cronjob is created to run a set of programms that will do various security related reasons, such as checking for rootkits.
+  crontab -l > security_cronjob
+  
+  # Opens the auditd log file
+  echo "@reboot echo "Opening the auditd log file"
+  @reboot vim /var/log/audit/audit.log" >> security_cronjob
+  
+  # Opens the fail2ban log file
+  echo "@reboot echo "Opening the fail2ban log file"
+  @reboot vim /var/log/fail2ban.log" >> security_cronjob
+  
+  # Opens the ssh log file
+  echo "@reboot echo "Opening the ssh log file"
+  @reboot vim /var/log/auth.log" >> security_cronjob
+  
+  # Opens the aide log file
+  echo "@reboot echo "Opening the aide log file"
+  @reboot vim /var/log/aide/aide.log" >> security_cronjob
+  
+  # Opens the ufw log file
+  echo "@reboot echo "Opening the ufw log file"
+  @reboot vim /var/log/ufw.log >> security_cronjob
+  
+  # Opens the ufw log file
+  echo "@reboot echo "Opening the ufw log file"
+  @reboot vim /var/log/account/pacct >> security_cronjob
+  
+  
+  # Checks for potential rootkits
+  echo "@reboot echo "Checking for rootkits"
+  @reboot chkrootkit
+  @reboot rkhunter --check >> security_cronjob
+  
+  # Runs logcheck to scan your log files
+  echo "@reboot echo "Scanning logs with logcheck"
+  @reboot logcheck >> security_cronjob
+  
+  # Runs a scan for viruses using ClamAV
+  echo "@reboot echo "Running a scan for viruses (This may take a while)"
+  @reboot clamscan --recursive=yes --infected /" >> security_cronjob  
+}
+
 
 reboot() {
   # Reboots the system
@@ -1103,68 +1156,39 @@ read -r a
 case $a in
   "Shield -sysharden")
     initiate_function update_upgrade "Would you like to upgrade your system packages and upgrade your system package list on your system?"
-    clear
     initiate_function legal_banner "Would you like to add a legal banner to /etc/issue, /etc/issue.net and /etc/motd? on your system"
-    clear
     initiate_function auditd_configuration "Would you like to install and configure auditd with reasonable rules on your system?"
-    clear
     initiate_function automatic_updates "Would you like to enable automatic update on your system?"
-    clear
     initiate_function disable_core_dumps "Would you like to disable core dumps on your system?"
-    clear
     initiate_function disable_firewire "Would you like to disable firewire on your system?"
-    clear
     initiate_function disable_uncommon_filesystems "Would you like to disable uncommon filesystems on your system?"
-    clear
     initiate_function disable_uncommon_network_protocols "Would you like to disable uncommon network protocol on your systems?"
-    clear
     initiate_function disable_usb "Would you like to disable usb on your system?"
-    clear
     initiate_function setup_fail2ban "Would you like to install and setup fail2ban on your system?"
-    clear
     initiate_function install_lynis_recommended_packages "Would you like to install lynis reccomended packages on your system?"
-    clear
     initiate_function iptable_configuration "Would you like to install and configure iptables on your system?"
-    clear
     initiate_function kernel_configuration "Would you like your kernel to be configured on your system?"
-    clear
     initiate_function move_/tmp_to_/tmpfs "Would you like to move /tmp to /tmpfs on your system?"
-    clear
     initiate_function purge_old_removed_packages "Would you like to purge old and removed packages on your system?"
-    clear
     initiate_function remount_directories_with_restrictions "Would you like have certain directories remounted with restrictions on your system?"
-    clear
     initiate_function restrict_access_to_compilers "Would you like restrict access to compilers on  your system?"
-    clear
     initiate_function restrict_logins "Would you like to restrict logins on your system?"
-    clear
     initiate_function revert_/root_permissions "Would you like to revert /root permissions on your system?"
-    clear
     initiate_function secure_ssh "Would you like to secure ssh and allow ssh only for the admin user on port 652 on your system?"
-    clear
     initiate_function setup_rkhunter_and_chkrootkit "Would you like to setup and install rkhunter and chkrootkit on your system?"
-    clear
     initiate_function disable_thunderbolt "Would you like to disable thunderbolt on your system?"
-    clear
     initiate_function setup_psad "Would you like to install and setup psad on your system?"
-    clear
     initiate_function protect_physical_console_access "Would you like to protect physical console access on your system?"
-    clear
-    clear
     initiate_function setup_lighttpd "Would you like to install and setup lighttpd on your system?"
     initiate_function setup_shorewall "Would you like to install and setup shorewall on your system?"
-    clear
     initiate_function install_logcheck "Would you like to install logcheck on your system?"
     initiate_function setup_ufw "Would you like to install and setup ufw on your system?"
-    clear
     initiate_function core_file_permissions "Would you like to set core file permissions on your system?"
-    clear
     initiate_function disk_quotas "Would you like to enforce disk quotas on your system?"
-    clear
     initiate_function enable_process_accounting "Would you like to enable process accounting on your system?"
-    clear
     initiate_function setup_aide "Would you like to install and setup aide on your system (This may take awhile)?"
-    clear
+    initate_function install_ClamAV "Would you like to install ClamAV on your system?" 
+    initiate_function daily_cronjob "Would you like to install a daily cronjob that runs security related programs and open security related logs?"
     initiate_function reboot "Would you like to reboot your system to save all changes made?"
     ;;
   "Shield -info")
