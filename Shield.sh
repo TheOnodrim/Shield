@@ -1047,11 +1047,18 @@ enable_process_accounting() {
 }
 
 install_ClamAV() {
+
+  # Cleans out the local repository of retrieved package files that are left in /var/cache
+  apt clean
+  
   # Installs ClamAV
   apt-get install clamav clamav-daemon
 }
 
 daily_cronjob() {
+  
+  # Cleans out the local repository of retrieved package files that are left in /var/cache
+  apt clean
 
   # Installs cron just in case it isn't already installed
   apt install cron
