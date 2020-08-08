@@ -1094,7 +1094,7 @@ daily_cronjob() {
   @reboot logcheck >> security_cronjob
   
   # Runs a scan for viruses using ClamAV
-  echo "@reboot echo "Running a scan for viruses (This may take a while)"
+  echo "@reboot echo "Running a scan for viruses, This may take a while"
   @reboot clamscan --recursive=yes --infected /" >> security_cronjob  
 }
 
