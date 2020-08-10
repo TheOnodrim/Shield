@@ -802,11 +802,10 @@ HostbasedAuthentication no
 IgnoreRhosts yes
 Protocol 2
 Ciphers aes128-ctr,aes192-ctr,aes256-ctr
-X11Forwarding no
 " >> /etc/ssh/sshd_config
   sed -i s/^X11Forwarding.*/X11Forwarding\ no/ /etc/ssh/sshd_config
   sed -i s/^UsePAM.*/UsePAM\ yes/ /etc/ssh/sshd_config
-  echo -n "Please enter the adminsters username:"
+  echo -n "Please enter the adminstrators username: "
   read -r e
   echo "
 AllowUsers $e
@@ -1106,6 +1105,10 @@ daily_cronjob() {
 }
 
 setup_SElinux() {
+
+  # Cleans out the local repository of retrieved package files that are left in /var/cache
+  apt clean
+  
   # Installs SElinux
   apt install selinux-basics selinux-policy-default auditd
   curl -o ~/_load_selinux_policy 'https://wiki.debian.org/SELinux/Setup?action=AttachFile&do=get&target=_load_selinux_policy'
@@ -1114,6 +1117,22 @@ setup_SElinux() {
   mv ~/_load_selinux_policy /usr/share/initramfs-tools/scripts/init-bottom
   update-initramfs -u
   selinux-activate
+}
+
+Two-Factor_Authentication () {
+
+  # Cleans out the local repository of retrieved package files that are left in /var/cache
+  apt clean
+  
+  # Installs the google authenticator
+  apt install libpam-google-authenticator
+  
+  # Sets up Two-Factor Authentication
+  echo "To setup Two-Factor Authentication please answer the following prompts"
+  google-authenticator
+  sed -i s/^ChallengeResponseAuthentication.*/ChallengeResponseAuthentication\ yes/ /etc/ssh/sshd_config
+  systemctl restart ssh
+  echo "auth required pam_google_authenticator.so" >> /etc/pam.d/sshd
 }
 
 
@@ -1208,6 +1227,7 @@ case $a in
     initate_function install_ClamAV "Would you like to install ClamAV on your system?" 
     initiate_function daily_cronjob "Would you like to install a daily cronjob that runs security related programs and open security related logs?"
     initiate_function setup_SElinux "Would you like to install and setup SElinux on your system?"
+    initiate_function Two-Factor_Authentication "Would you like to setup Two-Factor Authentication on your system?"
     initiate_function reboot "Would you like to reboot your system to save all changes made?"
     ;;
   "Shield -info")
