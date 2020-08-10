@@ -3,3 +3,4 @@ This is the official changelog for Shield, all of the new updates shall be place
 
 - I have added a script that sets up a daily cronjob that should run on startup and it will run various security based programs and open certain security based logs.
 - I have added a script that will install and setup SElinux.
+- I have added a script that will setup Two-Factor Authentication.
