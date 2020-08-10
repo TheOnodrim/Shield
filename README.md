@@ -82,6 +82,7 @@ This shell script restricts the ssh key to the admin user.
 - Enables process accounting
 - Restricts core file access
 - Creates a daily cronjob that runs certain security based applications and opens security related log files.
+- Installs and sets up SElinux
 
 ## Contributing:
 Please open issues and pull requests on anything you come across.
