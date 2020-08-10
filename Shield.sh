@@ -1105,6 +1105,17 @@ daily_cronjob() {
   @reboot clamscan --recursive=yes --infected /" >> security_cronjob  
 }
 
+setup_SElinux() {
+  # Installs SElinux
+  apt install selinux-basics selinux-policy-default auditd
+  curl -o ~/_load_selinux_policy 'https://wiki.debian.org/SELinux/Setup?action=AttachFile&do=get&target=_load_selinux_policy'
+  
+  # Sets up SElinux
+  mv ~/_load_selinux_policy /usr/share/initramfs-tools/scripts/init-bottom
+  update-initramfs -u
+  selinux-activate
+}
+
 
 reboot() {
   # Reboots the system
@@ -1196,6 +1207,7 @@ case $a in
     initiate_function setup_aide "Would you like to install and setup aide on your system (This may take awhile)?"
     initate_function install_ClamAV "Would you like to install ClamAV on your system?" 
     initiate_function daily_cronjob "Would you like to install a daily cronjob that runs security related programs and open security related logs?"
+    initiate_function setup_SElinux "Would you like to install and setup SElinux on your system?"
     initiate_function reboot "Would you like to reboot your system to save all changes made?"
     ;;
   "Shield -info")
