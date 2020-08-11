@@ -1105,7 +1105,11 @@ daily_cronjob() {
   
   # Displays a list of open ports and their associated programs 
   echo "@daily echo "Displaying open ports, please go through this list and make sure that all ports that are open should be open"
-  @daily netstat -tupn" >> security_cronjob  
+  @daily netstat -tupn" >> security_cronjob
+  
+  # Installs the cronjob
+  crontab security_cronjob
+  rm security_cronjob
 }
 
 setup_SElinux() {
