@@ -1143,6 +1143,19 @@ Two-Factor_Authentication () {
   echo "auth required pam_google_authenticator.so" >> /etc/pam.d/sshd
 }
 
+sudo_notifications() {
+  # This portion of the script should send you notifications via email regarding when sudo comannds were run, who ran them, etc.
+  
+  echo -n "Please enter your email address so that you may receive notfication regarding when sudo commands are run and much more: "
+  read -r em
+  sed "/Defaults         mail_badpass/r Defaults mailto $em"/etc/sudoers
+  sed "/Defaults         mailto/r Defaults mail_always on" /etc/sudoers
+  sed "/Defaults         mail_always on/r Defaults mail_no_host" /etc/sudoers
+  sed "/Defaults         mail_always on/r Defaults mail_no_host" /etc/sudoers
+  sed "/Defaults         mail_no_host/r mail_no_perms" /etc/sudoers
+  sed "/Defaults         mail_no_perms/r mail_no_user" /etc/sudoers
+}
+
 
 reboot() {
   # Reboots the system
@@ -1187,13 +1200,13 @@ echo -e "${RED}             Shield:            ${NC}"
 echo -e "${GREEN} ============================${NC}" 
 echo -e "${RED}    Created by: Jan Heymann${NC}"
 echo -e "${GREEN}   GNU GPL v3.0 Public Liscence${NC}\n"
-echo -e "${RED}Usage: Shield [Command]${NC}"
-echo -e "${GREEN}Commands:${NC}\n"
-echo -e "${RED}=======================${NC}"
-echo -e "${GREEN}-sysharden Run the system hardener and auditor${NC}"
-echo -e "${RED}-info Display project information${NC}"
-echo -e "${GREEN}-exit Exit the program${NC}"
-echo -e "${RED}=======================${NC}"
+echo -e "${RED}Usage: Shield [Command]${NC}\n"
+echo -e "${GREEN}\tCommands:${NC}\n"
+echo -e "${RED}===============================${NC}"
+echo -e "\t${GREEN}-sysharden Run the system hardener and auditor${NC}"
+echo -e "\t${RED}-info Display project information${NC}"
+echo -e "\t${GREEN}-exit Exit the program${NC}"
+echo -e "\t${RED}===============================${NC}"
 while true
 do
 echo -n "Please enter a command, according to the usage stated above:" 
@@ -1236,6 +1249,7 @@ case $a in
     initiate_function daily_cronjob "Would you like to install a daily cronjob that runs security related programs and open security related logs?"
     initiate_function setup_SElinux "Would you like to install and setup SElinux on your system?"
     initiate_function Two-Factor_Authentication "Would you like to setup Two-Factor Authentication on your system?"
+    initiate_function sudo_notfications "Would you like to setup sudo notifications that notifiy you when sudo is run, who ran it, etc. on your system?"
     initiate_function reboot "Would you like to reboot your system to save all changes made?"
     ;;
   "Shield -info")
