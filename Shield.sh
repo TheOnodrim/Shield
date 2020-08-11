@@ -1066,46 +1066,46 @@ daily_cronjob() {
   crontab -l > security_cronjob
   
   # Opens the auditd log file
-  echo "@reboot echo "Opening the auditd log file"
-  @reboot vim /var/log/audit/audit.log" >> security_cronjob
+  echo "@daily echo "Opening the auditd log file"
+  @daily vim /var/log/audit/audit.log" >> security_cronjob
   
   # Opens the fail2ban log file
-  echo "@reboot echo "Opening the fail2ban log file"
-  @reboot vim /var/log/fail2ban.log" >> security_cronjob
+  echo "@daily echo "Opening the fail2ban log file"
+  @daily vim /var/log/fail2ban.log" >> security_cronjob
   
   # Opens the ssh log file
-  echo "@reboot echo "Opening the ssh log file"
-  @reboot vim /var/log/auth.log" >> security_cronjob
+  echo "@daily echo "Opening the ssh log file"
+  @daily vim /var/log/auth.log" >> security_cronjob
   
   # Opens the aide log file
-  echo "@reboot echo "Opening the aide log file"
-  @reboot vim /var/log/aide/aide.log" >> security_cronjob
+  echo "@daily echo "Opening the aide log file"
+  @daily vim /var/log/aide/aide.log" >> security_cronjob
   
   # Opens the ufw log file
-  echo "@reboot echo "Opening the ufw log file"
-  @reboot vim /var/log/ufw.log >> security_cronjob
+  echo "@daily echo "Opening the ufw log file"
+  @daily vim /var/log/ufw.log >> security_cronjob
   
   # Opens the ufw log file
-  echo "@reboot echo "Opening the ufw log file"
-  @reboot vim /var/log/account/pacct >> security_cronjob
+  echo "@daily echo "Opening the ufw log file"
+  @daily vim /var/log/account/pacct >> security_cronjob
   
   
   # Checks for potential rootkits
-  echo "@reboot echo "Checking for rootkits"
-  @reboot chkrootkit
-  @reboot rkhunter --check >> security_cronjob
+  echo "@daily echo "Checking for rootkits"
+  @daily chkrootkit
+  @daily rkhunter --check >> security_cronjob
   
   # Runs logcheck to scan your log files
-  echo "@reboot echo "Scanning logs with logcheck"
-  @reboot logcheck >> security_cronjob
+  echo "@daily echo "Scanning logs with logcheck"
+  @daily logcheck >> security_cronjob
   
   # Runs logwatch to scan your log files
-  echo "@reboot echo "Scanning logs with logwatch"
-  @reboot logwatch >> security_cronjob
+  echo "@daily echo "Scanning logs with logwatch"
+  @daily logwatch >> security_cronjob
   
   # Displays a list of open ports and their associated programs 
-  echo "@reboot echo "Displaying open ports, please go through this list and make sure that all ports that are open should be open"
-  @reboot netstat -tupn" >> security_cronjob  
+  echo "@daily echo "Displaying open ports, please go through this list and make sure that all ports that are open should be open"
+  @daily netstat -tupn" >> security_cronjob  
 }
 
 setup_SElinux() {
