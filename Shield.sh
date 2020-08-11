@@ -955,13 +955,13 @@ net     ppp+            detect          dhcp" >> /etc/shorewall/interfaces
         all             all             REJECT          info" >> /etc/shorewall/policy
 }
 
-install_logcheck() {
+install_logwatch() {
 
   # Cleans out the local repository of retrieved package files that are left in /var/cache
   apt clean
   
   # Installs logcheck
-  apt install logcheck
+  apt install logwatch
 }
 
 setup_ufw() {
@@ -1099,9 +1099,13 @@ daily_cronjob() {
   echo "@reboot echo "Scanning logs with logcheck"
   @reboot logcheck >> security_cronjob
   
-  # Runs a scan for viruses using ClamAV
-  echo "@reboot echo "Running a scan for viruses, This may take a while"
-  @reboot clamscan --recursive=yes --infected /" >> security_cronjob  
+  # Runs logwatch to scan your log files
+  echo "@reboot echo "Scanning logs with logwatch"
+  @reboot logwatch >> security_cronjob
+  
+  # Displays a list of open ports and their associated programs 
+  echo "@reboot echo "Displaying open ports, please go through this list and make sure that all ports that are open should be open"
+  @reboot netstat -tupn" >> security_cronjob  
 }
 
 setup_SElinux() {
@@ -1218,7 +1222,7 @@ case $a in
     initiate_function protect_physical_console_access "Would you like to protect physical console access on your system?"
     initiate_function setup_lighttpd "Would you like to install and setup lighttpd on your system?"
     initiate_function setup_shorewall "Would you like to install and setup shorewall on your system?"
-    initiate_function install_logcheck "Would you like to install logcheck on your system?"
+    initiate_function install_logwatch "Would you like to install logwatch on your system?"
     initiate_function setup_ufw "Would you like to install and setup ufw on your system?"
     initiate_function core_file_permissions "Would you like to set core file permissions on your system?"
     initiate_function disk_quotas "Would you like to enforce disk quotas on your system?"
