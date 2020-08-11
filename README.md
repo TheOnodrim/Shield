@@ -68,7 +68,7 @@ This shell script restricts the ssh key to the admin user.
 - Remounts  /dev, /tmp, /run and /proc to be more restrictive
 - Restricts access to compilers
 - Restricts access to /root 
-- Restrics ssh key to admin user`
+- Restrics ssh key to admin user
 - Restricts logins
 - Restricts ssh, and enables ssh only for the admin user
 - Updates system packages and the package list
