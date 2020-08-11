@@ -84,6 +84,7 @@ This shell script restricts the ssh key to the admin user.
 - Creates a daily cronjob that runs certain security based applications and opens security related log files.
 - Installs and sets up SElinux
 - Sets up Two-Factor Authentication
+- Sets up email notifications when sudo is run
 
 ## Contributing:
 Please open issues and pull requests on anything you come across.
