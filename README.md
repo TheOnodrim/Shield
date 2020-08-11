@@ -77,7 +77,7 @@ This shell script restricts the ssh key to the admin user.
 - Sets up psad
 - Protects physical console access
 - Sets up shorewall
-- Installs logcheck
+- Installs logwatch
 - Enables disk quotas
 - Enables process accounting
 - Restricts core file access
