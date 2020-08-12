@@ -1107,6 +1107,10 @@ daily_cronjob() {
   echo "@daily echo "Displaying open ports, please go through this list and make sure that all ports that are open should be open"
   @daily netstat -tupn" >> security_cronjob
   
+  # Updates your computer daily
+  echo "@daily echo "Updating your computer"
+  @daily apt dist-upgrade" >> security_cronjob
+  
   # Installs the cronjob
   crontab security_cronjob
   rm security_cronjob
@@ -1154,6 +1158,29 @@ sudo_notifications() {
   sed "/Defaults         mail_always on/r Defaults mail_no_host" /etc/sudoers
   sed "/Defaults         mail_no_host/r mail_no_perms" /etc/sudoers
   sed "/Defaults         mail_no_perms/r mail_no_user" /etc/sudoers
+}
+
+setup_Open_VPN() {
+
+  # Cleans out the local repository of retrieved package files that are left in /var/cache
+  apt clean
+
+  # Installs dig just in case it isn't already installed
+  apt install dnsutils
+  
+  # Installs Open VPN and sets it up
+  wget https://git.io/vpn -O openvpn-install.sh
+  dig TXT +short o-o.myaddr.l.google.com @ns1.google.com
+  echo "To install Open VPN please answer the prompts below to setup Open VPN, but first read the messages to guide you through the installation"
+  echo "For the Ip address prompt enter your public ip address which should be displayed above"
+  echo "For the port prompt enter 1194"
+  echo "For the DNS prompt enter either Google or OpenDNS"
+  echo "Finally for the client name prompt enter an all lowercase, one-word, and no special characters name"
+  bash openvpn-install.sh 
+  
+  # Restarts the Open VPN service and then starts it up
+  systemctl restart openvpn@server
+  systemctl start openvpn@server
 }
 
 
@@ -1250,6 +1277,7 @@ case $a in
     initiate_function setup_SElinux "Would you like to install and setup SElinux on your system?"
     initiate_function Two-Factor_Authentication "Would you like to setup Two-Factor Authentication on your system?"
     initiate_function sudo_notfications "Would you like to setup sudo notifications that notifiy you when sudo is run, who ran it, etc. on your system?"
+    initiate_function setup_Open_VPN "Would you like to install and setup Open VPN on your system?"
     initiate_function reboot "Would you like to reboot your system to save all changes made?"
     ;;
   "Shield -info")
