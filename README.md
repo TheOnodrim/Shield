@@ -85,6 +85,7 @@ This shell script restricts the ssh key to the admin user.
 - Installs and sets up SElinux
 - Sets up Two-Factor Authentication
 - Sets up email notifications when sudo is run
+- Installs and sets up Open VPN
 
 ## Contributing:
 Please open issues and pull requests on anything you come across.
