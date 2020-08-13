@@ -1170,7 +1170,7 @@ setup_Open_VPN() {
   
   # Installs Open VPN and sets it up
   wget https://git.io/vpn -O openvpn-install.sh
-  dig TXT +short o-o.myaddr.l.google.com @ns1.google.com
+  curl https://ipinfo.io/ip  
   echo "To install Open VPN please answer the prompts below to setup Open VPN, but first read the messages to guide you through the installation"
   echo "For the Ip address prompt enter your public ip address which should be displayed above"
   echo "For the port prompt enter 1194"
