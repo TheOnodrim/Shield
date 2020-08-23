@@ -360,6 +360,10 @@ install rds /bin/true" >> /etc/modprobe.d/protocols.conf
 }
 
 setup_fail2ban() {
+
+  # Cleans out the local repository of retrieved package files that are left in /var/cache
+  apt clean
+  
   # Installs fail2ban
   apt install fail2ban
   
@@ -635,6 +639,10 @@ Legal action will be taken. Please disconnect now.
 }
 
 install_lynis_recommended_packages() {
+
+  # Cleans out the local repository of retrieved package files that are left in /var/cache
+  apt clean
+  
   # Installs lynis recommended packages
   apt install apt-listchanges needrestart debsecan debsums libpam-cracklib aide usbguard acct 
 }
@@ -815,6 +823,10 @@ fi
 }
 
 setup_aide() {
+
+  # Cleans out the local repository of retrieved package files that are left in /var/cache
+  apt clean
+  
   # Installs and sets up aide
   apt install aide
   aideinit
@@ -824,6 +836,9 @@ setup_aide() {
 }
 
 update_upgrade() {
+
+  # Cleans out the local repository of retrieved package files that are left in /var/cache
+  apt clean
   
   # Updates the package list
   apt update
