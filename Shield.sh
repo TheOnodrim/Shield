@@ -1081,50 +1081,50 @@ daily_cronjob() {
   crontab -l > security_cronjob
   
   # Opens the auditd log file
-  echo "@daily echo "Opening the auditd log file"
-  @daily vim /var/log/audit/audit.log" >> security_cronjob
+  echo "@daily echo "Opening the auditd log file"" >> security_cronjob
+  echo "@daily vim /var/log/audit/audit.log" >> security_cronjob
   
   # Opens the fail2ban log file
-  echo "@daily echo "Opening the fail2ban log file"
-  @daily vim /var/log/fail2ban.log" >> security_cronjob
+  echo "@daily echo "Opening the fail2ban log file"" >> security_cronjob
+  echo "@daily vim /var/log/fail2ban.log" >> security_cronjob
   
   # Opens the ssh log file
-  echo "@daily echo "Opening the ssh log file"
-  @daily vim /var/log/auth.log" >> security_cronjob
+  echo "@daily echo "Opening the ssh log file"" >> security_cronjob
+  echo "@daily vim /var/log/auth.log" >> security_cronjob
   
   # Opens the aide log file
-  echo "@daily echo "Opening the aide log file"
-  @daily vim /var/log/aide/aide.log" >> security_cronjob
+  echo "@daily echo "Opening the aide log file"" >> security_cronjob
+  echo "@daily vim /var/log/aide/aide.log" >> security_cronjob
   
   # Opens the ufw log file
-  echo "@daily echo "Opening the ufw log file"
-  @daily vim /var/log/ufw.log >> security_cronjob
+  echo "@daily echo "Opening the ufw log file"" >> security_cronjob
+  echo "@daily vim /var/log/ufw.log" >> security_cronjob
   
   # Opens the ufw log file
-  echo "@daily echo "Opening the ufw log file"
-  @daily vim /var/log/account/pacct >> security_cronjob
+  echo "@daily echo "Opening the ufw log file"" >> security_cronjob
+  echo "@daily vim /var/log/account/pacct" >> security_cronjob
   
   
   # Checks for potential rootkits
-  echo "@daily echo "Checking for rootkits"
-  @daily chkrootkit
-  @daily rkhunter --check >> security_cronjob
+  echo "@daily echo "Checking for rootkits"" >> security_cronjob
+  echo "@daily chkrootkit" >> security_cronjob
+  echo "@daily rkhunter --check" >> security_cronjob
   
   # Runs logcheck to scan your log files
-  echo "@daily echo "Scanning logs with logcheck"
+  echo "@daily echo "Scanning logs with logcheck"" >> security_cronjob
   @daily logcheck >> security_cronjob
   
   # Runs logwatch to scan your log files
-  echo "@daily echo "Scanning logs with logwatch"
-  @daily logwatch >> security_cronjob
+  echo "@daily echo "Scanning logs with logwatch"" >> security_cronjob
+  echo "@daily logwatch" >> security_cronjob
   
   # Displays a list of open ports and their associated programs 
-  echo "@daily echo "Displaying open ports, please go through this list and make sure that all ports that are open should be open"
-  @daily netstat -tupn" >> security_cronjob
+  echo "@daily echo "Displaying open ports, please go through this list and make sure that all ports that are open should be open"" >> security_cronjob
+  echo "@daily netstat -tupn" >> security_cronjob
   
   # Updates your computer daily
-  echo "@daily echo "Updating your computer"
-  @daily apt dist-upgrade" >> security_cronjob
+  echo "@daily echo "Updating your computer"" >> security_cronjob
+  echo "@daily apt dist-upgrade" >> security_cronjob
   
   # Installs the cronjob
   crontab security_cronjob
@@ -1231,12 +1231,12 @@ clear
 # UI
 RED='\033[0;31m'
 NC='\033[0m'
-info="${GREEN}
+info=""${GREEN}
 Shield was created on May 27 2020, by Jan Heymann
 with the purpose of creating a Debian hardener.
 Shield does many things to harden your system, 
 for example Shield purges old and removed packages to remove
-the vulnerability they pose.${NC}"
+the vulnerability they pose.${NC}""
 
 echo -e "${RED}             Shield:            ${NC}"
 echo -e "${GREEN} ============================${NC}" 
@@ -1286,7 +1286,8 @@ case $a in
     initiate_function core_file_permissions "Would you like to set core file permissions on your system?"
     initiate_function disk_quotas "Would you like to enforce disk quotas on your system?"
     initiate_function enable_process_accounting "Would you like to enable process accounting on your system?"
-    initiate_function setup_aide "Would you like to install and setup aide on your system (This may take awhile)?"
+    printf "If you are setting up aide then please be patient it may take a while"
+    initiate_function setup_aide "Would you like to install and setup aide on your system?"
     initate_function install_ClamAV "Would you like to install ClamAV on your system?" 
     initiate_function daily_cronjob "Would you like to install a daily cronjob that runs security related programs and open security related logs?"
     initiate_function setup_SElinux "Would you like to install and setup SElinux on your system?"
@@ -1296,7 +1297,7 @@ case $a in
     initiate_function reboot "Would you like to reboot your system to save all changes made?"
     ;;
   "Shield -info")
-    echo -e "$info"
+    printf "${info}"
     ;;
   "Shield -exit")
     exit
