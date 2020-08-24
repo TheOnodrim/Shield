@@ -1231,12 +1231,12 @@ clear
 # UI
 RED='\033[0;31m'
 NC='\033[0m'
-info=""${GREEN}
+info="${GREEN}
 Shield was created on May 27 2020, by Jan Heymann
 with the purpose of creating a Debian hardener.
 Shield does many things to harden your system, 
 for example Shield purges old and removed packages to remove
-the vulnerability they pose.${NC}""
+the vulnerability they pose.${NC}"
 
 echo -e "${RED}             Shield:            ${NC}"
 echo -e "${GREEN} ============================${NC}" 
@@ -1286,7 +1286,7 @@ case $a in
     initiate_function core_file_permissions "Would you like to set core file permissions on your system?"
     initiate_function disk_quotas "Would you like to enforce disk quotas on your system?"
     initiate_function enable_process_accounting "Would you like to enable process accounting on your system?"
-    printf "If you are setting up aide then please be patient it may take a while"
+    echo -e "{GREEN} If you are setting up aide then please be patient it may take a while.{NC}"
     initiate_function setup_aide "Would you like to install and setup aide on your system?"
     initate_function install_ClamAV "Would you like to install ClamAV on your system?" 
     initiate_function daily_cronjob "Would you like to install a daily cronjob that runs security related programs and open security related logs?"
@@ -1297,7 +1297,7 @@ case $a in
     initiate_function reboot "Would you like to reboot your system to save all changes made?"
     ;;
   "Shield -info")
-    printf "${info}"
+    echo -e "${info}"
     ;;
   "Shield -exit")
     exit
