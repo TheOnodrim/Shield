@@ -14,7 +14,7 @@
       <img src="https://img.shields.io/badge/Language-Bash-9cf?style=flat-square&logo=appveyor" >
   </a>
   <a href="https://github.com/CrystalX127/Shield.git">
-    <img src="https://img.shields.io/badge/Repository Status-Active-success?style=flat-square&logo=appveyor">
+    <img src="https://img.shields.io/badge/Repository Status-Inactive-red?style=flat-square&logo=appveyor">
   </a>
   <a href="https://github.com/CrystalX127/Shield.git">
       <img src="https://img.shields.io/badge/Contributions-Welcome-yellow?style=flat-square&logo=appveyor">
