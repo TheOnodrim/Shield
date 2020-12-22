@@ -30,7 +30,7 @@ Shield is a single file bash script, made to be harden and secure your Debian or
 This project has been thoroughly tested and checked for errors.
 
 # If you liked it:
-Feel free to star my project, I have worked very hard on this repository.
+Feel free to star my project, I have worked quite hard on this project.
 
 ## Usage:
 Clone the script and follow these instruction below, and then run it as root and select which sections to run when prompted.
