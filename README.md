@@ -98,3 +98,6 @@ If you have anything you would like to tell me, simply create an issue with the 
 
 
 ![alt text](https://user-images.githubusercontent.com/65303868/86959587-113aa800-c12c-11ea-995f-a0227ced20a4.png)
+
+## Note
+As of Wednesday, Novemeber 17th, 2021 this repository has been archive. 
