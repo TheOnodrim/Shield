@@ -35,7 +35,7 @@ Feel free to star my project, I have worked quite hard on this project.
 ## Usage:
 Clone the script and follow these instruction below, and then run it as root and select which sections to run when prompted.
 ```
-   1. git clone https://github.com/CrystalX127/Shield.git
+   1. git clone https://github.com/TheOnodrim/Shield.git
    2. cd Shield
    3. chmod +x Shield.sh
    4. ./Shield.sh
