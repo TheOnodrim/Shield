@@ -94,10 +94,8 @@ Please open issues and pull requests on anything you come across.
 If you have anything you would like to tell me, simply create an issue with the title To Repository Owner.
 
 ## Screenshots:
-![alt text](https://user-images.githubusercontent.com/65303868/86959004-10554680-c12b-11ea-83aa-e75b9c0257f2.png)
-
-
 ![alt text](https://user-images.githubusercontent.com/65303868/86959587-113aa800-c12c-11ea-995f-a0227ced20a4.png)
 
 ## Note
-As of Wednesday, Novemeber 17th, 2021 this repository has been archive. 
+As of Wednesday, Novemeber 17th, 2021 this repository has been archive.
+On Monday, May 30th, 2022 I have unarchived this repository for a few minor changes and will rearchive it again.
